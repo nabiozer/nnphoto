@@ -1,0 +1,60 @@
+.custom-mui-table {
+    width: 100%;
+    .MuiTableHead-root {
+        background: $c2;
+        color: white;
+        .MuiTableCell-root {
+            color: white;
+            font-size: 1rem;
+            line-height: 1.2;
+            font-weight: 600;
+            white-space: pre-line;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 1rem 0.75rem;
+        }
+    }
+    .MuiTableBody-root {
+        .MuiTableBody-root {
+            .MuiTableCell-root {
+                font-weight: 400;
+                font-size: 0.65rem;
+                line-height: 1;
+                padding: 0.5rem 0.75rem;
+                .MuiIconButton-root {
+                    width: 3rem;
+                    height: 3rem;
+                    i {
+                        font-size: 1.25rem;
+                        color: $c1;
+                    }
+                }
+                .avatar {
+                    width: 3rem;
+                    height: 3rem;
+                    overflow: hidden;
+                    border: 1px solid $c1;
+                    border-radius: 5px;
+                    img {
+                        width: 100%;
+                        height: auto;
+                    }
+                }
+                &.sub-child {
+                    font-weight: 300;
+                    font-size: 0.7rem;
+                    padding-left: 4rem;
+                }
+            }
+            &:last-child {
+                .MuiTableCell-root {
+                    border: none;
+                }
+            }
+        }
+    }
+}
+
+.table-icon-button {
+    color: black;
+}

@@ -1,0 +1,28 @@
+.icon {
+    display: inline-block;
+    width: 70px;
+    height: 70px;
+    background-size: cover;
+  }
+  .icon-bike {
+    background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/icon-bike-black.svg);
+  }
+  .icon-bike:hover,
+  .icon-bike:focus {
+    background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/icon-bike-red.svg);
+  }
+  .icon-bell {
+    background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/icon-bell-black.svg);
+  }
+  .icon-bell:hover,
+  .icon-bell:focus {
+    background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/icon-bell-red.svg);
+  }
+  .icon-arrow {
+    background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/icon-arrow-black.svg);
+  }
+  .icon-arrow:hover,
+  .icon-arrow:focus {
+    background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/icon-arrow-red.svg);
+  }
+  

@@ -1,0 +1,43 @@
+.footer-logo {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    img {
+        width: 100px;
+    }
+    p {
+        width: 100%;
+        margin-top: 0.3rem;
+    }
+}
+
+.footer-socials {
+    margin: 1.5rem;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+   
+    a {
+        color: $c2 !important;
+        i {
+            color: $c2 !important;
+        }
+    }
+    i::before {
+        margin: 0 0.3rem;
+        padding: 0.5rem !important;
+        border: 1px solid $c2;
+        border-radius: 100rem;
+         color: $c2 !important;
+    }
+}
+
+.footer-list {
+    list-style: none !important;
+    li {
+        display: block;
+    }
+    h4  {
+        margin-left: 1rem !important;
+    }
+}

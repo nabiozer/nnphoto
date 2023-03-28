@@ -1,0 +1,63 @@
+.file-upload-container {
+    position: relative;
+    border: 1px solid $c2;
+    border-radius: 4px;
+    padding: 10px 1px;
+    &:before {
+        content: attr(data-title);
+        position: absolute;
+        background: white;
+        left: 3px;
+        top: -11px;
+        font-size: 16px;
+        z-index: 1;
+        padding: 0 5px;
+        color: $c2;
+    }
+
+    .filepond--wrapper {
+        .filepond--panel-root {
+            background: white;
+        }
+
+        .filepond-file {
+            border-radius: 4px;
+        }
+
+        .filepond-root {
+            margin: 0;
+        }
+
+        label {
+            color: $c2;
+            display: flex;
+            align-items: center;
+
+            span {
+                border: 2px solid $c2;
+                padding: 5px 20px;
+                margin-top: 5px;
+                font-size: 12px;
+                border-radius: 5px;
+                color: $c2;
+                outline: none;
+                text-decoration: none;
+                margin-left: 10px;
+
+                &:hover {
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+    &.error {
+        border-color: $color-red;
+        &::before {
+            color: $color-red;
+        }
+    }
+}
+
+.filepond--credits {
+    display: none;
+}

@@ -1,0 +1,8 @@
+#ignore arti
+node_modules
+builds
+coverage
+
+
+
+*.html
