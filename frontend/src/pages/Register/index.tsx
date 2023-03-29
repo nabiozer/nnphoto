@@ -9,6 +9,8 @@ import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { Input, useForm } from '../../lib';
+import { useAppDispatch } from '../../store';
+import { register } from '../../store/userActions';
 
 function Copyright(props: any) {
   return (
@@ -25,7 +27,7 @@ function Copyright(props: any) {
 
 
 export default function SignIn() {
-
+  const dispatch = useAppDispatch();
   const { control, errors, handleSubmit } = useForm({
     defaultValues: {
 
@@ -34,9 +36,21 @@ export default function SignIn() {
   })
 
   const onSubmit = (data: any) => {
-    console.log(data)
-  }
+    const reservationInfo = {
+      date : data.date,
+      place:data.place,
+      packagePrice: data.packagePrice,
+      advancePayment: data.advancePayment,
+      packageDetails: data.packageDetails
+    }
 
+    const deliveryInfo = {
+      address: data.address,
+      phoneNumber: data.phoneNumber
+    }
+    dispatch(register({...data,reservationInfo,deliveryInfo}  ))
+
+  }
 
   return (
 
@@ -62,11 +76,19 @@ export default function SignIn() {
           Kayıt Ol
         </Typography>
         <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
-          <Box component="div" sx={{ mt: 1 }} ><Input id="email" name="Email" placeholder="E-Mail" label="Email" control={control} errors={errors} autoComplete="email" /></Box>
-          <Box component="div" sx={{ mt: 1 }} ><Input id="name" name="name" placeholder="name" label="Kullanıcı Adı" control={control} errors={errors} /></Box>
-          <Box component="div" sx={{ mt: 1 }} ><Input id="password" name="password" placeholder="Şifre" label="Password" control={control} errors={errors} autoComplete="current-password" type='password' /></Box>
-
-
+          <Box component="div" sx={{ mt: 1 }} ><Input id="email" name="email" placeholder="E-Mail" label="Email" control={control} errors={errors} autoComplete="email" /></Box>
+          <Box component="div" sx={{ mt: 1 }} ><Input id="name" name="name" placeholder="Kullanıcı Adı" label="Kullanıcı Adı" control={control} errors={errors} /></Box>
+          <Box component="div" sx={{ mt: 1 }} ><Input id="password" name="password" placeholder="Şifre" label="Şifre" control={control} errors={errors} autoComplete="current-password" type='password' /></Box>
+          <Box component="div" sx={{ mt: 1 }} ><Input id="confirmpassword" name="confirmpassword" placeholder="Şifre Tekrar" label="Şifre Tekrar" control={control} errors={errors} autoComplete="current-password" type='password' /></Box>
+          <Box component="div" sx={{ mt: 1 }} ><Input id="date" name="date" placeholder="Çekim Tarihi" label="Çekim Tarihi" control={control} errors={errors} /></Box>
+          <Box component="div" sx={{ mt: 1 }} ><Input id="place" name="place" placeholder="Çekim Yeri" label="Çekim Yeri" control={control} errors={errors} /></Box>
+          <Box component="div" sx={{ mt: 1 }} ><Input id="packagePrice" name="packagePrice" placeholder="Paket Fiyatı" label="Paket Fiyatı" control={control} errors={errors} /></Box>
+          <Box component="div" sx={{ mt: 1 }} ><Input id="advancePayment" name="advancePayment" placeholder="Kapora" label="Kapora" control={control} errors={errors} /></Box>
+          <Box component="div" sx={{ mt: 1 }} ><Input id="packageDetails" name="packageDetails" placeholder="Paket Detay" label="Paket Detay" control={control} errors={errors} /></Box>
+          <Box component="div" sx={{ mt: 1 }} ><Input id="albumDetails" name="albumDetails" placeholder="Albüm Detay" label="Albüm Detay" control={control} errors={errors} /></Box>
+          <Box component="div" sx={{ mt: 1 }} ><Input id="address" name="address" placeholder="Adres" label="Adres" control={control} errors={errors} /></Box>
+          <Box component="div" sx={{ mt: 1 }} ><Input id="phoneNumber" name="phoneNumber" placeholder="Telefon" label="Telefon" control={control} errors={errors} /></Box>
+          
           <Button
             type="submit"
             fullWidth

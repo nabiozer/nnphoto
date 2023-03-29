@@ -31,11 +31,15 @@ function Copyright(props: any) {
   );
 }
 
+interface SignInFormData {
+  email: string;
+  password: string;
+}
 
 export default function SignIn() {
 
 
-  
+
   const dispatch = useAppDispatch();
   const userLoginInfo = useSelector((state: RootState) => state?.user?.userLogin?.userInfo)
   const router = useRouter();
@@ -44,17 +48,18 @@ export default function SignIn() {
 
   const { control, errors, handleSubmit } = useForm({
     defaultValues: {
-
+      email: '',
+      password: '',
     },
     validationSchema: {}
   })
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: SignInFormData) => {
     dispatch(login({ ...data }))
 
   }
 
-  const redirect = search ? location.search.split('=')[1] : '/';
+  const redirect = search ? location.search.split('=')[1] : '/Home';
   useEffect(() => {
     if (userLoginInfo) {
       router.push(redirect)

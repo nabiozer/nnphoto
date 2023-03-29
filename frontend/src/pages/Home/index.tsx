@@ -15,10 +15,10 @@ const Home = () => {
     '/images/nnphotofilm/NN_01880.jpg',
     '/images/nnphotofilm/NN_01883.jpg',
   ];
- 
+
   return (
     <>
-      <Swiper imageUrls={images} /> 
+      <Swiper imageUrls={images} />
     </>
   )
 }

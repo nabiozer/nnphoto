@@ -6,19 +6,21 @@ import Button from "../../Form/Button";
 
 import { useRouter } from "next/router";
 import { logout } from '../../../../store/userActions';
-import { useAppDispatch } from '../../../../store';
+import { RootState, useAppDispatch } from '../../../../store';
+import { useSelector } from 'react-redux';
 
 
 
 const NavLinks = () => {
 
     const router = useRouter()
+    const userInfo = useSelector((state:RootState) => state?.user?.userLogin?.userInfo);
     const dispatch=useAppDispatch();
-    
+
     const logoutHandler = () => {
         dispatch(logout());
-        router.push("/login");
-      };
+        router.push("/Login");
+     };
 
 
     return (
@@ -37,13 +39,13 @@ const NavLinks = () => {
             <li>
                 <NavLink href="/Pricing" text='Galeri' />
             </li>
-            {true ? (
+            {userInfo ? (
                 <>
                 <li className="dropdown">
-                    {!true ? (
-                         <NavLink href="/Profile" text='Pricing' />
+                    {userInfo?.isAdmin ? (
+                         <NavLink href="/Profile" text='Profile' />
                     ) : (
-                        <NavLink href="/Login" text='Giriş' />
+                        <NavLink href="/Profile" text='Profile' />
                     )}
                 </li>
                 <li>
@@ -52,7 +54,7 @@ const NavLinks = () => {
                 </>
             ) : (
                 <li>
-                    <NavLink href="/Login" text='Pricing' />
+                    <NavLink href="/Login" text='Giriş' />
                 </li>
             )}
 

@@ -96,6 +96,12 @@ const userSlice = createSlice({
         userListReset(state) {
             state.userList.users = []
           },
+          userRegisterSuccess(state, action) {
+            state.userRegister.loading = false;
+            state.userRegister.error = null;
+            state.userRegister.userInfo = action.payload;
+            state.userRegister.status = 'success';
+          },
     },
 });
 

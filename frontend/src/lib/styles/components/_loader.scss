@@ -3,7 +3,16 @@
         transform: rotate(359deg);
     }
 }
-
+.loader-fullscreen {
+    position: absolute;
+    z-index: 9999;
+    background-color: $c1;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .loader {
     position: relative;
     width: 128px;
