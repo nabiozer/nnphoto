@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { logout } from '../../../../store/userActions';
 import { RootState, useAppDispatch } from '../../../../store';
 import { useSelector } from 'react-redux';
+import { DropDown } from '../../..';
 
 
 
@@ -34,16 +35,20 @@ const NavLinks = () => {
                 </a>
             </li>
             <li>
-                <NavLink href="/Home" text='Ana Sayfa' />
+                <NavLink href="/" text='Ana Sayfa' />
             </li>
             <li>
-                <NavLink href="/Pricing" text='Galeri' />
+                <NavLink href="/gallery" text='Çekimlerimiz' />
             </li>
+            <li>
+                <NavLink href="/about" text='Hakkımızda' />
+            </li>
+           
             {userInfo ? (
                 <>
                 <li className="dropdown">
                     {userInfo?.isAdmin ? (
-                         <NavLink href="/Profile" text='Profile' />
+                         <NavLink href="/dashboard" text='dashboard' />
                     ) : (
                         <NavLink href="/Profile" text='Profile' />
                     )}
@@ -54,7 +59,7 @@ const NavLinks = () => {
                 </>
             ) : (
                 <li>
-                    <NavLink href="/Login" text='Giriş' />
+                    <NavLink href="/auth/login" text='Giriş' />
                 </li>
             )}
 

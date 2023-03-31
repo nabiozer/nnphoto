@@ -4,12 +4,13 @@ import { useRouter } from 'next/router';
 interface NavLinkProps {
   href: string;
   text: string;
+
 }
 
 const NavLink: React.FC<NavLinkProps> = ({ href, text }) => {
   const router = useRouter();
 
-  const isActive = router.pathname === href;
+  const isActive = router.asPath === href;
 
   const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
@@ -20,8 +21,8 @@ const NavLink: React.FC<NavLinkProps> = ({ href, text }) => {
   };
 
   return (
-    <Link href={href} legacyBehavior style={{color:'white !important'}}>
-      <a className={isActive ? 'nav-link active' : 'nav-link'} onClick={handleClick}>
+    <Link href={href} legacyBehavior style={{color:'white !important'}} scroll={false}>
+      <a className={isActive ? 'nav-link active' : 'nav-link'} onClick={ handleClick}>
         {text}
       </a>
     </Link>

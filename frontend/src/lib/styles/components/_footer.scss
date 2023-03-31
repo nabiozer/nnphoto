@@ -32,12 +32,30 @@
     }
 }
 
+.footer-link {
+    color: $c1 !important;
+    padding: 0.5rem !important;
+}
+
 .footer-list {
     list-style: none !important;
+    a {
+        color:$c1 !important;
+    }
     li {
         display: block;
     }
     h4  {
         margin-left: 1rem !important;
+    }
+}
+
+.footer-flex {
+    display: flex;
+    flex-direction: row;
+
+    justify-content:center;
+    p {
+        margin-left: 1rem;
     }
 }

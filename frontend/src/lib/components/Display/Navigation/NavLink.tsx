@@ -9,7 +9,8 @@ interface NavLinkProps {
 const NavLink: React.FC<NavLinkProps> = ({ href, text }) => {
   const router = useRouter();
 
-  const isActive = router.pathname === href;
+  const isActive = router.asPath === href;
+
 
   const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();

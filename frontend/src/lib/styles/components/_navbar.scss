@@ -1,6 +1,6 @@
 .main-header {
     width: 100%;
-    height: 4rem;
+    height: 3.2rem;
     display: flex;
     justify-content:space-between;
     align-items: center;
@@ -89,6 +89,7 @@
   
   .main-navigation__drawer-nav {
     height: 100%;
+    z-index: 921929;
     
   }
   
@@ -285,10 +286,20 @@
     position: fixed;
     left: 0;
     top: 0;
-    z-index: 100;
+    z-index: 111111;
     height: 100vh;
     width: 70%;
     background: rgb(169, 126, 18);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  }
+  
+  .backdrop-sidedrawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 10;
   }
   

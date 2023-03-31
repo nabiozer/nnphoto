@@ -22,7 +22,7 @@
 @import 'components/footer';
 @import 'components/dropDown';
 @import 'components/upload';
-
+@import 'components/gallery';
 
 //Wedding
 
@@ -37,54 +37,54 @@
 * {
     margin: 0;
     padding: 0;
-
-   
-    a {
-      color:white !important;
+    span {
+        color: 'black !important';
     }
-    h1 {
-      color:white !important;
+
+    a {
+        color: 'black !important';
     }
 }
 body {
     padding: 0;
     margin: 0;
-   
+    span {
+        color: 'black !important';
+    }
 }
 html {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 14px;
     line-height: 1.5;
-    background: $c1 !important;
+    scroll-behavior: smooth;
 }
 
 .container-caro {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 @media (min-width: 768px) {
-  .container-caro {
-    height: 80vh;
-  }
+    .container-caro {
+        height: 80vh;
+    }
 }
 
 @media (min-width: 1024px) {
-  .container-caro {
-    height: 70vh;
-  }
+    .container-caro {
+        height: 70vh;
+    }
 }
 
 @media (min-width: 1280px) {
-  .container-caro {
-    height: 60vh;
-  }
+    .container-caro {
+        height: 60vh;
+    }
 }
 
 // @tailwind base;
 // @tailwind components;
 // @tailwind utilities;
-

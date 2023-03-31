@@ -6,7 +6,7 @@ export const MuiFieldTheme:Components ={
     MuiInputLabel:{
         styleOverrides:{
             root:{
-               color: "white",
+              
                fontSize: "18px"
             },        
         }
@@ -15,7 +15,7 @@ export const MuiFieldTheme:Components ={
     MuiInputBase:{
         styleOverrides:{
             root:({theme,ownerState}) => ({
-                color:(theme as Theme).palette.common.white,
+                color:(theme as Theme).palette.common.black,
                 ...(ownerState.readOnly && {color:alpha((theme as Theme).palette.common.black,0.38)}),
                 '&.select-input-base':{
                     paddingRight: '0px !important',
@@ -28,7 +28,7 @@ export const MuiFieldTheme:Components ={
             }) ,
             input:({ownerState,theme}) => ({
                 ...(ownerState?.inputProps?.readOnly && {
-                    color: alpha((theme as Theme).palette.common.white,0.38)
+                    color: alpha((theme as Theme).palette.common.black,0.38)
                 })
             })
             

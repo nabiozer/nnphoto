@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import React from 'react';
 
 type mainProps = {
@@ -5,7 +6,10 @@ type mainProps = {
 };
 
 const MainHeader = ({ children }: mainProps) => {
-    return <header className="main-header">{children}</header>;
+    const router = useRouter();
+    const isHome = router.pathname === '/';
+    console.log(router.pathname)
+    return <header className="main-header" style={!isHome ? {background:'#2c3531'} :{}}>{children}</header>;
 };
 
 export default MainHeader;

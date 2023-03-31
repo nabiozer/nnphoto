@@ -4,15 +4,19 @@ import type { AppProps } from 'next/app'
 import { Provider as ReactProvider } from "react-redux";
 import store from '../store/index';
 import { Loader, MainNavigation, Provider } from '../lib';
-import { Router } from 'next/router';
+import { Router, useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { DefaultSeo } from 'next-seo';
+import Footer from '../lib/components/App/Footer';
 
 
 export default function App({ Component, pageProps }: AppProps) {
 
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
+  const location = router.pathname;
+  console.log(location);
   useEffect(() => {
     const handleStart = () => setLoading(true);
     const handleComplete = () => setLoading(false);
@@ -46,6 +50,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <MainNavigation />
         {loading && <Loader />}
         <Component {...pageProps} />
+        {location !== '/Home' && <Footer />}
       </Provider>
     </ReactProvider>
 
