@@ -10,7 +10,7 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { Input, useForm } from '../../lib';
 import { useAppDispatch } from '../../store';
-import { register } from '../../store/userActions';
+import { register } from '../../store/user/userActions';
 import * as yup from 'yup';
 import { Layout as DashboardLayout } from '../../lib/components/App/Dashboard/layouts/dashboard/layout';
 

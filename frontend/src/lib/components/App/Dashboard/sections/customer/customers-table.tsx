@@ -65,13 +65,22 @@ export const CustomersTable = (props:any) => {
                   Email
                 </TableCell>
                 <TableCell>
-                  Location
-                </TableCell>
-                <TableCell>
                   Phone
                 </TableCell>
                 <TableCell>
-                  Signed Up
+                  Date
+                </TableCell>
+                <TableCell>
+                  Place
+                </TableCell>
+                <TableCell>
+                  Package
+                </TableCell>
+                <TableCell>
+                  Price
+                </TableCell>
+                <TableCell>
+                  Deposit
                 </TableCell>
                 <TableCell/>
               </TableRow>

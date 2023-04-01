@@ -16,7 +16,8 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Input, useForm } from '../../lib';
 import { RootState, useAppDispatch } from '../../store';
-import { login } from '../../store/userActions';
+import { login } from '../../store/user/userActions';
+import useAxios from 'axios-hooks'
 
 
 function Copyright(props: any) {
@@ -38,12 +39,14 @@ interface SignInFormData {
 }
 
 export default function SignIn() {
+  
 
 
 
   const dispatch = useAppDispatch();
-  const userLoginInfo = useSelector((state: RootState) => state?.user?.userLogin?.userInfo)
+  const userLoginInfo = useSelector((state: RootState) => state?.user?.userLogin)
   const router = useRouter();
+  
 
   const { search } = router.query
 
@@ -55,20 +58,37 @@ export default function SignIn() {
     validationSchema: {}
   })
 
+
+  const [{loading,data:loginData},executeLogin] = useAxios(
+    {url:'http://localhost:5000/api/users/login',
+    method: 'POST'},
+    {manual: true}
+  )
+
+  console.log(loading)
+
   const onSubmit = (data: SignInFormData) => {
-    dispatch(login({ ...data }))
+
+    executeLogin({ data: { ...data} });
+
 
   }
 
   const redirect = search ? location.search.split('=')[1] : '/';
   useEffect(() => {
-    if (userLoginInfo) {
+    if (!loginData) {
+      return;
+    }
+    dispatch(login({ ...loginData}));
+    if(!userLoginInfo) {
       router.push(redirect)
     }
+    router.push("/");
+  }, [loginData,redirect,userLoginInfo]);
 
-  }, [router, userLoginInfo, redirect]);
 
 
+//http://localhost:5000/api/users/
 
 
   return (

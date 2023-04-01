@@ -5,7 +5,7 @@ import NavLink from "./NavLink";
 import Button from "../../Form/Button";
 
 import { useRouter } from "next/router";
-import { logout } from '../../../../store/userActions';
+import { logout } from '../../../../store/user/userActions';
 import { RootState, useAppDispatch } from '../../../../store';
 import { useSelector } from 'react-redux';
 import { DropDown } from '../../..';
@@ -15,7 +15,7 @@ import { DropDown } from '../../..';
 const NavLinks = () => {
 
     const router = useRouter()
-    const userInfo = useSelector((state: RootState) => state?.user?.userLogin?.userInfo);
+    const userInfo = useSelector((state: RootState) => state?.user?.userLogin);
     const dispatch = useAppDispatch();
 
     const logoutHandler = () => {

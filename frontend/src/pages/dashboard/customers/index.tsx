@@ -5,11 +5,11 @@ import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIc
 import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
 import { Box, Button, Container, Stack, SvgIcon, Typography } from '@mui/material';
-import { useSelection } from '../../lib/components/App/Dashboard/hooks/use-selection';
-import { Layout as DashboardLayout } from '../../lib/components/App/Dashboard/layouts/dashboard/layout';
-import { CustomersTable } from '../../lib/components/App/Dashboard/sections/customer/customers-table';
-import { CustomersSearch } from '../../lib/components/App/Dashboard/sections/customer/customers-search';
-import { applyPagination } from '../../lib/components/App/Dashboard/utils/apply-pagination';
+import { useSelection } from '../../../lib/components/App/Dashboard/hooks/use-selection';
+import { Layout as DashboardLayout } from '../../../lib/components/App/Dashboard/layouts/dashboard/layout';
+import { CustomersTable } from '../../../lib/components/App/Dashboard/sections/customer/customers-table';
+import { CustomersSearch } from '../../../lib/components/App/Dashboard/sections/customer/customers-search';
+import { applyPagination } from '../../../lib/components/App/Dashboard/utils/apply-pagination';
 import { useRouter } from 'next/router';
 
 const now = new Date();
