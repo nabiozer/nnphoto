@@ -24,8 +24,6 @@ const getExpenseById = asyncHandler(async (req,res) => {
      
     }
 })
-
-
 //  @desc Delete expense
 //  @route Dekete /api/expenses/:id
 //  @acces Private/Admin

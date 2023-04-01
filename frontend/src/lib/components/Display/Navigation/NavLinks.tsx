@@ -15,22 +15,28 @@ import { DropDown } from '../../..';
 const NavLinks = () => {
 
     const router = useRouter()
-    const userInfo = useSelector((state:RootState) => state?.user?.userLogin?.userInfo);
-    const dispatch=useAppDispatch();
+    const userInfo = useSelector((state: RootState) => state?.user?.userLogin?.userInfo);
+    const dispatch = useAppDispatch();
 
     const logoutHandler = () => {
         dispatch(logout());
         router.push("/Login");
-     };
+    };
 
 
     return (
         <ul className="nav-links">
             <li className="nav-links__social">
-                <a href="https://github.com/nabiozer" target="_blank" rel="noreferrer">
+                <a
+                     href="https://www.instagram.com/nnphotofilm/"
+                    target="_blank"
+                    rel="noopener">
                     <InstagramIcon />
                 </a>
-                <a href="https://www.instagram.com/1095daysjourney/" target="_blank" rel="noreferrer">
+                <a
+                    href="https://api.whatsapp.com/send/?phone=905421132503&text&app_absent=0"
+                    target="_blank"
+                    rel="noopener">
                     <WhatsappIcon />
                 </a>
             </li>
@@ -43,19 +49,19 @@ const NavLinks = () => {
             <li>
                 <NavLink href="/about" text='Hakkımızda' />
             </li>
-           
+
             {userInfo ? (
                 <>
-                <li className="dropdown">
-                    {userInfo?.isAdmin ? (
-                         <NavLink href="/dashboard" text='dashboard' />
-                    ) : (
-                        <NavLink href="/Profile" text='Profile' />
-                    )}
-                </li>
-                <li>
-                       <Button text = "Çıkış" onClick={logoutHandler} variant="outlined"/>
-                </li>
+                    <li className="dropdown">
+                        {userInfo?.isAdmin ? (
+                            <NavLink href="/dashboard" text='dashboard' />
+                        ) : (
+                            <NavLink href="/Profile" text='Profile' />
+                        )}
+                    </li>
+                    <li>
+                        <Button text="Çıkış" onClick={logoutHandler} variant="outlined" />
+                    </li>
                 </>
             ) : (
                 <li>

@@ -43,7 +43,7 @@ export default (props: Props) => {
                     </Box>
                     <Box component="div" className="footer-socials">
                         <a
-                            href="https://api.whatsapp.com/send/?phone=905421132503&text&app_absent=0"
+                              href="https://www.instagram.com/nnphotofilm/"
                             target="_blank"
                             rel="noopener">
                             <InstagramIcon />

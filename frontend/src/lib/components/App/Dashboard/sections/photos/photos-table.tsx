@@ -20,7 +20,7 @@ import { getInitials } from '../../utils/get-initials';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
-export const CustomersTable = (props:any) => {
+export const PhotosTable = (props:any) => {
   const {
     count = 0,
     items = [],
@@ -153,7 +153,7 @@ export const CustomersTable = (props:any) => {
   );
 };
 
-CustomersTable.propTypes = {
+PhotosTable.propTypes = {
   count: PropTypes.number,
   items: PropTypes.array,
   onDeselectAll: PropTypes.func,

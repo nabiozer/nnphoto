@@ -19,6 +19,24 @@ export const items = [
     )
   },
   {
+    title: 'Fotoğraflar',
+    path: '/dashboard/photo',
+    icon: (
+      <SvgIcon fontSize="small">
+        <ChartBarIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Videolar',
+    path: '/dashboard/video',
+    icon: (
+      <SvgIcon fontSize="small">
+        <ChartBarIcon />
+      </SvgIcon>
+    )
+  },
+  {
     title: 'Customers',
     path: '/dashboard/customers',
     icon: (
