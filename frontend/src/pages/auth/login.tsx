@@ -80,11 +80,9 @@ export default function SignIn() {
       return;
     }
     dispatch(login({ ...loginData}));
-    if(!userLoginInfo) {
-      router.push(redirect)
-    }
+  
     router.push("/");
-  }, [loginData,redirect,userLoginInfo]);
+  }, [loginData,redirect]);
 
 
 

@@ -45,21 +45,19 @@ const userSlice = createSlice({
                 : null,
 
         userDetails: {
-            userDetail: {},
+           
         },
         userUpdate: {
-            userInfo: {},
+           
         },
         userList: {
-            users: [],
+          
         },
         userDelete: {
-            loading: false,
-            error: null,
-            status: 'idle',
+           
         },
         userRegister: {
-            userInfo: {},
+          
         },
     },
     reducers: {
@@ -68,13 +66,14 @@ const userSlice = createSlice({
             localStorage.setItem('userInfo', JSON.stringify(action.payload));
         },
         userLogout(state) {
-            state.userLogin.userInfo = null;
+                state.userLogin = null;
+                localStorage.removeItem("userInfo");
         },
         userListReset(state) {
-            state.userList.users = [];
+            state.userList = [];
         },
         userRegister(state, action) {
-            state.userRegister.userInfo = action.payload;
+            state.userRegister = {...action.payload}
         },
     },
 });

@@ -20,7 +20,7 @@ const NavLinks = () => {
 
     const logoutHandler = () => {
         dispatch(logout());
-        router.push("/Login");
+        router.push("/auth/login");
     };
 
 
