@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Head from 'next/head';
 import { subDays, subHours } from 'date-fns';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
@@ -11,6 +11,11 @@ import { CustomersTable } from '../../../lib/components/App/Dashboard/sections/c
 import { CustomersSearch } from '../../../lib/components/App/Dashboard/sections/customer/customers-search';
 import { applyPagination } from '../../../lib/components/App/Dashboard/utils/apply-pagination';
 import { useRouter } from 'next/router';
+import useAxios from 'axios-hooks';
+import { useSelector } from 'react-redux';
+import { getLocalStorageItem, getSessionStorageItem } from '../../../lib';
+import { useAppDispatch } from '../../../store';
+import { listUsers } from '../../../store/user/userActions';
 
 const now = new Date();
 
@@ -178,11 +183,42 @@ const useCustomerIds = (customers:any) => {
 const Page = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const dispatch = useAppDispatch();
   const customers = useCustomers(page, rowsPerPage);
   const customersIds = useCustomerIds(customers);
   const customersSelection = useSelection(customersIds);
 
+  const userLoginInfo =useSelector((state:any) => state.user.userLogin)
+  const customerList = useSelector((state:any) => state.user.userList)
+
+  console.log(customerList)
+
+  const [{ loading: loadingCustomer, data: dataCustomers }, getCustomers] = useAxios(
+    {
+      url: 'http://localhost:5000/api/users',
+
+      headers: {
+        Authorization: `Bearer ${userLoginInfo?.token}`
+      },
+      method: 'GET'
+    },
+    { manual:  true }
+  )
+
+
+
+
+
+  useEffect(() => {
+    userLoginInfo?.token && !customerList &&  getCustomers()
+
+   
+      dispatch(listUsers(dataCustomers));
+    
+  },[ userLoginInfo?.token,customerList])
+
   const router = useRouter()
+
   const handlePageChange = useCallback(
     (event:any, value:any) => {
       setPage(value);
@@ -266,7 +302,7 @@ const Page = () => {
             <CustomersSearch />
             <CustomersTable
               count={data.length}
-              items={customers}
+              items={customerList}
               onDeselectAll={customersSelection.handleDeselectAll}
               onDeselectOne={customersSelection.handleDeselectOne}
               onPageChange={handlePageChange}
@@ -276,6 +312,7 @@ const Page = () => {
               page={page}
               rowsPerPage={rowsPerPage}
               selected={customersSelection.selected}
+              reloadCustomers={getCustomers}
             />
           </Stack>
         </Container>

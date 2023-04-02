@@ -34,7 +34,7 @@ export const CustomersTable = (props:any) => {
     page = 0,
     rowsPerPage = 0,
     selected = [],
-    reloadCustomers,
+    reloadCustomers = () => null,
   } = props;
 
   const selectedSome = (selected?.length > 0) && (selected?.length < items?.length);

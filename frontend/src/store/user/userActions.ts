@@ -27,7 +27,6 @@ export const register = (dataRegister: any) => async (dispatch: any) => {
 
 //UserList
 export const listUsers = (data:any) => async (dispatch:any,getState:any) => {
-
     try {
         dispatch(userActions.userList(data))
     } catch (error:any) {
