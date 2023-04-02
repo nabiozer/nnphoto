@@ -13,17 +13,18 @@ import {
   TableRow,
   Typography
 } from '@mui/material';
-import { format } from 'date-fns';
+
 import PropTypes from 'prop-types';
-import { Scrollbar } from '../../components/scrollbar';
-import { getInitials } from '../../utils/get-initials';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { IUser } from '../../../../../../types/user';
+import { getLocalStorageItem } from '../../../../../_helpers/storage';
+import useAxios from 'axios-hooks';
 
 export const CustomersTable = (props:any) => {
   const {
     count = 0,
-    items = [],
+    items =[],
     onDeselectAll,
     onDeselectOne,
     onPageChange = () => {},
@@ -32,17 +33,31 @@ export const CustomersTable = (props:any) => {
     onSelectOne,
     page = 0,
     rowsPerPage = 0,
-    selected = []
+    selected = [],
+    reloadCustomers,
   } = props;
 
-  const selectedSome = (selected.length > 0) && (selected.length < items.length);
-  const selectedAll = (items.length > 0) && (selected.length === items.length);
+  const selectedSome = (selected?.length > 0) && (selected?.length < items?.length);
+  const selectedAll = (items?.length > 0) && (selected?.length === items?.length);
+  const userLoginInfo: IUser | any = getLocalStorageItem('userInfo')
 
+
+  const [{ loading: loadingCustomer}, deleteCustomer] = useAxios(
+    {
+      headers: {
+        Authorization: `Bearer ${userLoginInfo?.token}`
+      },
+      method: 'DELETE'
+    },
+    { manual:  true }
+  )
+
+  
   return (
-    <Card>
-      <Scrollbar>
+    <Card sx={{overflowX:'auto'}}>
+    
         <Box sx={{ minWidth: 800 }}>
-          <Table>
+          <Table sx={{overflowX:'auto'}}>
             <TableHead>
               <TableRow>
                 <TableCell padding="checkbox">
@@ -86,27 +101,27 @@ export const CustomersTable = (props:any) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((customer:any) => {
-                const isSelected = selected.includes(customer.id);
-                const createdAt = format(customer.createdAt, 'dd/MM/yyyy');
+              {items?.map((customer:IUser) => {
+                const isSelected = selected?.includes(customer._id);
+                // const createdAt = format(customer?.createdAt, 'dd/MM/yyyy');
 
                 return (
                   <TableRow
                     hover
-                    key={customer.id}
+                    key={customer._id}
                     selected={isSelected}
                   >
                     <TableCell padding="checkbox">
-                      <Checkbox
+                      {/* <Checkbox
                         checked={isSelected}
                         onChange={(event) => {
                           if (event.target.checked) {
-                            onSelectOne?.(customer.id);
+                            onSelectOne?.(customer._id);
                           } else {
-                            onDeselectOne?.(customer.id);
+                            onDeselectOne?.(customer._id);
                           }
                         }}
-                      />
+                      /> */}
                     </TableCell>
                     <TableCell>
                       <Stack
@@ -114,9 +129,9 @@ export const CustomersTable = (props:any) => {
                         direction="row"
                         spacing={2}
                       >
-                        <Avatar src={customer.avatar}>
+                        {/* <Avatar src={customer.avatar}>
                           {getInitials(customer.name)}
-                        </Avatar>
+                        </Avatar> */}
                         <Typography variant="subtitle2">
                           {customer.name}
                         </Typography>
@@ -126,19 +141,39 @@ export const CustomersTable = (props:any) => {
                       {customer.email}
                     </TableCell>
                     <TableCell>
-                      {customer.address.city}, {customer.address.state}, {customer.address.country}
+                      {customer.deliveryInfo.phoneNumber}
                     </TableCell>
                     <TableCell>
-                      {customer.phone}
+                      {customer.reservationInfo.date}
                     </TableCell>
                     <TableCell>
-                      {createdAt}
+                      {customer.reservationInfo.place}
                     </TableCell>
                     <TableCell>
-                        <IconButton onClick={() => console.log('edit')}>
+                      {customer.reservationInfo.packageDetails}
+                    </TableCell>
+                    <TableCell>
+                      {customer.reservationInfo.packagePrice}
+                    </TableCell>
+                    <TableCell>
+                      {customer.reservationInfo.advancePayment}
+                    </TableCell>
+                    <TableCell>
+                      {/* {createdAt} */}
+                    </TableCell>
+                    <TableCell>
+                        <IconButton onClick={async() => console.log('edit')}>
                           <EditIcon/>
                         </IconButton>
-                        <IconButton onClick={() => console.log('edit')}>
+                        <IconButton onClick={async() => 
+                        {
+                        const result = await deleteCustomer({url: `http://localhost:5000/api/users/${customer?._id}`});
+                         if(result.status === 200) {
+                          reloadCustomers();
+                         }
+                        }
+                      
+                      }>
                           <DeleteForeverIcon/>
                         </IconButton>
                     </TableCell>
@@ -148,7 +183,7 @@ export const CustomersTable = (props:any) => {
             </TableBody>
           </Table>
         </Box>
-      </Scrollbar>
+     
       <TablePagination
         component="div"
         count={count}

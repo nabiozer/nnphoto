@@ -30,19 +30,12 @@ const userSchema = mongoose.Schema({
         },
         
     },
-    
     reservationInfo : {
-
         date : {
             type:String,
      
             default:''
 
-        },
-        hour : {
-            type:String,
-        
-            default:''
         },
         place : {
             type:String,
@@ -65,7 +58,11 @@ const userSchema = mongoose.Schema({
             type:Number,
        
             default:''
-        }
+        },
+        album : {
+            type:String,
+            default:'25x65 - 2 Adet Aile Albumu -50x70 poster'
+        },
 
     },
 
@@ -103,8 +100,6 @@ const userSchema = mongoose.Schema({
     video:{
         type:String
     },
-
-
     albumDelivered:{
         type:Boolean,
         default:false,
@@ -118,10 +113,7 @@ const userSchema = mongoose.Schema({
        
         default:false,
     },
-    album : {
-        type:String,
-        default:'25x65 - 2 Adet Aile Albumu -50x70 poster'
-    },
+   
 
     isDone:{
         type:Boolean,

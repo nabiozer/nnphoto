@@ -66,14 +66,14 @@ const getUserProfile = asyncHandler(async (req,res) => {
 //  @acces Public
 
 const registerUser = asyncHandler(async (req,res) => {
-    const {name,email,password,deliveryInfo,reservationInfo,album} = req.body
+    const {name,email,password,adress,phoneNumber,date,place,packagePrice,packageDetails,advancePayment,album} = req.body
     const userExist= await User.findOne({email})
 
     if(userExist) {
         res.status(400)
         throw new Error('User already exists')
     }
-    const user = await User.create({name,email,password,deliveryInfo,reservationInfo,album})
+    const user = await User.create({name,email,password,deliveryInfo:{adress,phoneNumber},reservationInfo:{date,place,packagePrice,packageDetails,advancePayment,album}})
     if(user) {
         res.status(201).json({
             _id : user._id,

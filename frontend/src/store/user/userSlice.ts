@@ -50,9 +50,7 @@ const userSlice = createSlice({
         userUpdate: {
            
         },
-        userList: {
-          
-        },
+        userList: [],
         userDelete: {
            
         },
@@ -72,7 +70,10 @@ const userSlice = createSlice({
         userListReset(state) {
             state.userList = [];
         },
-        userRegister(state, action) {
+        userList(state,action:any) {
+            state.userList = action.payload;
+        },
+        userRegister(state,  action: PayloadAction<User>) {
             state.userRegister = {...action.payload}
         },
     },

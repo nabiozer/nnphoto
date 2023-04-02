@@ -24,7 +24,8 @@ const users =
         place:'plato',
         packagePrice:1500,
         advancePayment:300,
-        packageDetails:'fotoğraf çekimi ve video klip (1dk)'
+        packageDetails:'fotoğraf çekimi ve video klip (1dk)',
+        album:'50x60'
 
     },
 

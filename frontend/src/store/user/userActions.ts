@@ -23,3 +23,16 @@ export const register = (dataRegister: any) => async (dispatch: any) => {
         console.log(error);
     }
 };
+
+
+//UserList
+export const listUsers = (data:any) => async (dispatch:any,getState:any) => {
+
+    try {
+        dispatch(userActions.userList(data))
+    } catch (error:any) {
+      console.error( error.response && error.response.data.message ? error.response.data.message 
+            : error.message)
+    }
+}
+
