@@ -1,21 +1,20 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import Head from 'next/head';
-import { subDays, subHours } from 'date-fns';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
 import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
 import { Box, Button, Container, Stack, SvgIcon, Typography } from '@mui/material';
+import { subDays, subHours } from 'date-fns';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useSelection } from '../../../lib/components/App/Dashboard/hooks/use-selection';
 import { Layout as DashboardLayout } from '../../../lib/components/App/Dashboard/layouts/dashboard/layout';
-import { CustomersTable } from '../../../lib/components/App/Dashboard/sections/customer/customers-table';
 import { CustomersSearch } from '../../../lib/components/App/Dashboard/sections/customer/customers-search';
+import { CustomersTable } from '../../../lib/components/App/Dashboard/sections/customer/customers-table';
 import { applyPagination } from '../../../lib/components/App/Dashboard/utils/apply-pagination';
-import { useRouter } from 'next/router';
-import useAxios from 'axios-hooks';
-import { useSelector } from 'react-redux';
-import { getLocalStorageItem, getSessionStorageItem } from '../../../lib';
 import { useAppDispatch } from '../../../store';
-import { listUsers } from '../../../store/user/userActions';
+import { fetchUsers } from '../../../store/user/userActions';
+
 
 const now = new Date();
 
@@ -162,7 +161,7 @@ const data = [
   }
 ];
 
-const useCustomers = (page:any, rowsPerPage:any) => {
+const useCustomers = (page: any, rowsPerPage: any) => {
   return useMemo(
     () => {
       return applyPagination(data, page, rowsPerPage);
@@ -171,10 +170,10 @@ const useCustomers = (page:any, rowsPerPage:any) => {
   );
 };
 
-const useCustomerIds = (customers:any) => {
+const useCustomerIds = (customers: any) => {
   return useMemo(
     () => {
-      return customers.map((customer:any) => customer.id);
+      return customers.map((customer: any) => customer.id);
     },
     [customers]
   );
@@ -188,46 +187,48 @@ const Page = () => {
   const customersIds = useCustomerIds(customers);
   const customersSelection = useSelection(customersIds);
 
-  const userLoginInfo =useSelector((state:any) => state.user.userLogin)
-  const customerList = useSelector((state:any) => state.user.userList)
+  const userLoginInfo = useSelector((state: any) => state.user.userLogin)
+  const customerList = useSelector((state: any) => state.user.userList.data)
 
   console.log(customerList)
 
-  const [{ loading: loadingCustomer, data: dataCustomers }, getCustomers] = useAxios(
-    {
-      url: 'http://localhost:5000/api/users',
+  // const [{ loading: loadingCustomer, data: dataCustomers }, getCustomers] = useAxios(
+  //   {
+  //     url: api/users',
 
-      headers: {
-        Authorization: `Bearer ${userLoginInfo?.token}`
-      },
-      method: 'GET'
-    },
-    { manual:  true }
-  )
-
-
-
+  //     headers: {
+  //       Authorization: `Bearer ${userLoginInfo?.token}`
+  //     },
+  //     method: 'GET'
+  //   },
+  //   { manual: true }
+  // )
 
 
   useEffect(() => {
-    userLoginInfo?.token && !customerList &&  getCustomers()
+    dispatch(fetchUsers());
+  }, [dispatch]);
 
-   
-      dispatch(listUsers(dataCustomers));
-    
-  },[ userLoginInfo?.token,customerList])
+
+  // useEffect(() => {
+  //   userLoginInfo?.token && !customerList && getCustomers()
+
+
+  //   dispatch(listUsers(dataCustomers));
+
+  // }, [userLoginInfo?.token, customerList])
 
   const router = useRouter()
 
   const handlePageChange = useCallback(
-    (event:any, value:any) => {
+    (event: any, value: any) => {
       setPage(value);
     },
     []
   );
 
   const handleRowsPerPageChange = useCallback(
-    (event:any) => {
+    (event: any) => {
       setRowsPerPage(event.target.value);
     },
     []
@@ -312,12 +313,11 @@ const Page = () => {
               page={page}
               rowsPerPage={rowsPerPage}
               selected={customersSelection.selected}
-              reloadCustomers={getCustomers}
             />
           </Stack>
         </Container>
       </Box>
-      </DashboardLayout>
+    </DashboardLayout>
   );
 };
 

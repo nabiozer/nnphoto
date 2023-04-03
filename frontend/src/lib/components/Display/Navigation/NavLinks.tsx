@@ -15,7 +15,7 @@ import { DropDown } from '../../..';
 const NavLinks = () => {
 
     const router = useRouter()
-    const userInfo = useSelector((state: RootState) => state?.user?.userLogin);
+    const userInfo = useSelector((state: RootState) => state?.user?.userLogin?.data);
     const dispatch = useAppDispatch();
 
     const logoutHandler = () => {

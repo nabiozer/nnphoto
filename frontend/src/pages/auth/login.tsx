@@ -16,7 +16,7 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Input, useForm } from '../../lib';
 import { RootState, useAppDispatch } from '../../store';
-import { login } from '../../store/user/userActions';
+import { authUser, login } from '../../store/user/userActions';
 import useAxios from 'axios-hooks'
 
 
@@ -45,6 +45,7 @@ export default function SignIn() {
 
   const dispatch = useAppDispatch();
   const userLoginInfo = useSelector((state: RootState) => state?.user?.userLogin)
+  
   const router = useRouter();
   
 
@@ -66,23 +67,21 @@ export default function SignIn() {
   )
 
   console.log(loading)
-
+  const redirect = search ? location.search.split('=')[1] : '/';
   const onSubmit = (data: SignInFormData) => {
-
-    executeLogin({ data: { ...data} });
-
+      dispatch(authUser(data));
+    
 
   }
 
-  const redirect = search ? location.search.split('=')[1] : '/';
+
   useEffect(() => {
-    if (!loginData) {
-      return;
+    if (!userLoginInfo?.error && userLoginInfo.data) {
+      router.push(redirect);
     }
-    dispatch(login({ ...loginData}));
+   
   
-    router.push("/");
-  }, [loginData,redirect]);
+  }, [userLoginInfo.data,redirect,userLoginInfo?.error]);
 
 
 
