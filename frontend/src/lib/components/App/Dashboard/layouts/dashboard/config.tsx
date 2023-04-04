@@ -66,7 +66,7 @@ export const items = [
 
   {
     title: 'Register NewUser',
-    path: '/dashboard/register',
+    path: '/dashboard/form/new',
     icon: (
       <SvgIcon fontSize="small">
         <UserPlusIcon />

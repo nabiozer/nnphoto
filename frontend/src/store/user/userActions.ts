@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import store from '../index';
 import { userActions } from './userSlice';
-
+import { toast } from 'react-toastify';
 
 const api = axios.create({
     baseURL: 'http://localhost:5000/api'
@@ -15,7 +15,32 @@ const api = axios.create({
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
-  });
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+  );
+
+  api.interceptors.response.use(
+    (response) => {
+        if (response.status === 200) {
+            // Handle success message
+            toast.success('Request successful');
+            console.log('response',response)
+          }
+      return response;
+    },
+    (error) => {
+      if (error.response.status === 401) {
+        // Handle unauthorized error
+      } else if (error.response.status === 500) {
+        // Handle server error
+      } else {
+        toast.error(error.message);
+      }
+      return Promise.reject(error);
+    }
+  );
 
 //User Login
 export const login = (dataLogin: any) => async (dispatch: any) => {
@@ -30,15 +55,6 @@ export const login = (dataLogin: any) => async (dispatch: any) => {
 export const logout = () => (dispatch: any) => {
     dispatch(userActions.userLogout());
     dispatch(userActions.userListReset());
-};
-
-//User Register
-export const register = (dataRegister: any) => async (dispatch: any) => {
-    try {
-        dispatch(userActions.userRegister(dataRegister));
-    } catch (error) {
-        console.log(error);
-    }
 };
 
 
@@ -75,11 +91,13 @@ export const getUserById = createAsyncThunk('data/getUserById', async (id?:any) 
 
 //updateUserById ->update for admin
 
-export const updateUserByAdmin = createAsyncThunk('data/updateUserByAdmin', async (id?:any,data?:any) => {
+export const updateUserByAdmin = createAsyncThunk('data/updateUserByAdmin', async ({id,data}:any) => {
    
     const response = await api.put(`/users/${id}`,data);
     return response.data;
 });
+
+
 
 
 //get user list

@@ -8,13 +8,14 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
+import { Layout as DashboardLayout } from '../../../lib/components/App/Dashboard/layouts/dashboard/layout';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import * as yup from 'yup';
-import { Input, useForm } from '../../lib';
-import { Layout as DashboardLayout } from '../../lib/components/App/Dashboard/layouts/dashboard/layout';
-import { RootState, useAppDispatch } from '../../store';
+import { Input, useForm } from '../../../lib';
+import { RootState, useAppDispatch } from '../../../store';
+
 
 function Copyright(props: any) {
   return (
@@ -30,7 +31,7 @@ function Copyright(props: any) {
 }
 
 
-export default function SignIn() {
+export default function ChoiceForm() {
   const dispatch = useAppDispatch();
   const registered = useSelector((state: RootState) => state.user.userRegister);
   console.log(registered);
@@ -86,11 +87,13 @@ export default function SignIn() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 13,
+            marginTop: 5,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            minWidth: '300px'
+            minWidth: '300px',
+            width: '100%',
+            maxWidth: '100%'
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
@@ -99,20 +102,22 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Kayıt Ol
           </Typography>
-          <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
-            <Box component="div" sx={{ mt: 1 }} ><Input id="email" name="email" placeholder="E-Mail" label="Email" control={control} errors={errors} autoComplete="email" /></Box>
-            <Box component="div" sx={{ mt: 1 }} ><Input id="name" name="name" placeholder="Kullanıcı Adı" label="Kullanıcı Adı" control={control} errors={errors} /></Box>
-            <Box component="div" sx={{ mt: 1 }} ><Input id="password" name="password" placeholder="Şifre" label="Şifre" control={control} errors={errors} autoComplete="current-password" type='password' /></Box>
-            <Box component="div" sx={{ mt: 1 }} ><Input id="confirmpassword" name="confirmpassword" placeholder="Şifre Tekrar" label="Şifre Tekrar" control={control} errors={errors} autoComplete="current-password" type='password' /></Box>
-            <Box component="div" sx={{ mt: 1 }} ><Input id="date" name="date" placeholder="Çekim Tarihi" label="Çekim Tarihi" control={control} errors={errors} /></Box>
-            <Box component="div" sx={{ mt: 1 }} ><Input id="place" name="place" placeholder="Çekim Yeri" label="Çekim Yeri" control={control} errors={errors} /></Box>
-            <Box component="div" sx={{ mt: 1 }} ><Input id="packagePrice" name="packagePrice" placeholder="Paket Fiyatı" label="Paket Fiyatı" control={control} errors={errors} /></Box>
-            <Box component="div" sx={{ mt: 1 }} ><Input id="advancePayment" name="advancePayment" placeholder="Kapora" label="Kapora" control={control} errors={errors} /></Box>
-            <Box component="div" sx={{ mt: 1 }} ><Input id="packageDetails" name="packageDetails" placeholder="Paket Detay" label="Paket Detay" control={control} errors={errors} /></Box>
-            <Box component="div" sx={{ mt: 1 }} ><Input id="albumDetails" name="albumDetails" placeholder="Albüm Detay" label="Albüm Detay" control={control} errors={errors} /></Box>
-            <Box component="div" sx={{ mt: 1 }} ><Input id="address" name="address" placeholder="Adres" label="Adres" control={control} errors={errors} /></Box>
-            <Box component="div" sx={{ mt: 1 }} ><Input id="phoneNumber" name="phoneNumber" placeholder="Telefon" label="Telefon" control={control} errors={errors} /></Box>
+         
+          <Grid  container spacing={1}  component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1,padding:'1rem' }}>
+            <Grid item xs={12} md={6} sm={6} lg={3} sx={{ mt: 2 }} ><Input id="email" name="email" placeholder="E-Mail" label="Email" control={control} errors={errors} autoComplete="email" /></Grid>
+            <Grid  item xs={12} md={6} sm={6} lg={3} sx={{ mt: 2 }} ><Input id="name" name="name" placeholder="Kullanıcı Adı" label="Kullanıcı Adı" control={control} errors={errors} /></Grid>
+            <Grid  item xs={12} md={6} sm={6} lg={3} sx={{ mt: 2 }} ><Input id="password" name="password" placeholder="Şifre" label="Şifre" control={control} errors={errors} autoComplete="current-password" type='password' /></Grid>
+            <Grid  item xs={12} md={6} sm={6} lg={3} sx={{ mt: 2 }} ><Input id="confirmpassword" name="confirmpassword" placeholder="Şifre Tekrar" label="Şifre Tekrar" control={control} errors={errors} autoComplete="current-password" type='password' /></Grid>
+            <Grid  item xs={12} md={6} sm={6} lg={3} sx={{ mt: 2 }} ><Input id="date" name="date" placeholder="Çekim Tarihi" label="Çekim Tarihi" control={control} errors={errors} /></Grid>
+            <Grid  item xs={12} md={6} sm={6} lg={3} sx={{ mt: 2 }} ><Input id="place" name="place" placeholder="Çekim Yeri" label="Çekim Yeri" control={control} errors={errors} /></Grid>
+            <Grid  item xs={12} md={6} sm={6} lg={3} sx={{ mt: 2 }} ><Input id="packagePrice" name="packagePrice" placeholder="Paket Fiyatı" label="Paket Fiyatı" control={control} errors={errors} /></Grid>
+            <Grid  item xs={12} md={6} sm={6} lg={3} sx={{ mt: 2 }} ><Input id="advancePayment" name="advancePayment" placeholder="Kapora" label="Kapora" control={control} errors={errors} /></Grid>
+            <Grid  item xs={12} md={6} sm={6} lg={3} sx={{ mt: 2 }} ><Input id="packageDetails" name="packageDetails" placeholder="Paket Detay" label="Paket Detay" control={control} errors={errors} /></Grid>
+            <Grid  item xs={12} md={6} sm={6} lg={3} sx={{ mt: 2 }} ><Input id="albumDetails" name="albumDetails" placeholder="Albüm Detay" label="Albüm Detay" control={control} errors={errors} /></Grid>
+            <Grid  item xs={12} md={6} sm={6} lg={3} sx={{ mt: 2 }} ><Input id="address" name="address" placeholder="Adres" label="Adres" control={control} errors={errors} /></Grid>
+            <Grid  item xs={12} md={6} sm={6} lg={3} sx={{ mt: 2 }} ><Input id="phoneNumber" name="phoneNumber" placeholder="Telefon" label="Telefon" control={control} errors={errors} /></Grid>
 
+            <Grid  item xs={12} md={6} sm={6} lg={3} sx={{ mt: 2 }} >
             <Button
               type="submit"
               fullWidth
@@ -133,7 +138,8 @@ export default function SignIn() {
                 </Link>
               </Grid>
             </Grid>
-          </Box>
+            </Grid>
+          </Grid>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>

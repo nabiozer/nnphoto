@@ -48,7 +48,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <ReactProvider store={store}>
       <Provider>
         <MainNavigation />
-        {loading && <Loader />}
+        {/* {loading && <Loader />} */}
         <Component {...pageProps} />
         {location !== '/Home' && <Footer />}
       </Provider>

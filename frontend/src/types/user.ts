@@ -2,7 +2,7 @@
 
 
 export interface IDeliveryInfo  {
-    adress:string,
+    address:string,
     phoneNumber:string,
 }
 
@@ -36,8 +36,9 @@ export interface IUser {
     name : string,
     email : string,
     password : string,
-    deliveryInfo : IDeliveryInfo,
     reservationInfo : IReservationInfo,
+    address:string,
+    phoneNumber:string,
     chosen :IChosen,
     photos:string,
     video:string,

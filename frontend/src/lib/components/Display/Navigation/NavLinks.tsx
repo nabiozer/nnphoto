@@ -65,7 +65,7 @@ const NavLinks = () => {
                 </>
             ) : (
                 <li>
-                    <NavLink href="/auth/login" text='Giriş' />
+                    <NavLink href="/auth/login" text='login' />
                 </li>
             )}
 

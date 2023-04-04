@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { authUser, deleteUser, fetchUsers } from './userActions';
+import { authUser, deleteUser, fetchUsers, getUserById, registerUser, updateUserByAdmin } from './userActions';
 
 interface User {
     name: string;
@@ -51,20 +51,18 @@ const userSlice = createSlice({
             loading: false,
             error: '',
         },
-        userLogin:
-        {
-            data:typeof window !== 'undefined' && localStorage?.getItem('userInfo')
-                ? JSON.parse(localStorage?.getItem('userInfo')!)
-                : null,
-                loading: false,
-                error: '',
-            },
+        userLogin: {
+            data:
+                typeof window !== 'undefined' && localStorage?.getItem('userInfo')
+                    ? JSON.parse(localStorage?.getItem('userInfo')!)
+                    : null,
+            loading: false,
+            error: '',
+        },
 
-        userDetails: {},
-        userUpdate: {},
-       
-     
-        userRegister: {},
+        userDetails: { data: null, loading: false, error: '' },
+        userUpdate: { data: null, loading: false, error: '' },
+        userRegister: { data: null, loading: false, error: '' },
     },
     reducers: {
         userLogin(state, action: PayloadAction<User>) {
@@ -83,12 +81,25 @@ const userSlice = createSlice({
         userList(state, action: any) {
             state.userList = action.payload;
         },
-        userRegister(state, action: PayloadAction<User>) {
-            state.userRegister = { ...action.payload };
-        },
+        // userRegister(state, action: PayloadAction<User>) {
+        //     state.userRegister = { ...action.payload };
+        // },
     },
     extraReducers: (builder) => {
         builder
+            .addCase(registerUser.pending, (state) => {
+                state.userRegister.loading = true;
+                state.userRegister.error = '';
+            })
+            .addCase(registerUser.fulfilled, (state, action) => {
+                state.userRegister.data = action.payload;
+                state.userRegister.loading = false;
+                state.userRegister.error = '';
+            })
+            .addCase(registerUser.rejected, (state, action) => {
+                state.userRegister.loading = false;
+                state.userRegister.error = action.error.message || '';
+            })
             .addCase(fetchUsers.pending, (state) => {
                 state.userList.loading = true;
                 state.userList.error = '';
@@ -124,13 +135,37 @@ const userSlice = createSlice({
                 state.userLogin.loading = false;
                 state.userLogin.error = '';
                 localStorage.setItem('userInfo', JSON.stringify(action.payload));
-
             })
             .addCase(authUser.rejected, (state, action) => {
                 state.userLogin.loading = false;
                 state.userLogin.error = action.error.message || '';
             })
-            ;
+            .addCase(getUserById.pending, (state) => {
+                state.userDetails.loading = true;
+                state.userDetails.error = '';
+            })
+            .addCase(getUserById.fulfilled, (state, action) => {
+                state.userDetails.data = action.payload;
+                state.userDetails.loading = false;
+                state.userDetails.error = '';
+            })
+            .addCase(getUserById.rejected, (state, action) => {
+                state.userDetails.loading = false;
+                state.userDetails.error = action.error.message || '';
+            })
+            .addCase(updateUserByAdmin.pending, (state) => {
+                state.userUpdate.loading = true;
+                state.userUpdate.error = '';
+            })
+            .addCase(updateUserByAdmin.fulfilled, (state, action) => {
+                state.userUpdate.data = action.payload;
+                state.userUpdate.loading = false;
+                state.userUpdate.error = '';
+            })
+            .addCase(updateUserByAdmin.rejected, (state, action) => {
+                state.userUpdate.loading = false;
+                state.userUpdate.error = action.error.message || '';
+            })
     },
 });
 

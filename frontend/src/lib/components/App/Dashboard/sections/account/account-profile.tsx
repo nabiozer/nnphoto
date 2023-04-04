@@ -5,6 +5,7 @@ import {
   Card,
   CardActions,
   CardContent,
+  CardHeader,
   Divider,
   Typography
 } from '@mui/material';
@@ -18,8 +19,11 @@ const user = {
   timezone: 'GTM-7'
 };
 
-export const AccountProfile = () => (
+export const AccountProfile = ({userDetails}:any) => (
   <Card>
+     <CardHeader
+          title="Kullanıcı Bilgileri"
+        />
     <CardContent>
       <Box
         sx={{
@@ -28,42 +32,41 @@ export const AccountProfile = () => (
           flexDirection: 'column'
         }}
       >
-        <Avatar
-          src={user.avatar}
-          sx={{
-            height: 80,
-            mb: 2,
-            width: 80
-          }}
-        />
+   
         <Typography
           gutterBottom
           variant="h5"
         >
-          {user.name}
+          {userDetails.name}
         </Typography>
         <Typography
           color="text.secondary"
-          variant="body2"
+          variant="h6"
         >
-          {user.city} {user.country}
+          {userDetails.email}
         </Typography>
         <Typography
           color="text.secondary"
-          variant="body2"
+          variant="h6"
         >
-          {user.timezone}
+          {userDetails.phoneNumber}
+        </Typography>
+        <Typography
+          color="text.secondary"
+          variant="h6"
+        >
+          {userDetails.address}
         </Typography>
       </Box>
     </CardContent>
     <Divider />
-    <CardActions>
+    {/* <CardActions>
       <Button
         fullWidth
         variant="text"
       >
         Upload picture
       </Button>
-    </CardActions>
+    </CardActions> */}
   </Card>
 );

@@ -190,33 +190,9 @@ const Page = () => {
   const userLoginInfo = useSelector((state: any) => state.user.userLogin)
   const customerList = useSelector((state: any) => state.user.userList.data)
 
-  console.log(customerList)
-
-  // const [{ loading: loadingCustomer, data: dataCustomers }, getCustomers] = useAxios(
-  //   {
-  //     url: api/users',
-
-  //     headers: {
-  //       Authorization: `Bearer ${userLoginInfo?.token}`
-  //     },
-  //     method: 'GET'
-  //   },
-  //   { manual: true }
-  // )
-
-
   useEffect(() => {
     dispatch(fetchUsers());
   }, [dispatch]);
-
-
-  // useEffect(() => {
-  //   userLoginInfo?.token && !customerList && getCustomers()
-
-
-  //   dispatch(listUsers(dataCustomers));
-
-  // }, [userLoginInfo?.token, customerList])
 
   const router = useRouter()
 
@@ -294,7 +270,7 @@ const Page = () => {
                     </SvgIcon>
                   )}
                   variant="contained"
-                  onClick={() => router.push('/dashboard/register')}
+                  onClick={() => router.push('/dashboard/customers/form/new')}
                 >
                   Add
                 </Button>

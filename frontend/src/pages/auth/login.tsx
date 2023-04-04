@@ -68,9 +68,9 @@ export default function SignIn() {
 
   console.log(loading)
   const redirect = search ? location.search.split('=')[1] : '/';
+  
   const onSubmit = (data: SignInFormData) => {
-      dispatch(authUser(data));
-    
+    const res =   dispatch(authUser(data));
 
   }
 

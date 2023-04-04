@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Card,
   Checkbox,
@@ -14,14 +13,13 @@ import {
   Typography
 } from '@mui/material';
 
-import PropTypes from 'prop-types';
-import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { IUser } from '../../../../../../types/user';
-import { getLocalStorageItem } from '../../../../../_helpers/storage';
-import useAxios from 'axios-hooks';
+import EditIcon from '@mui/icons-material/Edit';
+import PropTypes from 'prop-types';
 import { useAppDispatch } from '../../../../../../store';
-import { deleteUser } from '../../../../../../store/user/userActions';
+import { deleteUser, fetchUsers } from '../../../../../../store/user/userActions';
+import { IUser } from '../../../../../../types/user';
+import { useRouter } from 'next/router';
 
 export const CustomersTable = (props: any) => {
   const {
@@ -41,19 +39,9 @@ export const CustomersTable = (props: any) => {
 
   const selectedSome = (selected?.length > 0) && (selected?.length < items?.length);
   const selectedAll = (items?.length > 0) && (selected?.length === items?.length);
-  const userLoginInfo: IUser | any = getLocalStorageItem('userInfo')
+
   const dispatch = useAppDispatch();
-
-  // const [{ loading: loadingCustomer}, deleteCustomer] = useAxios(
-  //   {
-  //     headers: {
-  //       Authorization: `Bearer ${userLoginInfo?.token}`
-  //     },
-  //     method: 'DELETE'
-  //   },
-  //   { manual:  true }
-  // )
-
+  const router = useRouter()
 
   return (
     <Card sx={{ overflowX: 'auto' }}>
@@ -142,7 +130,7 @@ export const CustomersTable = (props: any) => {
                     {customer.email}
                   </TableCell>
                   <TableCell>
-                    {customer.deliveryInfo.phoneNumber}
+                    {customer.phoneNumber}
                   </TableCell>
                   <TableCell>
                     {customer.reservationInfo.date}
@@ -163,13 +151,20 @@ export const CustomersTable = (props: any) => {
                     {/* {createdAt} */}
                   </TableCell>
                   <TableCell>
-                    <IconButton onClick={async () => console.log('edit')}>
+                    <IconButton onClick={async () => router.push(`/dashboard/customers/form/edit/${customer._id}`)}>
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton onClick={async () => router.push(`/dashboard/customers/details/${customer._id}`)}>
                       <EditIcon />
                     </IconButton>
                     <IconButton onClick={async () => {
-                      dispatch(deleteUser(
+                      const res = await dispatch(deleteUser(
                         customer._id,
                       ));
+
+                      if (res.meta.requestStatus === 'fulfilled') {
+                        dispatch(fetchUsers());
+                      }
                     }
 
                     }>

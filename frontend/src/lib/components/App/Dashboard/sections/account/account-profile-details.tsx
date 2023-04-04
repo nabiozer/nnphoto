@@ -8,8 +8,10 @@ import {
   CardHeader,
   Divider,
   TextField,
-  Unstable_Grid2 as Grid
+  Typography,
+  Grid
 } from '@mui/material';
+import { IUser } from '../../../../../../types/user';
 
 const states = [
   {
@@ -30,7 +32,10 @@ const states = [
   }
 ];
 
-export const AccountProfileDetails = () => {
+export const AccountProfileDetails = ({ userDetails }: any) => {
+
+  const { reservationInfo: { date, place, packagePrice, packageDetails, advancePayment, album,photos,video } } = userDetails;
+
   const [values, setValues] = useState({
     firstName: 'Anika',
     lastName: 'Visser',
@@ -41,7 +46,7 @@ export const AccountProfileDetails = () => {
   });
 
   const handleChange = useCallback(
-    (event:any) => {
+    (event: any) => {
       setValues((prevState) => ({
         ...prevState,
         [event.target.name]: event.target.value
@@ -51,129 +56,271 @@ export const AccountProfileDetails = () => {
   );
 
   const handleSubmit = useCallback(
-    (event:any) => {
+    (event: any) => {
       event.preventDefault();
     },
     []
   );
 
   return (
-    <form
-      autoComplete="off"
-      noValidate
-      onSubmit={handleSubmit}
-    >
-      <Card>
-        <CardHeader
-          subheader="The information can be edited"
-          title="Profile"
-        />
-        <CardContent sx={{ pt: 0 }}>
-          <Box sx={{ m: -1.5 }}>
-            <Grid
-              container
-              spacing={3}
+    <>
+    <Grid container spacing={2} padding={3} >
+      <Grid
+        xs={12}
+        md={6}
+        lg={6}
+        xl={4}
+        item
+      
+      >
+        <Card sx={{height:'100%'}}>
+          <CardHeader
+            title="Kullanıcı Bilgileri"
+          />
+          <CardContent>
+            <Box
+              sx={{
+                alignItems: 'center',
+                display: 'flex',
+                flexDirection: 'column'
+              }}
             >
-              <Grid
-                xs={12}
-                md={6}
+
+              <Typography
+                gutterBottom
+                variant="h5"
               >
-                <TextField
-                  fullWidth
-                  helperText="Please specify the first name"
-                  label="First name"
-                  name="firstName"
-                  onChange={handleChange}
-                  required
-                  value={values.firstName}
-                />
-              </Grid>
-              <Grid
-                xs={12}
-                md={6}
+                {userDetails.name}
+              </Typography>
+              <Typography
+                color="text.secondary"
+                component="p"
               >
-                <TextField
-                  fullWidth
-                  label="Last name"
-                  name="lastName"
-                  onChange={handleChange}
-                  required
-                  value={values.lastName}
-                />
-              </Grid>
-              <Grid
-                xs={12}
-                md={6}
+                {userDetails.email}
+              </Typography>
+              <Typography
+                color="text.secondary"
+                component="p"
               >
-                <TextField
-                  fullWidth
-                  label="Email Address"
-                  name="email"
-                  onChange={handleChange}
-                  required
-                  value={values.email}
-                />
-              </Grid>
-              <Grid
-                xs={12}
-                md={6}
+                {userDetails.phoneNumber}
+              </Typography>
+              <Typography
+                color="text.secondary"
+                component="p"
               >
-                <TextField
-                  fullWidth
-                  label="Phone Number"
-                  name="phone"
-                  onChange={handleChange}
-                  type="number"
-                  value={values.phone}
-                />
-              </Grid>
+                {userDetails.address}
+              </Typography>
+            </Box>
+          </CardContent>
+        
+          {/* <CardActions>
+      <Button
+        fullWidth
+        variant="text"
+      >
+        Upload picture
+      </Button>
+    </CardActions> */}
+        </Card>
+        </Grid>
+      <Grid
+        xs={12}
+        md={6}
+        lg={6}
+        xl={4}
+        item
+      >
+        <Card sx={{height:'100%'}}>
+          <CardHeader
+            title="Rezervasyon Bilgileri"
+          />
+          <CardContent sx={{ pt: 2 }}>
+            <Box>
               <Grid
-                xs={12}
-                md={6}
+                container
+                spacing={5}
+                padding={2}
               >
-                <TextField
-                  fullWidth
-                  label="Country"
-                  name="country"
-                  onChange={handleChange}
-                  required
-                  value={values.country}
-                />
-              </Grid>
-              <Grid
-                xs={12}
-                md={6}
-              >
-                <TextField
-                  fullWidth
-                  label="Select State"
-                  name="state"
-                  onChange={handleChange}
-                  required
-                  select
-                  SelectProps={{ native: true }}
-                  value={values.state}
+                <Grid
+                  xs={12}
+                  sm={6}
+                  lg={6}
+                  md={6}
+                  item
+                  sx={{ justify: 'center', textAlign: 'center', alignItems: 'center'  }}
                 >
-                  {states.map((option) => (
-                    <option
-                      key={option.value}
-                      value={option.value}
-                    >
-                      {option.label}
-                    </option>
-                  ))}
-                </TextField>
+                    <Typography component="p"  sx={{borderBottom: '1px solid grey'}}>Çekim Mekanı</Typography>
+                  <Typography component="p" >{place}</Typography>
+                </Grid>
+                <Grid
+                  xs={12}
+                  sm={6}
+                  lg={6}
+                  md={6}
+                  item
+                  sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
+                >
+                    <Typography component="p"  sx={{borderBottom: '1px solid grey'}}>Tarih</Typography>
+                  <Typography component="p" >{date}</Typography>
+                </Grid>
+                <Grid
+                  xs={12}
+                  sm={6}
+                  lg={6}
+                  md={6}
+                  item
+                  sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
+                >
+                    <Typography component="p"  sx={{borderBottom: '1px solid grey'}}>Paket İçeriği</Typography>
+                  <Typography component="p" >{packageDetails}</Typography>
+                </Grid>
+                <Grid
+                  xs={12}
+                  sm={6}
+                  lg={6}
+                  md={6}
+                  item
+                  sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
+                >
+                    <Typography component="p"  sx={{borderBottom: '1px solid grey'}}>Albüm</Typography>
+                  <Typography component="p" >{album}</Typography>
+                </Grid>
               </Grid>
-            </Grid>
-          </Box>
-        </CardContent>
-        <Divider />
-        <CardActions sx={{ justifyContent: 'flex-end' }}>
-          <Button variant="contained">
-            Save details
-          </Button>
-        </CardActions>
-      </Card>
-    </form>
+            </Box>
+          </CardContent>
+          <Divider />
+    
+    
+        </Card>
+        
+      </Grid>
+      <Grid
+        xs={12}
+        md={6}
+        lg={6}
+        xl={4}
+        item
+      >
+        <Card sx={{height:'100%'}}>
+          <CardHeader
+            title="Ödeme Bilgileri"
+          />
+          <CardContent sx={{ pt: 2 }}>
+            <Box>
+              <Grid
+                container
+                spacing={5}
+                padding={1}
+              >
+               
+                <Grid
+                  xs={12}
+                  sm={4}
+                  lg={4}
+                  md={4}
+                  item
+                  sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
+                >
+                  <Typography component="p" sx={{borderBottom: '1px solid grey'}}>Paket Fiyatı</Typography>
+                  <Typography component="p" >{packagePrice} TL</Typography>
+                  
+                </Grid>
+                <Grid
+                  xs={12}
+                  sm={4}
+                  lg={4}
+                  md={4}
+                  item
+                  sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
+                >
+                   <Typography component="p"  sx={{borderBottom: '1px solid grey'}}>Ödenen Tutar</Typography>
+                  <Typography component="p" >{advancePayment} TL</Typography>
+           
+                </Grid>
+
+                <Grid
+                  xs={12}
+                  sm={4}
+                  lg={4}
+                  md={4}
+                  item
+                  sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
+                >
+                   <Typography component="p"  sx={{borderBottom: '1px solid grey'}}>Kalan Ödeme</Typography>
+                  <Typography component="p" >{packagePrice - advancePayment} TL</Typography>
+               
+                </Grid>
+               
+              
+
+              </Grid>
+            </Box>
+          </CardContent>
+          <Divider />
+    
+    
+        </Card>
+        
+      </Grid>
+      <Grid
+        xs={12}
+        md={6}
+        lg={6}
+        xl={4}
+        item
+      >
+        <Card sx={{height:'100%'}}>
+          <CardHeader
+            title="Video Klip ve Fotoğraflar"
+          />
+          <CardContent sx={{ pt: 2 }}>
+            <Box>
+              <Grid
+                container
+                spacing={5}
+                padding={1}
+              >
+               
+                <Grid
+                  xs={12}
+                  sm={6}
+                  lg={6}
+                  md={6}
+                  item
+                  sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
+                >
+                  <Typography component="p" sx={{borderBottom: '1px solid grey'}}>Fotoğraflar</Typography>
+                  <Typography component="p" >{photos ? 'İndir' : 'Yükleme aşamasında'}</Typography>
+                  
+                </Grid>
+          
+
+                <Grid
+                  xs={12}
+                  sm={6}
+                  lg={6}
+                  md={6}
+                  item
+                  sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
+                >
+                   <Typography component="p"  sx={{borderBottom: '1px solid grey'}}>Video</Typography>
+                  <Typography component="p" >{video ? 'İndir' : 'Hazırlanıyor'} </Typography>
+               
+                </Grid>
+               
+              
+
+              </Grid>
+            </Box>
+          </CardContent>
+          <Divider />
+    
+    
+        </Card>
+        
+      </Grid>
+    </Grid>
+    </>
   );
 };
+
