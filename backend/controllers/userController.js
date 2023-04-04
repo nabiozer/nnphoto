@@ -1,249 +1,308 @@
-import asyncHandler from 'express-async-handler';
-import generateToken from '../utils/generateToken.js'
-import User from '../models/UserModel.js';
+import asyncHandler from "express-async-handler";
+import generateToken from "../utils/generateToken.js";
+import User from "../models/UserModel.js";
 
 //  @desc Auth user & get TOKEN
 //  @route POST /api/users/login
 //  @acces Public
 
-const authUser = asyncHandler(async (req,res) => {
-    const {email,password} = req.body
-    const user = await User.findOne({email:email})
+const authUser = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+  const user = await User.findOne({ email: email });
 
-    if (user && (await user.matchPassword(password))) {
-        res.json({
-            _id : user._id,
-            name: user.name,
-            email: user.email,
-            isAdmin: user.isAdmin,
-            deliveryInfo : user.deliveryInfo,
-            reservationInfo :user.reservationInfo,
-            chosen : user.chosen,
-            video : user.video,
-            photos : user.photos,
-            albumDelivered : user.albumDelivered,
-            photoProcessed : user.photoProcessed,
-            token:generateToken(user._id)
-        })
-    } else {
-        res.status(401)
-        console.log('res')
-        throw new Error('Inlavid email or password')
-    }
-})
+  if (user && (await user.matchPassword(password))) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      address: user.address,
+      phoneNumber: user.phoneNumber,
+      reservationInfo: user.reservationInfo,
+      chosen: user.chosen,
+      video: user.video,
+      photos: user.photos,
+      albumDelivered: user.albumDelivered,
+      photoProcessed: user.photoProcessed,
+      token: generateToken(user._id),
+    });
+  } else {
+    res.status(401);
+    console.log("res");
+    throw new Error("Inlavid email or password");
+  }
+});
 
-//  @desc Get user profile 
+//  @desc Get user profile
 //  @route GET /api/users/profile
 //  @acces Private
 
-const getUserProfile = asyncHandler(async (req,res) => {
-    
-    const user = await User.findById(req.user._id)
+const getUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
 
-    if(user) {
-        res.json({
-            _id : user._id,
-            name: user.name,
-            email: user.email,
-            isAdmin: user.isAdmin,
-            deliveryInfo : user.deliveryInfo,
-            reservationInfo :user.reservationInfo,
-            chosen : user.chosen,
-            video : user.video,
-            photos : user.photos,
-            albumDelivered : user.albumDelivered,
-            photoProcessed : user.photoProcessed,
-        })
-    }else {
-        res.status(404)
-        throw new Error('User not found')
-    }
-   
-})
+  if (user) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      address: user.address,
+      phoneNumber: user.phoneNumber,
+      reservationInfo: user.reservationInfo,
+      chosen: user.chosen,
+      video: user.video,
+      photos: user.photos,
+      albumDelivered: user.albumDelivered,
+      photoProcessed: user.photoProcessed,
+    });
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});
 
 //  @desc   Register a new User
 //  @route POST /api/users/login
 //  @acces Public
 
-const registerUser = asyncHandler(async (req,res) => {
-    const {name,email,password,adress,phoneNumber,date,place,packagePrice,packageDetails,advancePayment,album} = req.body
-    const userExist= await User.findOne({email})
+const registerUser = asyncHandler(async (req, res) => {
+  const {
+    name,
+    email,
+    password,
+    address,
+    phoneNumber,
+    date,
+    place,
+    packagePrice,
+    packageDetails,
+    advancePayment,
+    album,
+  } = req.body;
+  const userExist = await User.findOne({ email });
 
-    if(userExist) {
-        res.status(400)
-        throw new Error('User already exists')
-    }
-    const user = await User.create({name,email,password,deliveryInfo:{adress,phoneNumber},reservationInfo:{date,place,packagePrice,packageDetails,advancePayment,album}})
-    if(user) {
-        res.status(201).json({
-            _id : user._id,
-            name: user.name,
-            email: user.email,
-            isAdmin: user.isAdmin,
-            deliveryInfo : user.deliveryInfo,
-            reservationInfo :user.reservationInfo,
-            chosen : user.chosen,
-            video : user.video,
-            photos : user.photos,
-            albumDelivered : user.albumDelivered,
-            photoProcessed : user.photoProcessed,
-            album :user.album,
-            token:generateToken(user._id)
-        })
-    } else {
-        res.status(401)
-        throw new Error('User not found')
-    }
-   
-  
-})
+  if (userExist) {
+    res.status(400);
+    throw new Error("User already exists");
+  }
+  const user = await User.create({
+    name,
+    email,
+    password,
+    address,
+    phoneNumber,
+    reservationInfo: {
+      date,
+      place,
+      packagePrice,
+      packageDetails,
+      advancePayment,
+      album,
+    },
+  });
+  if (user) {
+    res.status(201).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      phonenNumber: user.phonenNumber,
+      address: user.address,
+      phoneNumber: user.phoneNumber,
+      reservationInfo: user.reservationInfo,
+      chosen: user.chosen,
+      video: user.video,
+      photos: user.photos,
+      albumDelivered: user.albumDelivered,
+      photoProcessed: user.photoProcessed,
+      album: user.album,
+      token: generateToken(user._id),
+    });
+  } else {
+    res.status(401);
+    throw new Error("User not found");
+  }
+});
 
-//  @desc Get user profile 
+//  @desc Get user profile
 //  @route PUT /api/users/profile
 //  @acces Private
 
-const updateUserProfile = asyncHandler(async (req,res) => {
-    
-    const user = await User.findById(req.user._id)
+const updateUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
 
-    if(user) {
-        
-        if(req.body.password) {
-            user.password = req.body.password || user.password
-        }
-
-        user.deliveryInfo = req.body.deliveryInfo || user.deliveryInfo
-        user.reservationInfo = req.body.reservationInfo || user.reservationInfo
-        user.chosen = req.body.chosen || user.chosen
-        user.video = req.body.video || user.video
-        user.photos = req.body.photos || user.photos
-        user.albumDelivered = req.body.albumDelivered || user.albumDelivered
-        user.photoProcessed = req.body.photoProcessed || user.photoProcessed
-        user.album = req.body.album || user.album
-        user.isDone = req.body.isDone || user.isDone
-       
-        const updatedUser = await user.save();
-        res.json({
-            _id : updatedUser._id,
-            name: updatedUser.name,
-            email: updatedUser.email,
-            isAdmin: updatedUser.isAdmin,
-            deliveryInfo : updatedUser.deliveryInfo,
-            reservationInfo :updatedUser.reservationInfo,
-            chosen : updatedUser.chosen,
-            video : updatedUser.video,
-            photos : updatedUser.photos,
-            albumDelivered : updatedUser.albumDelivered,
-            photoProcessed : updatedUser.photoProcessed,
-            isDone : updatedUser.isDone,
-        })
-    }else {
-        res.status(404)
-        throw new Error('User not found')
+  if (user) {
+    if (req.body.password) {
+      user.password = req.body.password || user.password;
     }
-   res.send('Succes')
-})
+    const reservationInfo = {
+      advancePayment:
+        req.body.advancePayment || user.reservationInfo.advancePayment,
+      date: req.body.date || user.reservationInfo.date,
+      album: req.body.album || user.reservationInfo.album,
+      packageDetails:
+        req.body.packageDetails || user.reservationInfo.packageDetails,
+      packagePrice: req.body.packagePrice || user.reservationInfo.packagePrice,
+      place: req.body.place || user.reservationInfo.place,
+    };
 
+    const chosen = {
+      album: {
+        albumName: req.body.albumName || user.chosen.album.albumName,
+        colorCode: req.body.colorCode || user.chosen.album.colorCode,
+      },
+      photosChosen: req.body.photosChosen || user.chosen.photosChosen,
+      poster: req.body.poster || user.chosen.poster,
+      cover: req.body.cover || user.chosen.cover,
+      coverText: req.body.cover || user.chosen.coverText,
+    };
+    user.address = req.body.address || user.address;
+    user.phone = req.body.phone || user.phone;
+    user.reservationInfo = reservationInfo;
+    user.chosen = chosen;
+    user.video = req.body.video || user.video;
+    user.photos = req.body.photos || user.photos;
+    user.albumDelivered = req.body.albumDelivered || user.albumDelivered;
+    user.photoProcessed = req.body.photoProcessed || user.photoProcessed;
+    user.album = req.body.album || user.album;
+    user.isDone = req.body.isDone || user.isDone;
+
+    const updatedUser = await user.save();
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      address: user.address,
+      phoneNumber: user.phoneNumber,
+      reservationInfo: updatedUser.reservationInfo,
+      chosen: updatedUser.chosen,
+      video: updatedUser.video,
+      photos: updatedUser.photos,
+      albumDelivered: updatedUser.albumDelivered,
+      photoProcessed: updatedUser.photoProcessed,
+      isDone: updatedUser.isDone,
+    });
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+  res.send("Succes");
+});
 
 //  @desc Get users
 //  @route GET /api/users
 //  @acces Private Admin
 
-const getUsers = asyncHandler(async (req,res) => {
+const getUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({});
 
-    const users = await User.find({})
-
-    res.json(users)
-    
-})
+  res.json(users);
+});
 
 //  @desc Delete user
 //  @route GET /api/users:id
 //  @acces Private Admin
 
-const deleteUser = asyncHandler(async (req,res) => {
-
-    const user = await User.findById(req.params.id)
-    if(user) {
-        await user.remove()
-        res.json({message:'user removed'})
-    } else {
-        res.status(404)
-        throw new Error('user not found')
-    }
-    
-    
-})
+const deleteUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (user) {
+    await user.remove();
+    res.json({ message: "user removed" });
+  } else {
+    res.status(404);
+    throw new Error("user not found");
+  }
+});
 
 //  @desc Get User by ID
 //  @route GET /api/users:id
 //  @acces Private Admin
 
-const getUserById = asyncHandler(async (req,res) => {
-
-    const user = await User.findById(req.params.id).select('-password')
-    if(user) {
-        res.json(user)
-    } else {
-        res.status(404)
-        throw new Error('user not found')
-    }
-    
-    
-    
-})
-//  @desc Update User profile 
+const getUserById = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id).select("-password");
+  if (user) {
+    res.json(user);
+  } else {
+    res.status(404);
+    throw new Error("user not found");
+  }
+});
+//  @desc Update User profile
 //  @route PUT /api/users/:id
 //  @acces Private admin
 
-const updateUser = asyncHandler(async (req,res) => {
-    
-    const user = await User.findById(req.params.id)
+const updateUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
 
-    if(user) {
-        
-        if(req.body.password) {
-            user.password = req.body.password || user.password
-        }
-        user.name = req.body.name || user.name
-        user.email = req.body.email || user.email
-        user.deliveryInfo = req.body.deliveryInfo || user.deliveryInfo
-        user.reservationInfo = req.body.reservationInfo || user.reservationInfo
-        user.chosen = req.body.chosen || user.chosen
-        user.video = req.body.video || user.video
-        user.photos = req.body.photos || user.photos
-        user.albumDelivered = req.body.albumDelivered || user.albumDelivered
-        user.photoProcessed = req.body.photoProcessed || user.photoProcessed
-        user.album = req.body.album || user.album
-       
-        const updatedUser = await user.save();
-        res.json({
-            _id : updatedUser._id,
-            name: updatedUser.name,
-            email: updatedUser.email,
-            isAdmin: updatedUser.isAdmin,
-            deliveryInfo : updatedUser.deliveryInfo,
-            reservationInfo :updatedUser.reservationInfo,
-            chosen : updatedUser.chosen,
-            video : updatedUser.video,
-            photos : updatedUser.photos,
-            albumDelivered : updatedUser.albumDelivered,
-            photoProcessed : updatedUser.photoProcessed,
-        })
-    }else {
-        res.status(404)
-        throw new Error('User not found')
+ const reservationInfo = {
+      advancePayment:
+        req.body.advancePayment || user.reservationInfo.advancePayment,
+      date: req.body.date || user.reservationInfo.date,
+      album: req.body.album || user.reservationInfo.album,
+      packageDetails:
+        req.body.packageDetails || user.reservationInfo.packageDetails,
+      packagePrice: req.body.packagePrice || user.reservationInfo.packagePrice,
+      place: req.body.place || user.reservationInfo.place,
+    };
+
+    const chosen = {
+      album: {
+        albumName: req.body.albumName || user.chosen.album.albumName,
+        colorCode: req.body.colorCode || user.chosen.album.colorCode,
+      },
+      photosChosen: req.body.photosChosen || user.chosen.photosChosen,
+      poster: req.body.poster || user.chosen.poster,
+      cover: req.body.cover || user.chosen.cover,
+      coverText: req.body.cover || user.chosen.coverText,
+    };
+
+  if (user) {
+    if (req.body.password) {
+      user.password = req.body.password || user.password;
     }
-   res.send('Succes')
-})
 
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    user.address = req.body.address || user.address;
+    user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
+    user.reservationInfo = reservationInfo;
+    user.chosen = chosen;
+    user.video = req.body.video || user.video;
+    user.photos = req.body.photos || user.photos;
+    user.albumDelivered = req.body.albumDelivered || user.albumDelivered;
+    user.photoProcessed = req.body.photoProcessed || user.photoProcessed;
+    user.album = req.body.album || user.album;
 
-export { authUser,getUserProfile ,registerUser,updateUserProfile,getUsers,deleteUser,updateUser,getUserById}
+    const updatedUser = await user.save();
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      address: updatedUser.address,
+      phoneNumber: updatedUser.phoneNumber,
+      reservationInfo: updatedUser.reservationInfo,
+      chosen: updatedUser.chosen,
+      video: updatedUser.video,
+      photos: updatedUser.photos,
+      albumDelivered: updatedUser.albumDelivered,
+      photoProcessed: updatedUser.photoProcessed,
+    });
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+  res.send("Succes");
+});
 
-
-
-
-
-
-
-
+export {
+  authUser,
+  getUserProfile,
+  registerUser,
+  updateUserProfile,
+  getUsers,
+  deleteUser,
+  updateUser,
+  getUserById,
+};
