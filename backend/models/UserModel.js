@@ -58,6 +58,10 @@ const userSchema = mongoose.Schema(
         type: String,
         default: "25x65 - 2 Adet Aile Albumu -50x70 poster",
       },
+      isPoster:{
+        type:Boolean,
+        default: false,
+      }
     },
 
     chosen: {
@@ -81,21 +85,19 @@ const userSchema = mongoose.Schema(
       coverText: {
         type: String,
       },
+      isChoiced:{
+        type: Boolean,
+      }
     },
     photos: {
       type: String,
     },
-
     video: {
       type: String,
     },
-    albumDelivered: {
-      type: Boolean,
-      default: false,
-    },
-    photoProcessed: {
-      type: Boolean,
-      default: false,
+    status: {
+      type: String,
+      default: 'Çekim Bekleniyor',
     },
     isAdmin: {
       type: Boolean,
@@ -103,10 +105,8 @@ const userSchema = mongoose.Schema(
       default: false,
     },
 
-    isDone: {
-      type: Boolean,
-      default: false,
-    },
+   
+    
   },
   {
     timestamps: true,

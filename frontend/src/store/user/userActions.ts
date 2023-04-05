@@ -115,12 +115,12 @@ export const fetchUsers = createAsyncThunk('data/getUsers', async () => {
 //GetUserProfile -> get profile for users
 export const getProfile = createAsyncThunk('data/getProfile', async () => {
 
-    const response = await api.get('/user/profile');
+    const response = await api.get('/users/profile');
     return response.data;
 });
 
 //updateProfile
-export const updateProfile = createAsyncThunk('data/updateProfile', async (id?:any,data?:any) => {
+export const updateProfile = createAsyncThunk('data/updateProfile', async ({id,data}:any) => {
   
     const response = await api.put(`/users/${id}`,data);
     return response.data;

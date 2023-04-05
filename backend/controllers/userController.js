@@ -60,7 +60,72 @@ const getUserProfile = asyncHandler(async (req, res) => {
     throw new Error("User not found");
   }
 });
+//  @desc Get user profile
+//  @route PUT /api/users/profile
+//  @acces Private
 
+const updateUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    if (req.body.password) {
+      user.password = req.body.password || user.password;
+    }
+    // const reservationInfo = {
+    //   advancePayment:
+    //     req.body.advancePayment || user.reservationInfo.advancePayment,
+    //   date: req.body.date || user.reservationInfo.date,
+    //   album: req.body.album || user.reservationInfo.album,
+    //   packageDetails:
+    //     req.body.packageDetails || user.reservationInfo.packageDetails,
+    //   packagePrice: req.body.packagePrice || user.reservationInfo.packagePrice,
+    //   place: req.body.place || user.reservationInfo.place,
+    //   isPoster: req.body.isPoster || user.reservationInfo.isPoster,
+    // };
+
+    const chosen = {
+      album: {
+        albumName: req.body.albumName || user.chosen.album.albumName,
+        colorCode: req.body.colorCode || user.chosen.album.colorCode,
+      },
+      photosChosen: req.body.photosChosen || user.chosen.photosChosen,
+      poster: req.body.poster || user.chosen.poster,
+      cover: req.body.cover || user.chosen.cover,
+      coverText: req.body.coverText || user.chosen.coverText,
+      isChoiced: req.body.isChoiced || user.reservationInfo.isChoiced,
+    };
+    // user.address = req.body.address || user.address;
+    // user.phone = req.body.phone || user.phone;
+    // user.reservationInfo = reservationInfo;
+    user.chosen = chosen;
+    // user.video = req.body.video || user.video;
+    // user.photos = req.body.photos || user.photos;
+    
+    // user.status = req.body.status || user.status;
+    // user.album = req.body.album || user.album;
+    // user.isDone = req.body.isDone || user.isDone;
+
+    const updatedUser = await user.save();
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      address: user.address,
+      phoneNumber: user.phoneNumber,
+      reservationInfo: updatedUser.reservationInfo,
+      chosen: updatedUser.chosen,
+      video: updatedUser.video,
+      photos: updatedUser.photos,
+     status:updatedUser.status,
+      isDone: updatedUser.isDone,
+    });
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+  res.send("Succes");
+});
 //  @desc   Register a new User
 //  @route POST /api/users/login
 //  @acces Public
@@ -78,6 +143,7 @@ const registerUser = asyncHandler(async (req, res) => {
     packageDetails,
     advancePayment,
     album,
+    isPoster,
   } = req.body;
   const userExist = await User.findOne({ email });
 
@@ -98,6 +164,7 @@ const registerUser = asyncHandler(async (req, res) => {
       packageDetails,
       advancePayment,
       album,
+      isPoster
     },
   });
   if (user) {
@@ -122,72 +189,6 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error("User not found");
   }
-});
-
-//  @desc Get user profile
-//  @route PUT /api/users/profile
-//  @acces Private
-
-const updateUserProfile = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user._id);
-
-  if (user) {
-    if (req.body.password) {
-      user.password = req.body.password || user.password;
-    }
-    const reservationInfo = {
-      advancePayment:
-        req.body.advancePayment || user.reservationInfo.advancePayment,
-      date: req.body.date || user.reservationInfo.date,
-      album: req.body.album || user.reservationInfo.album,
-      packageDetails:
-        req.body.packageDetails || user.reservationInfo.packageDetails,
-      packagePrice: req.body.packagePrice || user.reservationInfo.packagePrice,
-      place: req.body.place || user.reservationInfo.place,
-    };
-
-    const chosen = {
-      album: {
-        albumName: req.body.albumName || user.chosen.album.albumName,
-        colorCode: req.body.colorCode || user.chosen.album.colorCode,
-      },
-      photosChosen: req.body.photosChosen || user.chosen.photosChosen,
-      poster: req.body.poster || user.chosen.poster,
-      cover: req.body.cover || user.chosen.cover,
-      coverText: req.body.cover || user.chosen.coverText,
-    };
-    user.address = req.body.address || user.address;
-    user.phone = req.body.phone || user.phone;
-    user.reservationInfo = reservationInfo;
-    user.chosen = chosen;
-    user.video = req.body.video || user.video;
-    user.photos = req.body.photos || user.photos;
-    user.albumDelivered = req.body.albumDelivered || user.albumDelivered;
-    user.photoProcessed = req.body.photoProcessed || user.photoProcessed;
-    user.album = req.body.album || user.album;
-    user.isDone = req.body.isDone || user.isDone;
-
-    const updatedUser = await user.save();
-    res.json({
-      _id: updatedUser._id,
-      name: updatedUser.name,
-      email: updatedUser.email,
-      isAdmin: updatedUser.isAdmin,
-      address: user.address,
-      phoneNumber: user.phoneNumber,
-      reservationInfo: updatedUser.reservationInfo,
-      chosen: updatedUser.chosen,
-      video: updatedUser.video,
-      photos: updatedUser.photos,
-      albumDelivered: updatedUser.albumDelivered,
-      photoProcessed: updatedUser.photoProcessed,
-      isDone: updatedUser.isDone,
-    });
-  } else {
-    res.status(404);
-    throw new Error("User not found");
-  }
-  res.send("Succes");
 });
 
 //  @desc Get users
@@ -233,17 +234,24 @@ const getUserById = asyncHandler(async (req, res) => {
 //  @acces Private admin
 
 const updateUser = asyncHandler(async (req, res) => {
+  
   const user = await User.findById(req.params.id);
 
- const reservationInfo = {
+
+  if (user) {
+    if (req.body.password) {
+      user.password = req.body.password || user.password;
+    }
+
+    const reservationInfo = {
       advancePayment:
         req.body.advancePayment || user.reservationInfo.advancePayment,
       date: req.body.date || user.reservationInfo.date,
       album: req.body.album || user.reservationInfo.album,
-      packageDetails:
-        req.body.packageDetails || user.reservationInfo.packageDetails,
+      packageDetails:req.body.packageDetails || user.reservationInfo.packageDetails,
       packagePrice: req.body.packagePrice || user.reservationInfo.packagePrice,
       place: req.body.place || user.reservationInfo.place,
+      isPoster:req.body.isPoster || user.reservationInfo.isPoster,
     };
 
     const chosen = {
@@ -254,13 +262,9 @@ const updateUser = asyncHandler(async (req, res) => {
       photosChosen: req.body.photosChosen || user.chosen.photosChosen,
       poster: req.body.poster || user.chosen.poster,
       cover: req.body.cover || user.chosen.cover,
-      coverText: req.body.cover || user.chosen.coverText,
+      coverText: req.body.coverText || user.chosen.coverText,
+      isChoiced:req.body.isChoiced ,
     };
-
-  if (user) {
-    if (req.body.password) {
-      user.password = req.body.password || user.password;
-    }
 
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
@@ -270,9 +274,9 @@ const updateUser = asyncHandler(async (req, res) => {
     user.chosen = chosen;
     user.video = req.body.video || user.video;
     user.photos = req.body.photos || user.photos;
-    user.albumDelivered = req.body.albumDelivered || user.albumDelivered;
-    user.photoProcessed = req.body.photoProcessed || user.photoProcessed;
+    user.status = req.body.status || user.status;
     user.album = req.body.album || user.album;
+  
 
     const updatedUser = await user.save();
     res.json({
@@ -286,8 +290,7 @@ const updateUser = asyncHandler(async (req, res) => {
       chosen: updatedUser.chosen,
       video: updatedUser.video,
       photos: updatedUser.photos,
-      albumDelivered: updatedUser.albumDelivered,
-      photoProcessed: updatedUser.photoProcessed,
+     status:updatedUser.status,
     });
   } else {
     res.status(404);

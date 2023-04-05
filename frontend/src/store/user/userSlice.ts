@@ -1,6 +1,5 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { authUser, deleteUser, fetchUsers, getUserById, registerUser, updateUserByAdmin } from './userActions';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { authUser, deleteUser, fetchUsers, getProfile, getUserById, registerUser, updateUserByAdmin } from './userActions';
 
 interface User {
     name: string;
@@ -16,6 +15,7 @@ interface User {
         packagePrice: string;
         packageDetails: string;
         advancePayment: number;
+        isPoster:boolean;
     };
 
     chosen: {
@@ -27,6 +27,7 @@ interface User {
         poster: string;
         cover: string;
         coverText: string;
+        isChoiced: boolean;
     };
     photos: string;
     video: string;
@@ -37,6 +38,7 @@ interface User {
     album: string;
     isDone: boolean;
 }
+
 
 const userSlice = createSlice({
     name: 'user',
@@ -165,6 +167,19 @@ const userSlice = createSlice({
             .addCase(updateUserByAdmin.rejected, (state, action) => {
                 state.userUpdate.loading = false;
                 state.userUpdate.error = action.error.message || '';
+            })
+            .addCase(getProfile.pending, (state) => {
+                state.userDetails.loading = true;
+                state.userDetails.error = '';
+            })
+            .addCase(getProfile.fulfilled, (state, action) => {
+                state.userDetails.data = action.payload;
+                state.userDetails.loading = false;
+                state.userDetails.error = '';
+            })
+            .addCase(getProfile.rejected, (state, action) => {
+                state.userDetails.loading = false;
+                state.userDetails.error = action.error.message || '';
             })
     },
 });

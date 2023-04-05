@@ -1,30 +1,35 @@
 import {
-  Box, Card, CardActions, CardContent,
+  Box, Card, CardContent,
   CardHeader,
-  Divider, Grid, Switch, Typography
+  Divider, Grid, Typography
 } from '@mui/material';
-import { useAppDispatch } from '../../../../../../store';
-import { getUserById, updateUserByAdmin } from '../../../../../../store/user/userActions';
-import { StatusType } from './type';
 
-
-export const AccountProfileDetails = ({ userDetails }: any) => {
-
-  const { reservationInfo: { date, place, packagePrice, packageDetails, advancePayment, album, photos, video }, _id } = userDetails;
-  const dispatch = useAppDispatch();
-
-
-  const onChangeStatus = async (status: string) => {
-    const data = {
-      status: status
-    }
-    const res = await dispatch(updateUserByAdmin({ id: _id, data }));
-    if (res.meta.requestStatus === 'fulfilled') {
-
-      dispatch(getUserById(_id));
-    }
-
+const states = [
+  {
+    value: 'alabama',
+    label: 'Alabama'
+  },
+  {
+    value: 'new-york',
+    label: 'New York'
+  },
+  {
+    value: 'san-francisco',
+    label: 'San Francisco'
+  },
+  {
+    value: 'los-angeles',
+    label: 'Los Angeles'
   }
+];
+
+export const ProfileDetails = ({ userDetails }: any) => {
+
+  const { reservationInfo: { date, place, packagePrice, packageDetails, advancePayment, album, photos, video } } = userDetails;
+
+
+
+
 
   return (
     <>
@@ -54,133 +59,45 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
                   gutterBottom
                   variant="h5"
                 >
-                  {userDetails?.name}
+                  {userDetails.name}
                 </Typography>
                 <Typography
                   color="text.secondary"
                   component="p"
                 >
-                  {userDetails?.email}
+                  {userDetails.email}
                 </Typography>
                 <Typography
                   color="text.secondary"
                   component="p"
                 >
-                  {userDetails?.phoneNumber}
+                  {userDetails.phoneNumber}
                 </Typography>
                 <Typography
                   color="text.secondary"
                   component="p"
                 >
-                  {userDetails?.address}
+                  {userDetails.address}
                 </Typography>
+
                 <Typography
-                  color="text.secondary"
+                  color="text.primary" 
                   component="p"
-                  sx={{ marginTop: '0.5rem' }}
+                  sx={{marginTop:'0.5rem'}}
                 >
-                  {userDetails?.status} {userDetails?.status === StatusType.Send ? '' : 'Aşamasında'} 
+                  {userDetails?.status} Aşamasında
                 </Typography>
-                
-                
               </Box>
             </CardContent>
-            <Divider/>
-            <Typography
-                  color="text.secondary"
-                  component="p"
-                  sx={{ marginTop: '0.5rem' }}
-                >
-                  
-                </Typography>
-            <CardActions>
-           
-            <Box component="div" sx={{ display: 'flex', flexDirection: 'row',width:'100%',justifyContent: 'space-between',marginTop:'1rem'}} >
-                  <Box component="div" sx={{ display: 'flex', justify: 'center', flexDirection: 'column', alignItems: 'center' }}>
-                    <Typography
-                      color="text.secondary"
-                      component="p"
-                    >
-                      {StatusType.Shooting}
-                    </Typography>
-                    <Switch
-                      checked={userDetails?.status === StatusType.Shooting}
-                      disabled={userDetails?.status === StatusType.Shooting}
-                      color={StatusType.Shooting === userDetails?.status ? 'secondary' :'default'}
-                      onChange={async (e) => {
-                        onChangeStatus(StatusType.Shooting)
-                      }}
-                    ></Switch>
 
-                  </Box>
-                  <Box component="div" sx={{ display: 'flex', justify: 'center', flexDirection: 'column', alignItems: 'center' }}>
-                    <Typography
-                      color="text.secondary"
-                      component="p"
-                    >
-                      {StatusType.Choice}
-                    </Typography>
-                    <Switch
-                      checked={userDetails?.status === StatusType.Choice}
-                      disabled={userDetails?.status === StatusType.Choice}
-                      color={StatusType.Choice === userDetails?.status ? 'secondary' :'default'}
-                      onChange={async (e) => {
-                        onChangeStatus(StatusType.Choice)
-                      }}
-                     
-                    ></Switch>
-                  </Box>
-                  <Box component="div" sx={{ display: 'flex', justify: 'center', flexDirection: 'column', alignItems: 'center' }}>
-                    <Typography
-                      color="text.secondary"
-                      component="p"
-                    >
-                      {StatusType.Album}
-                    </Typography>
-                    <Switch
-                      checked={userDetails?.status === StatusType.Album}
-                      disabled={userDetails?.status === StatusType.Album}
-                      color={StatusType.Album === userDetails?.status ? 'secondary' :'default'}
-                      onChange={async (e) => {
-                        onChangeStatus(StatusType.Album)
-                      }}
-                    ></Switch>
-
-                  </Box>
-                  <Box component="div" sx={{ display: 'flex', justify: 'center', flexDirection: 'column', alignItems: 'center' }}>
-                    <Typography
-                      color="text.secondary"
-                      component="p"
-                    >
-                      {StatusType.Progress}
-                    </Typography>
-                    <Switch
-                      checked={userDetails?.status === StatusType.Progress}
-                      disabled={userDetails?.status === StatusType.Progress}
-                      color={StatusType.Progress === userDetails?.status ? 'secondary' :'default'}
-                      onChange={async (e) => {
-                        onChangeStatus(StatusType.Progress)
-                      }}
-                    ></Switch>
-                  </Box>
-                  <Box component="div" sx={{ display: 'flex', justify: 'center', flexDirection: 'column', alignItems: 'center' }}>
-                    <Typography
-                      color="text.secondary"
-                      component="p"
-                    >
-                      {StatusType.Send}
-                    </Typography>
-                    <Switch
-                      checked={userDetails?.status === StatusType.Send}
-                      disabled={userDetails?.status === StatusType.Send}
-                      onChange={async (e) => {
-                        onChangeStatus(StatusType.Send)
-                      }}
-                      color={StatusType.Send === userDetails?.status ? 'secondary' :'default'}
-                    ></Switch>
-                  </Box>
-                </Box>
-    </CardActions>
+            {/* <CardActions>
+      <Button
+        fullWidth
+        variant="text"
+      >
+        Upload picture
+      </Button>
+    </CardActions> */}
           </Card>
         </Grid>
         <Grid
@@ -375,7 +292,7 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
 
         </Grid>
       </Grid>
-
+      
     </>
   );
 };

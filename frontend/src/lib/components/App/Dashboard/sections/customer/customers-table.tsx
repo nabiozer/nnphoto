@@ -20,6 +20,7 @@ import { useAppDispatch } from '../../../../../../store';
 import { deleteUser, fetchUsers } from '../../../../../../store/user/userActions';
 import { IUser } from '../../../../../../types/user';
 import { useRouter } from 'next/router';
+import InfoIcon from '@mui/icons-material/Info';
 
 export const CustomersTable = (props: any) => {
   const {
@@ -86,6 +87,9 @@ export const CustomersTable = (props: any) => {
               <TableCell>
                 Deposit
               </TableCell>
+              <TableCell>
+                Durum
+              </TableCell>
               <TableCell />
             </TableRow>
           </TableHead>
@@ -148,6 +152,9 @@ export const CustomersTable = (props: any) => {
                     {customer.reservationInfo.advancePayment}
                   </TableCell>
                   <TableCell>
+                   {customer.status}
+                  </TableCell>
+                  <TableCell>
                     {/* {createdAt} */}
                   </TableCell>
                   <TableCell>
@@ -155,7 +162,7 @@ export const CustomersTable = (props: any) => {
                       <EditIcon />
                     </IconButton>
                     <IconButton onClick={async () => router.push(`/dashboard/customers/details/${customer._id}`)}>
-                      <EditIcon />
+                      <InfoIcon />
                     </IconButton>
                     <IconButton onClick={async () => {
                       const res = await dispatch(deleteUser(

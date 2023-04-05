@@ -28,7 +28,7 @@ export default (props: Props) => {
         );
     }
     return (
-        <Box component="div" sx={{ p: 3 }}>
+        <Box component="div" sx={{ p: 3 ,display: 'block' }}>
             <hr></hr>
             <Grid container className="custom-grid" sx={{ maxWidth: '1000px' }}>
                 <Grid item xs={12} md={6} sm={6}>

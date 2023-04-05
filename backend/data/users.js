@@ -33,11 +33,10 @@ const users = [
       photosChosen: ["IMG-0738.JPG", "IMG-0739.JPG"],
       poster: "IMG-0738.JPG",
       cover: "IMG-0738.JPG",
+      isChoiced:false
     },
     photos: "",
     video: "",
-    albumDelivered: false,
-    photoProcessed: false,
     isAdmin: false,
   },
   {
@@ -54,6 +53,7 @@ const users = [
       packagePrice: 1700,
       advancePayment: 300,
       packageDetails: "fotoğraf çekimi ve video klip (1dk)",
+      isPoster:true
     },
 
     chosen: {
@@ -65,11 +65,10 @@ const users = [
       poster: "IMG-0738.JPG",
       cover: "IMG-0738.JPG",
       coverText: "xx&xx 2013",
+      isChoiced:false,
     },
     photos: "",
     video: "",
-    albumDelivered: false,
-    photoProcessed: false,
     isAdmin: false,
   },
   {
@@ -86,6 +85,7 @@ const users = [
       packagePrice: 1700,
       advancePayment: 300,
       packageDetails: "fotoğraf çekimi ve video klip (1dk)",
+      isPoster:false
     },
 
     chosen: {
@@ -97,11 +97,11 @@ const users = [
       poster: "IMG-0738.JPG",
       cover: "IMG-0738.JPG",
       coverText: "xx&xx 2013",
+      isChoiced:true,
     },
     photos: "",
     video: "",
-    albumDelivered: false,
-    photoProcessed: false,
+    status:"Albüm Bekleniyor",
     isAdmin: false,
   },
   {
@@ -129,11 +129,10 @@ const users = [
       poster: "IMG-0738.JPG",
       cover: "IMG-0738.JPG",
       coverText: "xx&xx 2013",
+      isChoiced:false,
     },
     photos: "",
     video: "",
-    albumDelivered: false,
-    photoProcessed: false,
     isAdmin: false,
   },
 ];

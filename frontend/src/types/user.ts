@@ -42,8 +42,7 @@ export interface IUser {
     chosen :IChosen,
     photos:string,
     video:string,
-    albumDelivered:boolean
-    photoProcessed:boolean
+    status:string,
     isAdmin : boolean
     isDone:{
         type:Boolean,
