@@ -6,7 +6,7 @@ interface IProps {
     fieldName: string;
 }
 
-const useWatch = ({ control, fieldName, defaultValue }: IProps) => {
+const useWatch = ({ control, fieldName, defaultValue }: any) => {
     return useHookWatch({ control, name: fieldName, defaultValue });
 };
 

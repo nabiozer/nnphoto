@@ -2,10 +2,12 @@ import { Box, Button, Card, CardActions, CardContent, CardHeader, Divider, Grid 
 import { useRouter } from "next/router";
 
 import { useEffect } from 'react';
+import { useSelector } from "react-redux";
 import * as yup from 'yup';
-import { useAppDispatch } from "../../../../../../store";
+import { RootState, useAppDispatch } from "../../../../../../store";
 import { getUserById, updateUserByAdmin } from "../../../../../../store/user/userActions";
 import useForm from "../../../../../_hooks/useForm";
+import useWatch from "../../../../../_hooks/useWatch";
 import Input from "../../../../Form/Input";
 
 
@@ -16,7 +18,7 @@ const AlbumChoice = ({ userDetails }: any) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const userId = router.query.id;
-  console.log(userId);
+  const photoList = useSelector((state: RootState) => state.photo.photoList.data)
   const defaultValues = {
 
   }
@@ -45,10 +47,9 @@ const AlbumChoice = ({ userDetails }: any) => {
     setValue('cover', cover);
     setValue('coverText', coverText);
 
-
-
   }, [colorCode, albumName, poster, cover, coverText]);
 
+  const AlbumNameVal = useWatch({ control, fieldName: 'albumName' })
 
   const onAlbumSave = async (dataNew: any) => {
 
@@ -80,7 +81,16 @@ const AlbumChoice = ({ userDetails }: any) => {
                 padding={1}
 
               >
-
+              <Grid
+                xs={12}
+                sm={12}
+                lg={12}
+                md={12}
+                item
+                sx={{ justify: 'center', alignItems: 'center', width: '100%' }}
+              >
+                  <Box component='img' src={`/images/albums/${AlbumNameVal.split('-')[1]}.jpeg`} sx={{ width: '100%' }}></Box>
+                </Grid>
                 <Grid
                   xs={12}
                   sm={6}

@@ -8,7 +8,7 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../../../../../../../store';
 import { createPhoto, getPhotoById, updatePhoto } from '../../../../../../../store/photo/photoActions';
@@ -35,6 +35,8 @@ function Copyright(props: any) {
 
 
 export default function PhotoForm({ type, id }: any) {
+
+   
     const dispatch = useAppDispatch();
     const photoDetails = useSelector((state: RootState) => state.photo.photoDetails.data)
     const isEdit = id ? true : false;
@@ -61,11 +63,12 @@ export default function PhotoForm({ type, id }: any) {
             const getPhoto = async () => {
                 const res = await dispatch(getPhotoById(id))
                 if (res.meta.requestStatus === 'fulfilled') {
-                    const { property, image, description, src } = res?.payload
+                    const { property, image, description, src ,colorCodes} = res?.payload
                     setValue('property', property);
                     setValue('image', image);
                     setValue('description', description);
                     setValue('src', src);
+                    
                 }
             }
             getPhoto()

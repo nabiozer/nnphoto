@@ -2,7 +2,8 @@
 export enum PhotoProperty {
     Home = 'home',
     Gallery = 'galeri',
-    Video = 'video'
+    Video = 'video',
+    Album = 'album'
 }
 
 
