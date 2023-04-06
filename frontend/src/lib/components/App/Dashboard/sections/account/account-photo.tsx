@@ -58,13 +58,6 @@ const PhotoChoice = ({ userDetails }: any) => {
 
   }
 
-  
-
- 
-
-
-
-
   return (
 
     <Grid container spacing={2} padding={3} >

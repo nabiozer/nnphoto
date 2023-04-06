@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 
 import * as yup from 'yup';
 import { useAppDispatch } from "../../../../store";
-import { getUserById, updateUserByAdmin } from "../../../../store/user/userActions";
+import { getProfile, updateProfile, updateUserByAdmin } from "../../../../store/user/userActions";
 import useForm from "../../../_hooks/useForm";
 import Input from "../../Form/Input";
 
@@ -38,9 +38,9 @@ const ProfilePhotoChoice = ({ userDetails }: any) => {
       dataNew.photosChosen,
       ]
     }
-    const res = await dispatch(updateUserByAdmin({ id: _id, data }));
+    const res = await dispatch(updateProfile({ id: _id, data }));
     if (res.meta.requestStatus === 'fulfilled') {
-      dispatch(getUserById(userId));
+      dispatch(getProfile());
       setValue('photosChosen','')
     }
 
@@ -52,9 +52,9 @@ const ProfilePhotoChoice = ({ userDetails }: any) => {
       photosChosen: photosChosen.filter((photo: string, index: number) => index !== i),
 
     }
-    const res = await dispatch(updateUserByAdmin({ id: _id, data }));
+    const res = await dispatch(updateProfile({ id: _id, data }));
     if (res.meta.requestStatus === 'fulfilled') {
-      dispatch(getUserById(userId));
+      dispatch(getProfile());
     }
 
   }
@@ -63,10 +63,10 @@ const ProfilePhotoChoice = ({ userDetails }: any) => {
     const data = {
       isChoiced: true
     }
-    const res = await dispatch(updateUserByAdmin({ id: _id, data }));
+    const res = await dispatch(updateProfile({ id: _id, data }));
     if (res.meta.requestStatus === 'fulfilled') {
      
-      dispatch(getUserById(userId));
+      dispatch(getProfile());
     }
 
   }

@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 
 const photoSchema = mongoose.Schema({
    
-   
     image : {
         type:String,
         
@@ -12,12 +11,11 @@ const photoSchema = mongoose.Schema({
         type:String,
         
     },
-
     description : {
         type:String,
         default:''
     },
-    ul : {
+    src : {
         type:String,
         default:''
     },

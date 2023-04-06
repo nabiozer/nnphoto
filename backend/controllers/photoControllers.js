@@ -35,8 +35,6 @@ const deletePhoto = asyncHandler(async (req,res) => {
         await photo.remove()
         res.json({message:'photo deleted'})
 
-
-
     } else {
         res.status(404)
         throw new Error('Photo not found')
@@ -53,6 +51,7 @@ const createPhoto = asyncHandler(async (req,res) => {
         image:req.body.image,
         description:req.body.description,
         property:req.body.property,
+        src:req.body.src,
 
     })
    const createdPhoto = await photo.save();
@@ -64,18 +63,17 @@ const createPhoto = asyncHandler(async (req,res) => {
 //  @acces Private/Admin
 const updatePhoto = asyncHandler(async (req,res) => {
 
-    const {description,image,property,_id,ul,packageName,packagePrice} = req.body
+    const {description,image,property,src,packageName,packagePrice} = req.body
     const photo = await Photo.findById(req.params.id)
     if(photo) {
 
         photo.image = image || photo.image
         photo.description = description || photo.description
         photo.property = property || photo.property
-        photo.ul = ul || photo.ul
+        photo.src = src || photo.src
         photo.packageName = packageName || photo.packageName
         photo.packagePrice = packagePrice || photo.packagePrice
-        
-
+    
         const updatedPhoto = await photo.save();
         res.json(updatedPhoto)
     } else {

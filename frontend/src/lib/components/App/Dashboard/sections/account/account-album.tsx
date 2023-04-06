@@ -12,7 +12,7 @@ import Input from "../../../../Form/Input";
 
 const AlbumChoice = ({ userDetails }: any) => {
 
-  const { chosen: { album: { colorCode, albumName }, poster, cover, isChoiced ,coverText}, reservationInfo: { isPoster }, _id } = userDetails;
+  const { chosen: { album: { colorCode, albumName }, poster, cover, isChoiced, coverText }, reservationInfo: { isPoster }, _id } = userDetails;
   const dispatch = useAppDispatch();
   const router = useRouter();
   const userId = router.query.id;
@@ -26,14 +26,14 @@ const AlbumChoice = ({ userDetails }: any) => {
       albumName: albumName,
       poster: poster,
       cover: cover,
-      coverText:coverText,
+      coverText: coverText,
     },
     validationSchema: {
-        colorCode:yup.string().required('Bu alanın doldurulması zorunludur.'),
-        albumName:yup.string().required('Bu alanın doldurulması zorunludur.'),
-        cover:yup.string().required('Bu alanın doldurulması zorunludur.'),
-        coverText:yup.string().required('Bu alanın doldurulması zorunludur.'),
-        ...(isPoster && {poster:yup.string().required('Bu alanın doldurulması zorunludur.')}),
+      colorCode: yup.string().required('Bu alanın doldurulması zorunludur.'),
+      albumName: yup.string().required('Bu alanın doldurulması zorunludur.'),
+      cover: yup.string().required('Bu alanın doldurulması zorunludur.'),
+      coverText: yup.string().required('Bu alanın doldurulması zorunludur.'),
+      ...(isPoster && { poster: yup.string().required('Bu alanın doldurulması zorunludur.') }),
     }
   })
 
@@ -47,24 +47,17 @@ const AlbumChoice = ({ userDetails }: any) => {
 
 
 
-  }, [colorCode, albumName, poster, cover,coverText]);
+  }, [colorCode, albumName, poster, cover, coverText]);
 
 
   const onAlbumSave = async (dataNew: any) => {
-    
-    const res = await dispatch(updateUserByAdmin({ id: _id, data:dataNew }));
+
+    const res = await dispatch(updateUserByAdmin({ id: _id, data: dataNew }));
     if (res.meta.requestStatus === 'fulfilled') {
       dispatch(getUserById(userId));
     }
 
   }
-
-
-
-
-
-
-
   return (
 
     <Grid container spacing={2} padding={3} >

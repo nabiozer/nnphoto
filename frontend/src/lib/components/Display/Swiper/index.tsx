@@ -8,7 +8,7 @@ import 'swiper/swiper.min.css';
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, EffectFade, Autoplay]);
 
 interface IProps {
-    imageUrls: string[];   
+    imageUrls: any[];   
     className?: any;
 }
 //eslint-disable-next-line 
@@ -54,7 +54,7 @@ export default (props: IProps) => {
                                 {imageUrls.map((item, i) => (
                                     <SwiperSlide style={{ marginRight: '30px' }} key={i}>
                                         <div className='swiper-image-container'>
-                                            <img alt={item} src={item} className="swiper-image" ></img>
+                                            <img alt={item} src={item.image} className="swiper-image" ></img>
                                         </div>
                                     </SwiperSlide>
                                 ))}

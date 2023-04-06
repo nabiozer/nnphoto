@@ -20,7 +20,7 @@ export const items = [
   },
   {
     title: 'Fotoğraflar',
-    path: '/dashboard/photo',
+    path: '/dashboard/photos',
     icon: (
       <SvgIcon fontSize="small">
         <ChartBarIcon />

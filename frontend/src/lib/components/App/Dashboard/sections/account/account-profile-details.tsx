@@ -79,108 +79,109 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
                   component="p"
                   sx={{ marginTop: '0.5rem' }}
                 >
-                  {userDetails?.status} {userDetails?.status === StatusType.Send ? '' : 'Aşamasında'} 
+                  {userDetails?.status} {userDetails?.status === StatusType.Send ? '' : 'Aşamasında'}
                 </Typography>
-                
-                
+
+
               </Box>
             </CardContent>
-            <Divider/>
+            <Divider />
             <Typography
-                  color="text.secondary"
-                  component="p"
-                  sx={{ marginTop: '0.5rem' }}
-                >
-                  
-                </Typography>
+              color="text.secondary"
+              component="p"
+              sx={{ marginTop: '0.5rem' }}
+            >
+
+            </Typography>
             <CardActions>
-           
-            <Box component="div" sx={{ display: 'flex', flexDirection: 'row',width:'100%',justifyContent: 'space-between',marginTop:'1rem'}} >
-                  <Box component="div" sx={{ display: 'flex', justify: 'center', flexDirection: 'column', alignItems: 'center' }}>
-                    <Typography
-                      color="text.secondary"
-                      component="p"
-                    >
-                      {StatusType.Shooting}
-                    </Typography>
-                    <Switch
-                      checked={userDetails?.status === StatusType.Shooting}
-                      disabled={userDetails?.status === StatusType.Shooting}
-                      color={StatusType.Shooting === userDetails?.status ? 'secondary' :'default'}
-                      onChange={async (e) => {
-                        onChangeStatus(StatusType.Shooting)
-                      }}
-                    ></Switch>
 
-                  </Box>
-                  <Box component="div" sx={{ display: 'flex', justify: 'center', flexDirection: 'column', alignItems: 'center' }}>
-                    <Typography
-                      color="text.secondary"
-                      component="p"
-                    >
-                      {StatusType.Choice}
-                    </Typography>
-                    <Switch
-                      checked={userDetails?.status === StatusType.Choice}
-                      disabled={userDetails?.status === StatusType.Choice}
-                      color={StatusType.Choice === userDetails?.status ? 'secondary' :'default'}
-                      onChange={async (e) => {
-                        onChangeStatus(StatusType.Choice)
-                      }}
-                     
-                    ></Switch>
-                  </Box>
-                  <Box component="div" sx={{ display: 'flex', justify: 'center', flexDirection: 'column', alignItems: 'center' }}>
-                    <Typography
-                      color="text.secondary"
-                      component="p"
-                    >
-                      {StatusType.Album}
-                    </Typography>
-                    <Switch
-                      checked={userDetails?.status === StatusType.Album}
-                      disabled={userDetails?.status === StatusType.Album}
-                      color={StatusType.Album === userDetails?.status ? 'secondary' :'default'}
-                      onChange={async (e) => {
-                        onChangeStatus(StatusType.Album)
-                      }}
-                    ></Switch>
+              <Box component="div" sx={{ display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between', marginTop: '1rem' }} >
+                <Box component="div" sx={{ display: 'flex', justify: 'center', flexDirection: 'column', alignItems: 'center' }}>
+                  <Typography
+                    color="text.secondary"
+                    component="p"
+                  >
+                    {StatusType.Shooting}
+                  </Typography>
+                  <Switch
+                    checked={userDetails?.status === StatusType.Shooting}
+                    disabled={userDetails?.status === StatusType.Shooting}
+                    color={StatusType.Shooting === userDetails?.status ? 'secondary' : 'default'}
+                    onChange={async (e) => {
+                      onChangeStatus(StatusType.Shooting)
+                    }}
+                  ></Switch>
 
-                  </Box>
-                  <Box component="div" sx={{ display: 'flex', justify: 'center', flexDirection: 'column', alignItems: 'center' }}>
-                    <Typography
-                      color="text.secondary"
-                      component="p"
-                    >
-                      {StatusType.Progress}
-                    </Typography>
-                    <Switch
-                      checked={userDetails?.status === StatusType.Progress}
-                      disabled={userDetails?.status === StatusType.Progress}
-                      color={StatusType.Progress === userDetails?.status ? 'secondary' :'default'}
-                      onChange={async (e) => {
-                        onChangeStatus(StatusType.Progress)
-                      }}
-                    ></Switch>
-                  </Box>
-                  <Box component="div" sx={{ display: 'flex', justify: 'center', flexDirection: 'column', alignItems: 'center' }}>
-                    <Typography
-                      color="text.secondary"
-                      component="p"
-                    >
-                      {StatusType.Send}
-                    </Typography>
-                    <Switch
-                      checked={userDetails?.status === StatusType.Send}
-                      disabled={userDetails?.status === StatusType.Send}
-                      onChange={async (e) => {
-                        onChangeStatus(StatusType.Send)
-                      }}
-                      color={StatusType.Send === userDetails?.status ? 'secondary' :'default'}
-                    ></Switch>
-                  </Box>
                 </Box>
-    </CardActions>
+                <Box component="div" sx={{ display: 'flex', justify: 'center', flexDirection: 'column', alignItems: 'center' }}>
+                  <Typography
+                    color="text.secondary"
+                    component="p"
+                  >
+                    {StatusType.Choice}
+                  </Typography>
+                  <Switch
+                    checked={userDetails?.status === StatusType.Choice}
+                    disabled={userDetails?.status === StatusType.Choice}
+                    color={StatusType.Choice === userDetails?.status ? 'secondary' : 'default'}
+                    onChange={async (e) => {
+                      onChangeStatus(StatusType.Choice)
+                    }}
+
+                  ></Switch>
+                </Box>
+               
+                <Box component="div" sx={{ display: 'flex', justify: 'center', flexDirection: 'column', alignItems: 'center' }}>
+                  <Typography
+                    color="text.secondary"
+                    component="p"
+                  >
+                    {StatusType.Progress}
+                  </Typography>
+                  <Switch
+                    checked={userDetails?.status === StatusType.Progress}
+                    disabled={userDetails?.status === StatusType.Progress}
+                    color={StatusType.Progress === userDetails?.status ? 'secondary' : 'default'}
+                    onChange={async (e) => {
+                      onChangeStatus(StatusType.Progress)
+                    }}
+                  ></Switch>
+                </Box>
+                <Box component="div" sx={{ display: 'flex', justify: 'center', flexDirection: 'column', alignItems: 'center' }}>
+                  <Typography
+                    color="text.secondary"
+                    component="p"
+                  >
+                    {StatusType.Album}
+                  </Typography>
+                  <Switch
+                    checked={userDetails?.status === StatusType.Album}
+                    disabled={userDetails?.status === StatusType.Album}
+                    color={StatusType.Album === userDetails?.status ? 'secondary' : 'default'}
+                    onChange={async (e) => {
+                      onChangeStatus(StatusType.Album)
+                    }}
+                  ></Switch>
+
+                </Box>
+                <Box component="div" sx={{ display: 'flex', justify: 'center', flexDirection: 'column', alignItems: 'center' }}>
+                  <Typography
+                    color="text.secondary"
+                    component="p"
+                  >
+                    {StatusType.Send}
+                  </Typography>
+                  <Switch
+                    checked={userDetails?.status === StatusType.Send}
+                    disabled={userDetails?.status === StatusType.Send}
+                    onChange={async (e) => {
+                      onChangeStatus(StatusType.Send)
+                    }}
+                    color={StatusType.Send === userDetails?.status ? 'secondary' : 'default'}
+                  ></Switch>
+                </Box>
+              </Box>
+            </CardActions>
           </Card>
         </Grid>
         <Grid
@@ -340,7 +341,6 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
                   spacing={5}
                   padding={1}
                 >
-
                   <Grid
                     xs={12}
                     sm={6}
@@ -351,10 +351,7 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
                   >
                     <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Fotoğraflar</Typography>
                     <Typography component="p" >{photos ? 'İndir' : 'Yükleme aşamasında'}</Typography>
-
                   </Grid>
-
-
                   <Grid
                     xs={12}
                     sm={6}
@@ -375,7 +372,6 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
 
         </Grid>
       </Grid>
-
     </>
   );
 };

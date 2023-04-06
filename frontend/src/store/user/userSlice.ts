@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { authUser, deleteUser, fetchUsers, getProfile, getUserById, registerUser, updateUserByAdmin } from './userActions';
 
-interface User {
+interface IUser {
     name: string;
     email: string;
     deliveryInfo: {
@@ -20,54 +20,72 @@ interface User {
 
     chosen: {
         album: {
-            colorCode: string;
-            albumName: string;
+            colorCode?: string;
+            albumName?: string;
         };
-        photosChosen: string[];
-        poster: string;
-        cover: string;
-        coverText: string;
+        photosChosen?: string[];
+        poster?: string;
+        cover?: string;
+        coverText?: string;
         isChoiced: boolean;
     };
-    photos: string;
-    video: string;
-
-    albumDelivered: boolean;
-    photoProcessed: boolean;
+    photos?: string;
+    video?: string;
     isAdmin: boolean;
     album: string;
     isDone: boolean;
+    token?:string;
 }
 
+interface IState {
+    data : IUser  | null,
+    loading:boolean,
+    error:string,
+  }
+  interface IStates {
+    data : IUser[] | null,
+    loading:boolean,
+    error:string,
+  }
+  interface IUserInitial {
+    userList :IStates,
+    userDelete:IState,
+    userLogin:IState,
+    userDetails:IState,
+    userRegister:IState,
+    userUpdate:IState,
+  }
+
+  const initialState:IUserInitial = {
+    userList: {
+        data: null,
+        loading: false,
+        error: '',
+    },
+    userDelete: {
+        data: null,
+        loading: false,
+        error: '',
+    },
+    userLogin: {
+        data:
+            typeof window !== 'undefined' && localStorage?.getItem('userInfo')
+                ? JSON.parse(localStorage?.getItem('userInfo')!)
+                : null,
+        loading: false,
+        error: '',
+    },
+
+    userDetails: { data: null, loading: false, error: '' },
+    userUpdate: { data: null, loading: false, error: '' },
+    userRegister: { data: null, loading: false, error: '' },
+}
 
 const userSlice = createSlice({
     name: 'user',
-    initialState: {
-        userList: {
-            data: null,
-            loading: false,
-            error: '',
-        },
-        userDelete: {
-            data: null,
-            loading: false,
-            error: '',
-        },
-        userLogin: {
-            data:
-                typeof window !== 'undefined' && localStorage?.getItem('userInfo')
-                    ? JSON.parse(localStorage?.getItem('userInfo')!)
-                    : null,
-            loading: false,
-            error: '',
-        },
-
-        userDetails: { data: null, loading: false, error: '' },
-        userUpdate: { data: null, loading: false, error: '' },
-        userRegister: { data: null, loading: false, error: '' },
-    },
+    initialState: initialState,
     reducers: {
-        userLogin(state, action: PayloadAction<User>) {
+        userLogin(state, action: PayloadAction<IUser>) {
             state.userLogin.data = { ...action.payload };
             localStorage.setItem('userInfo', JSON.stringify(action.payload));
         },

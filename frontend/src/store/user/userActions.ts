@@ -122,7 +122,7 @@ export const getProfile = createAsyncThunk('data/getProfile', async () => {
 //updateProfile
 export const updateProfile = createAsyncThunk('data/updateProfile', async ({id,data}:any) => {
   
-    const response = await api.put(`/users/${id}`,data);
+    const response = await api.put(`/users/profile`,data);
     return response.data;
 });
 

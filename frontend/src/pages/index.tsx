@@ -1,25 +1,27 @@
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Swiper } from "../lib";
+import { RootState, useAppDispatch } from "../store";
+import { getPhotos } from "../store/photo/photoActions";
 
 
 
 
 const Home = () => {
 
-  const images = [
-    '/images/nnphotofilm/1.jpg',
-    '/images/nnphotofilm/2.jpg',
-    '/images/nnphotofilm/3.jpg',
-    '/images/nnphotofilm/4.jpg',
-    '/images/nnphotofilm/NN_01880.jpg',
-    '/images/nnphotofilm/NN_01883.jpg',
-    '/images/nnphotofilm/NN_01880.jpg',
-    '/images/nnphotofilm/NN_01883.jpg',
-  ];
+  const dispatch = useAppDispatch();
+ const photoList = useSelector((state:RootState) => state.photo.photoList.data)
+ 
+ console.log(photoList?.length!!);
+  useEffect(() => {
+   dispatch(getPhotos());
+  }, [dispatch]);
 
+console.log(photoList?.filter((photo:any) => photo.property === 'home'))
   return (
     <>
     <section id="home" >
-      <Swiper imageUrls={images} />
+      {photoList && <Swiper imageUrls={photoList?.filter((photo:any) => photo.property === 'home')} />}
     </section>
     </>
   )

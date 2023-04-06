@@ -22,8 +22,7 @@ const authUser = asyncHandler(async (req, res) => {
       chosen: user.chosen,
       video: user.video,
       photos: user.photos,
-      albumDelivered: user.albumDelivered,
-      photoProcessed: user.photoProcessed,
+       status:user.status,
       token: generateToken(user._id),
     });
   } else {
@@ -52,8 +51,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
       chosen: user.chosen,
       video: user.video,
       photos: user.photos,
-      albumDelivered: user.albumDelivered,
-      photoProcessed: user.photoProcessed,
+            status:user.status,
     });
   } else {
     res.status(404);
@@ -180,8 +178,7 @@ const registerUser = asyncHandler(async (req, res) => {
       chosen: user.chosen,
       video: user.video,
       photos: user.photos,
-      albumDelivered: user.albumDelivered,
-      photoProcessed: user.photoProcessed,
+      status:user.status,
       album: user.album,
       token: generateToken(user._id),
     });
@@ -279,19 +276,10 @@ const updateUser = asyncHandler(async (req, res) => {
   
 
     const updatedUser = await user.save();
-    res.json({
-      _id: updatedUser._id,
-      name: updatedUser.name,
-      email: updatedUser.email,
-      isAdmin: updatedUser.isAdmin,
-      address: updatedUser.address,
-      phoneNumber: updatedUser.phoneNumber,
-      reservationInfo: updatedUser.reservationInfo,
-      chosen: updatedUser.chosen,
-      video: updatedUser.video,
-      photos: updatedUser.photos,
-     status:updatedUser.status,
-    });
+    
+    res.json(
+      updatedUser,
+    );
   } else {
     res.status(404);
     throw new Error("User not found");

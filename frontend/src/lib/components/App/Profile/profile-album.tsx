@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect } from 'react';
 import * as yup from 'yup';
 import { useAppDispatch } from "../../../../store";
-import { getUserById, updateUserByAdmin } from "../../../../store/user/userActions";
+import { getProfile, getUserById, updateProfile, updateUserByAdmin } from "../../../../store/user/userActions";
 import useForm from "../../../_hooks/useForm";
 import Input from "../../Form/Input";
 
@@ -38,32 +38,21 @@ const ProfileAlbumChoice = ({ userDetails }: any) => {
   })
 
   useEffect(() => {
-
     setValue('colorCode', colorCode);
     setValue('albumName', albumName);
     setValue('poster', poster);
     setValue('cover', cover);
     setValue('coverText', coverText);
 
-
-
   }, [colorCode, albumName, poster, cover,coverText]);
 
-
   const onAlbumSave = async (dataNew: any) => {
-    
-    const res = await dispatch(updateUserByAdmin({ id: _id, data:dataNew }));
+    const res = await dispatch(updateProfile({ id: _id, data:dataNew }));
     if (res.meta.requestStatus === 'fulfilled') {
-      dispatch(getUserById(userId));
+      dispatch(getProfile());
     }
 
   }
-
-
-
-
-
-
 
   return (
 

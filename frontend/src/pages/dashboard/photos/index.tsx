@@ -1,16 +1,21 @@
-import { useCallback, useMemo, useState } from 'react';
-import Head from 'next/head';
-import { subDays, subHours } from 'date-fns';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
 import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
 import { Box, Button, Container, Stack, SvgIcon, Typography } from '@mui/material';
-import { useSelection } from '../../lib/components/App/Dashboard/hooks/use-selection';
-import { Layout as DashboardLayout } from '../../lib/components/App/Dashboard/layouts/dashboard/layout';
-import { PhotosTable } from '../../lib/components/App/Dashboard/sections/photos/photos-table';
-import { PhotosSearch } from '../../lib/components/App/Dashboard/sections/photos/photos-search';
-import { applyPagination } from '../../lib/components/App/Dashboard/utils/apply-pagination';
+import { subDays, subHours } from 'date-fns';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useSelection } from '../../../lib/components/App/Dashboard/hooks/use-selection';
+import { Layout as DashboardLayout } from '../../../lib/components/App/Dashboard/layouts/dashboard/layout';
+import { PhotosTable } from '../../../lib/components/App/Dashboard/sections/photos/photos-table';
+import { PhotosSearch } from '../../../lib/components/App/Dashboard/sections/videos/photos-search copy';
+import { applyPagination } from '../../../lib/components/App/Dashboard/utils/apply-pagination';
+import { useAppDispatch } from '../../../store';
+import { getPhotos } from '../../../store/photo/photoActions';
+import { fetchUsers } from '../../../store/user/userActions';
+
 
 const now = new Date();
 
@@ -157,7 +162,7 @@ const data = [
   }
 ];
 
-const useCustomers = (page:any, rowsPerPage:any) => {
+const useCustomers = (page: any, rowsPerPage: any) => {
   return useMemo(
     () => {
       return applyPagination(data, page, rowsPerPage);
@@ -166,10 +171,10 @@ const useCustomers = (page:any, rowsPerPage:any) => {
   );
 };
 
-const useCustomerIds = (customers:any) => {
+const useCustomerIds = (customers: any) => {
   return useMemo(
     () => {
-      return customers.map((customer:any) => customer.id);
+      return customers.map((customer: any) => customer.id);
     },
     [customers]
   );
@@ -178,20 +183,29 @@ const useCustomerIds = (customers:any) => {
 const Page = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const dispatch = useAppDispatch();
   const customers = useCustomers(page, rowsPerPage);
   const customersIds = useCustomerIds(customers);
   const customersSelection = useSelection(customersIds);
 
+  const userLoginInfo = useSelector((state: any) => state.user.userLogin)
+  const photoList = useSelector((state: any) => state.photo.photoList.data)
+
+  useEffect(() => {
+    dispatch(getPhotos());
+  }, [dispatch]);
+
   const router = useRouter()
+
   const handlePageChange = useCallback(
-    (event:any, value:any) => {
+    (event: any, value: any) => {
       setPage(value);
     },
     []
   );
 
   const handleRowsPerPageChange = useCallback(
-    (event:any) => {
+    (event: any) => {
       setRowsPerPage(event.target.value);
     },
     []
@@ -257,7 +271,7 @@ const Page = () => {
                     </SvgIcon>
                   )}
                   variant="contained"
-                  onClick={() => router.push('/dashboard/register')}
+                  onClick={() => router.push('/dashboard/photos/form/new')}
                 >
                   Add
                 </Button>
@@ -266,7 +280,7 @@ const Page = () => {
             <PhotosSearch />
             <PhotosTable
               count={data.length}
-              items={customers}
+              items={photoList}
               onDeselectAll={customersSelection.handleDeselectAll}
               onDeselectOne={customersSelection.handleDeselectOne}
               onPageChange={handlePageChange}
@@ -280,7 +294,7 @@ const Page = () => {
           </Stack>
         </Container>
       </Box>
-      </DashboardLayout>
+    </DashboardLayout>
   );
 };
 
