@@ -6,7 +6,7 @@ import { SideNav } from './side-nav';
 import { TopNav } from './top-nav';
 import Box from '../../../../Display/Box';
 
-const SIDE_NAV_WIDTH = 280;
+const SIDE_NAV_WIDTH = 210;
 
 const LayoutRoot = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -48,7 +48,7 @@ export const Layout = withAuthGuard(({children}:any) => {
 
   return (
     <>
-    <Box component="div" sx={{marginTop:'4rem'}} />
+    <Box component="div" />
       <TopNav onNavOpen={() => setOpenNav(true)} />
       <SideNav
         onClose={() => setOpenNav(false)}

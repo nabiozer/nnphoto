@@ -43,6 +43,7 @@ export interface ISelectProps
   size?: any;
   labelActive?:any;
   autoFocus?:any;
+  defaultValue?: any;
   
   onChange?: (id: any) => void;
 }

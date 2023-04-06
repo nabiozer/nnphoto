@@ -6,16 +6,14 @@ const PhotoDetails = ({ details }: any) => {
 
     return (
 
-        <Card sx={{ width: '100%' }} >
+        <Card sx={{ width: '100%',height:'100%' }} >
             <CardHeader
                 title="Detaylar"
             />
-            <CardContent sx={{ pt: 2 }}>
-
+            <CardContent sx={{ padding: 0 }}>
                 <Grid
                     container
                     spacing={1}
-
                 >
 
                     <Grid
@@ -33,7 +31,7 @@ const PhotoDetails = ({ details }: any) => {
 
 
                                 width: '100%',
-                                maxHeight: '400px',
+                                maxHeight: '500px',
 
                                 objectFit: 'cover'
                             }}
@@ -53,9 +51,9 @@ const PhotoDetails = ({ details }: any) => {
 
                         <Box
                             component="div"
-                            sx={{ justify: 'center', textAlign: 'center', alignItems: 'center', width: '100%', maxHeight: '400px !important', }}
+                            sx={{ justify: 'center', textAlign: 'center', alignItems: 'center', width: '100%', maxHeight: '500px !important',display:'block' }}
 
-                        > <PlayerYoutube style={{ height: '400px !important' }} selectedVideo={details.src} /></Box>
+                        > <PlayerYoutube selectedVideo={details.src} /></Box>
 
 
 

@@ -8,12 +8,12 @@ import 'swiper/swiper.min.css';
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, EffectFade, Autoplay]);
 
 interface IProps {
-    imageUrls: string[];   
+    images: any;   
     className?: any;
 }
 //eslint-disable-next-line 
 export default (props: IProps) => {
-    const { imageUrls } = props;
+    const { images } = props;
 
     
     return (
@@ -21,7 +21,7 @@ export default (props: IProps) => {
             <div className="container-box">
                 <div className="small-container">
                     <>
-                        <Box component="div">
+                        <Box component="div" >
 
                             <Swiper
                              speed= {500}
@@ -49,10 +49,10 @@ export default (props: IProps) => {
                                 modules={[Navigation, Mousewheel,EffectCreative]}
                                
                             >
-                                {imageUrls.map((item, i) => (
+                                {images.map((item:any, i:number) => (
                                     <SwiperSlide style={{ marginRight: '30px' }} key={i}>
                                         <div className='swiper-image-container-wedding'>
-                                            <img alt={item} src={item} className="swiper-image-wedding" ></img>
+                                            <img alt={item.description} src={item.image} className="swiper-image-wedding" ></img>
                                         </div>
                                     </SwiperSlide>
                                 ))}

@@ -17,7 +17,7 @@ import { alpha } from '@mui/material/styles';
 import { usePopover } from '../../hooks/use-popover';
 import { AccountPopover } from './account-popover';
 
-const SIDE_NAV_WIDTH = 280;
+const SIDE_NAV_WIDTH = 210;
 const TOP_NAV_HEIGHT = 64;
 
 export const TopNav = ({ onNavOpen }:any) => {
@@ -36,7 +36,7 @@ export const TopNav = ({ onNavOpen }:any) => {
           left: {
             lg: `${SIDE_NAV_WIDTH}px`
           },
-          top: 0,
+          top: `${lgUp ? '4rem' : '3.2rem'}`,
           width: {
             lg: `calc(100% - ${SIDE_NAV_WIDTH}px)`
           },
@@ -53,35 +53,22 @@ export const TopNav = ({ onNavOpen }:any) => {
             px: 2
           }}
         >
+          
           <Stack
             alignItems="center"
             direction="row"
             spacing={2}
           >
-            {!lgUp && (
-              <IconButton onClick={onNavOpen}>
-                <SvgIcon fontSize="small">
-                  <Bars3Icon />
-                </SvgIcon>
-              </IconButton>
-            )}
-            <Tooltip title="Search">
-              <IconButton>
-                <SvgIcon fontSize="small">
-                  <MagnifyingGlassIcon />
-                </SvgIcon>
-              </IconButton>
-            </Tooltip>
           </Stack>
           <Stack
             alignItems="center"
             direction="row"
             spacing={2}
           >
-            <Tooltip title="Contacts">
+             <Tooltip title="Search">
               <IconButton>
                 <SvgIcon fontSize="small">
-                  <UsersIcon />
+                  <MagnifyingGlassIcon />
                 </SvgIcon>
               </IconButton>
             </Tooltip>
@@ -98,16 +85,14 @@ export const TopNav = ({ onNavOpen }:any) => {
                 </Badge>
               </IconButton>
             </Tooltip>
-            <Avatar
-              onClick={accountPopover.handleOpen}
-              ref={accountPopover.anchorRef}
-              sx={{
-                cursor: 'pointer',
-                height: 40,
-                width: 40
-              }}
-              src="/assets/avatars/avatar-anika-visser.png"
-            />
+            {!lgUp && (
+              <IconButton onClick={onNavOpen}>
+                <SvgIcon fontSize="small">
+                  <Bars3Icon />
+                </SvgIcon>
+              </IconButton>
+            )}
+           
           </Stack>
         </Stack>
       </Box>

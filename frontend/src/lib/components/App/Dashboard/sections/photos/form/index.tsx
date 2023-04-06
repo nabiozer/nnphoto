@@ -12,8 +12,10 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../../../../../../../store';
 import { createPhoto, getPhotoById, updatePhoto } from '../../../../../../../store/photo/photoActions';
+import { PhotoProperty } from '../../../../../../../types/photo';
 import useForm from '../../../../../../_hooks/useForm';
 import Input from '../../../../../Form/Input';
+import Select from '../../../../../Form/Select';
 import { Layout as DashboardLayout } from '../../../layouts/dashboard/layout';
 import PhotoDetails from '../photos-detail';
 
@@ -34,18 +36,19 @@ function Copyright(props: any) {
 
 export default function PhotoForm({ type, id }: any) {
     const dispatch = useAppDispatch();
-    const photoDetails = useSelector((state:RootState) => state.photo.photoDetails.data)
+    const photoDetails = useSelector((state: RootState) => state.photo.photoDetails.data)
     const isEdit = id ? true : false;
     const router = useRouter();
 
- 
+    const defaulValues = {
+        property: '',
+        image: '',
+        description: '',
+        src: '',
+    }
+
     const { control, errors, handleSubmit, setValue } = useForm({
-        defaultValues: {
-            property: '',
-            image: '',
-            description: '',
-            src: '',
-        },
+        defaultValues: defaulValues,
         validationSchema: {
 
 
@@ -68,7 +71,7 @@ export default function PhotoForm({ type, id }: any) {
             getPhoto()
 
         }
-    
+
     }, [isEdit])
 
     const onSubmit = async (data: any) => {
@@ -84,18 +87,21 @@ export default function PhotoForm({ type, id }: any) {
                 router.push('/dashboard/photos');
             }
         }
-
     }
 
     return (
         <DashboardLayout >
             <Container component="main" sx={{
-                height: '100%', width: '100vw', display: 'flex',
+                height: '100%', width: '100%', display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'center', justifyContent: 'center', maxWidth: '4000px !important'
+                alignItems: 'center', justifyContent: 'center', maxWidth: '4000px !important',
+                padding: '0.5rem'
             }}>
                 <CssBaseline />
-                {photoDetails && isEdit && <PhotoDetails details={photoDetails}/>}
+                {photoDetails && isEdit && <Box sx={{
+                    width: '100%',
+
+                }}><PhotoDetails details={photoDetails} /></Box>}
                 <Box
                     sx={{
                         marginTop: 5,
@@ -108,9 +114,8 @@ export default function PhotoForm({ type, id }: any) {
                         height: '100%',
                     }}
                 >
-                    
                     <Grid container spacing={1} component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1, padding: '2rem' }}>
-                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="property" name="property" placeholder="Tip" label="Tip" control={control} errors={errors} autoComplete="email" /></Grid>
+                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Select options={{ data: [{ Value: 'Ana Sayfa', Id: PhotoProperty.Home }, { Value: 'Galeri', Id: PhotoProperty.Gallery }, { Value: 'Video', Id: PhotoProperty.Video }], displayField: 'Value', displayValue: 'Id' }} id="property" name="property" label="Tip" control={control} errors={errors} setValue={setValue} defaultValue={defaulValues.property} fullWidth /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="image" name="image" placeholder="Görsel" label="Görsel" control={control} errors={errors} /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="description" name="description" placeholder="Açıklama" label="Açıklama" control={control} errors={errors} /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="src" name="src" placeholder="Video Link" label="Video Link" control={control} errors={errors} /></Grid>

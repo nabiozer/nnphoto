@@ -29,6 +29,7 @@ export const SideNavItem = ({ active = false, disabled, external, icon, path, ti
           pl: '16px',
           pr: '16px',
           py: '6px',
+          my:'8px',
           textAlign: 'left',
           width: '100%',
           ...(active && {
@@ -49,6 +50,7 @@ export const SideNavItem = ({ active = false, disabled, external, icon, path, ti
               display: 'inline-flex',
               justifyContent: 'center',
               mr: 2,
+            
               ...(active && {
                 color: 'primary.main'
               })

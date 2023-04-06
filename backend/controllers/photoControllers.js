@@ -52,6 +52,7 @@ const createPhoto = asyncHandler(async (req,res) => {
         description:req.body.description,
         property:req.body.property,
         src:req.body.src,
+        colorCodes:req.body.colorCodes
 
     })
    const createdPhoto = await photo.save();
@@ -63,7 +64,7 @@ const createPhoto = asyncHandler(async (req,res) => {
 //  @acces Private/Admin
 const updatePhoto = asyncHandler(async (req,res) => {
 
-    const {description,image,property,src,packageName,packagePrice} = req.body
+    const {description,image,property,src,packageName,packagePrice,colorCodes} = req.body
     const photo = await Photo.findById(req.params.id)
     if(photo) {
 
@@ -73,6 +74,7 @@ const updatePhoto = asyncHandler(async (req,res) => {
         photo.src = src || photo.src
         photo.packageName = packageName || photo.packageName
         photo.packagePrice = packagePrice || photo.packagePrice
+        photo.colorCodes = colorCodes || photo.colorCodes
     
         const updatedPhoto = await photo.save();
         res.json(updatedPhoto)

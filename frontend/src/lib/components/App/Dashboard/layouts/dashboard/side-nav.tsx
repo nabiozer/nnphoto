@@ -18,7 +18,7 @@ import { Scrollbar } from '../../components/scrollbar'
 import { items } from './config';
 import { SideNavItem } from './side-nav-item';
 
-export const SideNav = ({ open, onClose }:any) => {
+export const SideNav = ({ open, onClose,onNavOpen }:any) => {
 
   const pathname = usePathname();
   const lgUp = useMediaQuery((theme:any) => theme.breakpoints.up('lg'));
@@ -28,7 +28,8 @@ export const SideNav = ({ open, onClose }:any) => {
       sx={{
         height: '100%',
         '& .simplebar-content': {
-          height: '100%'
+          height: '100%',
+          marginTop: '4rem'
         },
         '& .simplebar-scrollbar:before': {
           background: 'neutral.400'
@@ -40,33 +41,11 @@ export const SideNav = ({ open, onClose }:any) => {
           display: 'flex',
           flexDirection: 'column',
           height: '100%'
+          
         }}
       >
         <Box sx={{ p: 3 }}>
-          <Box
-            component={NextLink}
-            href="/"
-            sx={{
-              display: 'inline-flex',
-              height: 32,
-              width: 32
-            }}
-          >
-            <Logo />
-          </Box>
-          <Box
-            sx={{
-              alignItems: 'center',
-              backgroundColor: 'rgba(255, 255, 255, 0.04)',
-              borderRadius: 1,
-              cursor: 'pointer',
-              display: 'flex',
-              justifyContent: 'space-between',
-              mt: 2,
-              p: '12px'
-            }}
-          >
-          </Box>
+         
         </Box>
         <Divider sx={{ borderColor: 'neutral.700' }} />
         <Box
@@ -79,11 +58,11 @@ export const SideNav = ({ open, onClose }:any) => {
         >
           <Stack
             component="ul"
-            spacing={0.5}
+            spacing={0.4}
             sx={{
               listStyle: 'none',
               p: 0,
-              m: 0
+              my: 0
             }}
           >
             {items.map((item:any) => {
@@ -117,7 +96,8 @@ export const SideNav = ({ open, onClose }:any) => {
           sx: {
             backgroundColor: '#2c3531',
             color: 'common.white',
-            width: 280
+            width: 210,
+            marginTop:'4rem'
           }
         }}
         variant="permanent"
@@ -136,7 +116,8 @@ export const SideNav = ({ open, onClose }:any) => {
         sx: {
             backgroundColor: '#2c3531',
             color: 'common.white',
-            width: 280
+            width: 210,
+            marginTop:'3.2rem',
           }
       }}
       sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}

@@ -5,7 +5,6 @@ import users from './data/users.js'
 import photos from './data/photos.js'
 import User from './models/UserModel.js'
 import Photo from './models/PhotoModel.js';
-
 import connectDB from './config/db.js';
 
 dotenv.config()
@@ -16,8 +15,9 @@ const importData = async () => {
     try {
       
         await User.deleteMany();
-
         await User.insertMany(users)
+        await Photo.deleteMany();
+        await Photo.insertMany(photos);
 
     
         console.log('data imported')

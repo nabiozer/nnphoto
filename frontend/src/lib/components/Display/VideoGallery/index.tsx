@@ -66,7 +66,7 @@ const VideoGallery = ({ galleryImages }: any) => {
                                 whileHover={{ opacity: 1 }}
                                 onClick={() => handleOpenModal(index)}
                             >
-                                <motion.img src={slide.img} alt="uploaded pic"
+                                <motion.img src={slide.image} alt="uploaded pic"
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     transition={{ delay: 1 }}

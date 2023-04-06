@@ -111,7 +111,13 @@ export const PhotosTable = (props: any) => {
                           {getInitials(customer.name)}
                         </Avatar> */}
                       <Typography variant="subtitle2">
-                        {photo.image}
+                        <a
+                          href={photo.image}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {photo.image}
+                        </a>
                       </Typography>
                     </Stack>
                   </TableCell>
@@ -119,14 +125,22 @@ export const PhotosTable = (props: any) => {
                     {photo.property}
                   </TableCell>
                   <TableCell>
+
                     {photo.description}
                   </TableCell>
                   <TableCell>
-                    {photo.src}
+                    <a
+                      href={photo.src}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {photo.src}
+                    </a>
+
                   </TableCell>
-                
+
                   <TableCell>
-                      <Avatar alt={photo.description} src={`${photo.image}`} />
+                    <Avatar alt={photo.description} src={`${photo.image}`} />
                   </TableCell>
                   <TableCell>
                     <IconButton onClick={async () => router.push(`/dashboard/photos/form/edit/${photo._id}`)}>

@@ -45,7 +45,7 @@ const PhotoGallery = ({ galleryImages }: any) => {
                     <FontAwesomeIcon icon={faCircleChevronLeft} className='btnPrev' onClick={prevSlide} />
                     <FontAwesomeIcon icon={faCircleChevronRight} className='btnNext' onClick={nextSlide} />
                     <div className='fullScreenImage'>
-                        <img src={galleryImages[slideNumber].img} alt='' />
+                        <img src={galleryImages[slideNumber].image} alt='' />
                     </div>
                 </div>
             }
@@ -65,7 +65,7 @@ const PhotoGallery = ({ galleryImages }: any) => {
                                 whileHover={{ opacity: 1 }}
                                 onClick={() => handleOpenModal(index)}
                             >
-                                <motion.img src={slide.img} alt="uploaded pic"
+                                <motion.img src={slide.image} alt="uploaded pic"
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     transition={{ delay: 1 }}
