@@ -3,6 +3,8 @@ import {
   CardHeader,
   Divider, Grid, Typography
 } from '@mui/material';
+import axios from 'axios';
+import { useState } from 'react';
 
 
 
@@ -10,6 +12,7 @@ export const ProfileDetails = ({ userDetails }: any) => {
 
   const { reservationInfo: { date, place, packagePrice, packageDetails, advancePayment, album, photos, video } } = userDetails;
 
+ 
   return (
     <>
       <Grid container spacing={2} padding={3} >
@@ -60,9 +63,9 @@ export const ProfileDetails = ({ userDetails }: any) => {
                 </Typography>
 
                 <Typography
-                  color="text.primary" 
+                  color="text.primary"
                   component="p"
-                  sx={{marginTop:'0.5rem'}}
+                  sx={{ marginTop: '0.5rem' }}
                 >
                   {userDetails?.status} Aşamasında
                 </Typography>
@@ -141,6 +144,10 @@ export const ProfileDetails = ({ userDetails }: any) => {
                     <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Albüm</Typography>
                     <Typography component="p" >{album}</Typography>
                   </Grid>
+
+                
+
+
                 </Grid>
               </Box>
             </CardContent>
@@ -271,7 +278,7 @@ export const ProfileDetails = ({ userDetails }: any) => {
 
         </Grid>
       </Grid>
-      
+
     </>
   );
 };

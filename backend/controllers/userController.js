@@ -22,7 +22,7 @@ const authUser = asyncHandler(async (req, res) => {
       chosen: user.chosen,
       video: user.video,
       photos: user.photos,
-       status:user.status,
+      status: user.status,
       token: generateToken(user._id),
     });
   } else {
@@ -51,7 +51,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
       chosen: user.chosen,
       video: user.video,
       photos: user.photos,
-            status:user.status,
+      status: user.status,
     });
   } else {
     res.status(404);
@@ -98,8 +98,8 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     user.chosen = chosen;
     // user.video = req.body.video || user.video;
     // user.photos = req.body.photos || user.photos;
-    
-    // user.status = req.body.status || user.status;
+
+    user.status = req.body.status || user.status;
     // user.album = req.body.album || user.album;
     // user.isDone = req.body.isDone || user.isDone;
 
@@ -115,7 +115,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       chosen: updatedUser.chosen,
       video: updatedUser.video,
       photos: updatedUser.photos,
-     status:updatedUser.status,
+      status: updatedUser.status,
       isDone: updatedUser.isDone,
     });
   } else {
@@ -162,7 +162,7 @@ const registerUser = asyncHandler(async (req, res) => {
       packageDetails,
       advancePayment,
       album,
-      isPoster
+      isPoster,
     },
   });
   if (user) {
@@ -178,7 +178,7 @@ const registerUser = asyncHandler(async (req, res) => {
       chosen: user.chosen,
       video: user.video,
       photos: user.photos,
-      status:user.status,
+      status: user.status,
       album: user.album,
       token: generateToken(user._id),
     });
@@ -231,9 +231,7 @@ const getUserById = asyncHandler(async (req, res) => {
 //  @acces Private admin
 
 const updateUser = asyncHandler(async (req, res) => {
-  
   const user = await User.findById(req.params.id);
-
 
   if (user) {
     if (req.body.password) {
@@ -245,10 +243,11 @@ const updateUser = asyncHandler(async (req, res) => {
         req.body.advancePayment || user.reservationInfo.advancePayment,
       date: req.body.date || user.reservationInfo.date,
       album: req.body.album || user.reservationInfo.album,
-      packageDetails:req.body.packageDetails || user.reservationInfo.packageDetails,
+      packageDetails:
+        req.body.packageDetails || user.reservationInfo.packageDetails,
       packagePrice: req.body.packagePrice || user.reservationInfo.packagePrice,
       place: req.body.place || user.reservationInfo.place,
-      isPoster:req.body.isPoster || user.reservationInfo.isPoster,
+      isPoster: req.body.isPoster || user.reservationInfo.isPoster,
     };
 
     const chosen = {
@@ -260,7 +259,7 @@ const updateUser = asyncHandler(async (req, res) => {
       poster: req.body.poster || user.chosen.poster,
       cover: req.body.cover || user.chosen.cover,
       coverText: req.body.coverText || user.chosen.coverText,
-      isChoiced:req.body.isChoiced ,
+      isChoiced: req.body.isChoiced,
     };
 
     user.name = req.body.name || user.name;
@@ -273,13 +272,10 @@ const updateUser = asyncHandler(async (req, res) => {
     user.photos = req.body.photos || user.photos;
     user.status = req.body.status || user.status;
     user.album = req.body.album || user.album;
-  
 
     const updatedUser = await user.save();
-    
-    res.json(
-      updatedUser,
-    );
+
+    res.json(updatedUser);
   } else {
     res.status(404);
     throw new Error("User not found");

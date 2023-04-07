@@ -7,6 +7,7 @@ import { Layout as DashboardLayout } from '../../../../lib/components/App/Dashbo
 import AlbumChoice from '../../../../lib/components/App/Dashboard/sections/account/account-album';
 import PhotoChoice from '../../../../lib/components/App/Dashboard/sections/account/account-photo';
 import { AccountProfileDetails } from '../../../../lib/components/App/Dashboard/sections/account/account-profile-details';
+
 import { RootState, useAppDispatch } from '../../../../store';
 import { getUserById, updateUserByAdmin } from '../../../../store/user/userActions';
 
@@ -16,6 +17,13 @@ const Detail = () => {
   const router = useRouter();
   const id = router.query.id;
   const { data, error, loading } = useSelector((state: RootState) => state.user.userDetails)
+
+  
+
+
+  useEffect(() => {
+    dispatch(getUserById(id))
+  }, [id])
 
   const onChoiceStart = async () => {
     const data = {
@@ -40,10 +48,7 @@ const Detail = () => {
 
   }
 
-
-  useEffect(() => {
-    dispatch(getUserById(id))
-  }, [id])
+  
 
   return (
 
@@ -70,6 +75,7 @@ const Detail = () => {
               <AccountProfileDetails userDetails={data} />
               <AlbumChoice userDetails={data} />
               <PhotoChoice userDetails={data} />
+             
              { data && data?.chosen &&<CardActions>
                 {!data?.chosen?.isChoiced && <Button
                   fullWidth

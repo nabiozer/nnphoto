@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import * as yup from 'yup';
 import { useAppDispatch } from "../../../../store";
 import { getProfile, updateProfile, updateUserByAdmin } from "../../../../store/user/userActions";
+import { PhotoProperty } from "../../../../types/photo";
 import useForm from "../../../_hooks/useForm";
 import Input from "../../Form/Input";
 
@@ -28,8 +29,6 @@ const ProfilePhotoChoice = ({ userDetails }: any) => {
 
     }
   })
-
-  
 
 
   const onAddPhoto = async (dataNew: any) => {
@@ -61,7 +60,8 @@ const ProfilePhotoChoice = ({ userDetails }: any) => {
 
   const onChoiceEnd = async () => {
     const data = {
-      isChoiced: true
+      isChoiced: true,
+      status:'Albüm'
     }
     const res = await dispatch(updateProfile({ id: _id, data }));
     if (res.meta.requestStatus === 'fulfilled') {

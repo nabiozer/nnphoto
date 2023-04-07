@@ -3,6 +3,8 @@ import {
   CardHeader,
   Divider, Grid, Switch, Typography
 } from '@mui/material';
+import axios from 'axios';
+import { useState } from 'react';
 import { useAppDispatch } from '../../../../../../store';
 import { getUserById, updateUserByAdmin } from '../../../../../../store/user/userActions';
 import { StatusType } from './type';
@@ -11,6 +13,8 @@ import { StatusType } from './type';
 export const AccountProfileDetails = ({ userDetails }: any) => {
 
   const { reservationInfo: { date, place, packagePrice, packageDetails, advancePayment, album, photos, video }, _id } = userDetails;
+  const [uploadPhotoPercent, setUploadPhotoPercent] = useState(0)
+  const [uploading, setUploading] = useState(false);
   const dispatch = useAppDispatch();
 
 
@@ -25,6 +29,44 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
     }
 
   }
+  const [file, setFile] = useState()
+
+  const uploadPhotoHandler = async (e: any) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("_id", _id)
+    setUploading(true);
+
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+
+      const { data } = await axios.post("http://localhost:5000/api/uploadfile", formData, config);
+
+
+      setUploadPhotoPercent(100)
+      setUploading(false);
+      console.log(data)
+      setTimeout(() => {
+        setUploadPhotoPercent(0)
+      }, 5000)
+
+
+      setUploading(false);
+    } catch (error) {
+      console.error(error);
+      setUploading(false);
+    }
+  };
+
+  const fileSelected = (event:any) => {
+    const file = event.target.files[0]
+		setFile(file)
+	}
 
   return (
     <>
@@ -130,7 +172,7 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
 
                   ></Switch>
                 </Box>
-               
+
                 <Box component="div" sx={{ display: 'flex', justify: 'center', flexDirection: 'column', alignItems: 'center' }}>
                   <Typography
                     color="text.secondary"
@@ -364,6 +406,13 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
                     <Typography component="p" >{video ? 'İndir' : 'Hazırlanıyor'} </Typography>
 
                   </Grid>
+
+
+
+
+                  <input type="file" id="image-file" onChange={uploadPhotoHandler} />
+
+
                 </Grid>
               </Box>
             </CardContent>
