@@ -60,45 +60,94 @@ const PhotoChoice = ({ userDetails }: any) => {
 
   return (
 
-    <Card sx={{ height: '100%' }}>
-    <CardHeader
-      title="Video Klip ve Fotoğraflar"
-    />
-    <CardContent sx={{ pt: 2 }}>
-      <Box>
-        <Grid
-          container
-          spacing={5}
-          padding={1}
-        >
-          <Grid
-            xs={12}
-            sm={6}
-            lg={6}
-            md={6}
-            item
-            sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
-          >
-            <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Fotoğraflar</Typography>
-       
-          </Grid>
-          <Grid
-            xs={12}
-            sm={6}
-            lg={6}
-            md={6}
-            item
-            sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
-          >
-            <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Video</Typography>
-            
+    <Grid container spacing={2} padding={3} >
+      
+      <Grid
+        xs={12}
+        md={12}
+        lg={12}
+        xl={12}
+        item
+      >
+        <Card sx={{ height: '100%', width: '100%' }}>
+          <CardHeader
+            title="Fotoğraf Seçimleri"
+          />
+          <CardContent >
+            <Box>
+              <Grid
+                container
+                spacing={5}
+                padding={1}
+              >
 
-          </Grid>
-        </Grid>
-      </Box>
-    </CardContent>
-    <Divider />
-  </Card>
+                <Grid
+                  xs={12}
+                  sm={12}
+                  lg={12}
+                  md={12}
+                  item
+                  sx={{ justify: 'center', textAlign: 'center', alignItems: 'center', width: '100%' }}
+                >
+                </Grid>
+                {!isChoiced && <Grid
+                  xs={12}
+                  sm={12}
+                  lg={12}
+                  md={12}
+                  item
+                  sx={{ justify: 'center', textAlign: 'center', alignItems: 'center', width: '100%' }}
+                >
+                  <Box component='h5' sx={{ textAlign: 'left', mb: '0.8rem' }}>Fotoğraf Seçimleri</Box>
+                  <Box component='form' noValidate sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }} onSubmit={handleSubmit(onAddPhoto)} >
+                    <Input id="photosChosen" name="photosChosen" placeholder="Fotoğraf Kodu" label="Fotoğraf Kodu" control={control} errors={errors} disabled={isChoiced} maxLength={5} />
+                    <Button
+                      type="submit"
+                      sx={{ ml: '0.5rem' }}
+                      variant="contained"
+
+                    >
+                      ekle
+
+                    </Button>
+                  </Box>
+                </Grid>}
+
+                {photosChosen.map((photo: any, index: any) => {
+                  return (<Grid
+                    key={index}
+                    xs={6}
+                    sm={6}
+                    lg={6}
+                    md={6}
+                    item
+                    sx={{ justify: 'center', textAlign: 'center', alignItems: 'center', width: '100%' }}
+                  >
+                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }} >
+                      <Typography component="p" >{index + 1}. NN_{photo}</Typography>
+                      {!isChoiced && <Button
+                        sx={{ ml: '0.5rem' }}
+                        variant="contained"
+                        color='secondary'
+                        onClick={() => onDeletePhoto(index)}
+                      >
+                        Sil
+                      </Button>} </Box>
+                  </Grid>)
+                })
+                }
+
+              </Grid>
+            </Box>
+          </CardContent>
+          <Divider />
+       
+        </Card>
+
+
+      </Grid>
+
+    </Grid>
   )
 }
 
