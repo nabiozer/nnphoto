@@ -1,5 +1,5 @@
 import {
-  Box, Card, CardActions, CardContent,
+  Box, Button, Card, CardActions, CardContent,
   CardHeader,
   Divider, Grid, Switch, Typography
 } from '@mui/material';
@@ -16,7 +16,8 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
   const [uploadPhotoPercent, setUploadPhotoPercent] = useState(0)
   const [uploading, setUploading] = useState(false);
   const dispatch = useAppDispatch();
-
+  const [file, setFile] = useState<any>()
+console.log(file,_id)
 
   const onChangeStatus = async (status: string) => {
     const data = {
@@ -29,44 +30,56 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
     }
 
   }
-  const [file, setFile] = useState()
 
-  const uploadPhotoHandler = async (e: any) => {
-    const file = e.target.files[0];
+
+  const submit = async (event:any) => {
+    event.preventDefault()
+
     const formData = new FormData();
-    formData.append("file", file);
-    formData.append("_id", _id)
-    setUploading(true);
-
-    try {
-      const config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
-
-      const { data } = await axios.post("http://localhost:5000/api/uploadfile", formData, config);
-
-
-      setUploadPhotoPercent(100)
-      setUploading(false);
-      console.log(data)
-      setTimeout(() => {
-        setUploadPhotoPercent(0)
-      }, 5000)
-
-
-      setUploading(false);
-    } catch (error) {
-      console.error(error);
-      setUploading(false);
-    }
-  };
+    formData.append("file", file)
+  
+    await axios.put("http://localhost:5000/api/photoupdate/" + _id, formData, { headers: {'Content-Type': 'multipart/form-data'}})
+  
+  }
 
   const fileSelected = (event:any) => {
     const file = event.target.files[0]
 		setFile(file)
 	}
+
+
+  // const uploadPhotoHandler = async (e: any) => {
+  //   const file = e.target.files[0];
+  //   const formData = new FormData();
+  //   formData.append("file", file);
+  //   formData.append("_id", _id)
+  //   setUploading(true);
+
+  //   try {
+  //     const config = {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     };
+
+  //     const { data } = await axios.post("http://localhost:5000/api/uploadfile", formData, config);
+
+
+  //     setUploadPhotoPercent(100)
+  //     setUploading(false);
+  //     console.log(data)
+  //     setTimeout(() => {
+  //       setUploadPhotoPercent(0)
+  //     }, 5000)
+
+
+  //     setUploading(false);
+  //   } catch (error) {
+  //     console.error(error);
+  //     setUploading(false);
+  //   }
+  // };
+
 
   return (
     <>
@@ -409,8 +422,11 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
 
 
 
-
-                  <input type="file" id="image-file" onChange={uploadPhotoHandler} />
+                    <form onSubmit={submit}>
+                    <input type="file" id="image-file" onChange={fileSelected} />
+                    <Button type="submit">Kaydet</Button>
+                    </form>
+                  
 
 
                 </Grid>

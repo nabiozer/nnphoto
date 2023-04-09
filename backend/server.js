@@ -9,6 +9,7 @@ import photoRoutes from './routes/photoRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 import uploadRoutes from './routes/uploadRoutes.js'
 import awsUpload from './routes/awsUpload.js'
+import aws from './routes/aws.js'
 import expenseRoutes from './routes/expenseRoutes.js'
 
 
@@ -33,6 +34,7 @@ app.use('/api/users',userRoutes);
 app.use('/api/expenses',expenseRoutes);
 app.use('/api/upload',uploadRoutes);
 app.use('/api/uploadfile',awsUpload)
+app.use('/api/photoupdate',aws)
 
 const __dirname = path.resolve()
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
