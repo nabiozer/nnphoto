@@ -22,7 +22,7 @@ const upload = multer({storage,fileFilter})
 router.post('/', upload.array('file'), async(req, res) => {
     const file = req.files[0]
     const result = await s3Uploadv2(file);
-    
+    console.log('result',result.Location)
     res.send(result.Location)
 })
 

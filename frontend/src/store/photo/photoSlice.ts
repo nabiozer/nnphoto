@@ -8,6 +8,7 @@ interface IPhoto {
     src: string;
     packageName?: string;
     packagePrice?: string;
+    imageURL?: string;
     colorCodes:[]
 }
 interface IState {

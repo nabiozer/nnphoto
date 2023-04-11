@@ -3,6 +3,8 @@ import { tr } from 'date-fns/locale';
 import { toDate } from 'date-fns-tz';
 import {default as manageClassNames} from 'classnames'
 
+export const aws3Url = 'https://nnphotofilmbucket.s3.eu-west-1.amazonaws.com/'
+
 export {manageClassNames}
 export const sleep = (delay = 0) => {
     return new Promise((resolve) => {

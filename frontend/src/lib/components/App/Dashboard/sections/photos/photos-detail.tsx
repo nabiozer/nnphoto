@@ -6,7 +6,7 @@ const PhotoDetails = ({ details }: any) => {
 
     return (
 
-        <Card sx={{ width: '100%',height:'100%' }} >
+        <Card sx={{ width: '100%', height: '100%' }} >
             <CardHeader
                 title="Detaylar"
             />
@@ -19,13 +19,13 @@ const PhotoDetails = ({ details }: any) => {
                     <Grid
                         xs={12}
                         sm={12}
-                        lg={6}
-                        md={6}
+                        lg={details.src ? 6 : 12}
+                        md={details.src ? 6 : 12}
                         item
                         sx={{ justify: 'center', textAlign: 'center', alignItems: 'center', width: '100%' }}
                     >
 
-                        <Box
+                        {details?.imageURL && <Box
                             component="img"
                             sx={{
 
@@ -36,11 +36,12 @@ const PhotoDetails = ({ details }: any) => {
                                 objectFit: 'cover'
                             }}
                             alt={details?.description}
-                            src={details?.image}
-                        />
+                            src={details?.imageURL}
+
+                        />}
 
                     </Grid>
-                    <Grid
+                    {details.src && <Grid
                         xs={12}
                         sm={12}
                         lg={6}
@@ -51,13 +52,13 @@ const PhotoDetails = ({ details }: any) => {
 
                         <Box
                             component="div"
-                            sx={{ justify: 'center', textAlign: 'center', alignItems: 'center', width: '100%', maxHeight: '500px !important',display:'block' }}
+                            sx={{ justify: 'center', textAlign: 'center', alignItems: 'center', width: '100%', maxHeight: '500px !important', display: 'block' }}
 
                         > <PlayerYoutube selectedVideo={details.src} /></Box>
 
 
 
-                    </Grid>
+                    </Grid>}
 
 
                 </Grid>

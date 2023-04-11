@@ -4,6 +4,7 @@ import SwiperCore, { A11y, Autoplay, EffectCreative, EffectFade, Mousewheel, Nav
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.min.css';
 import 'swiper/swiper.min.css';
+import { aws3Url } from '../../../_utility/utiliy';
 
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, EffectFade, Autoplay]);
 
@@ -42,7 +43,7 @@ export default (props: IProps) => {
                                 grabCursor={true}
                                 mousewheel={true}
                           
-                                loop={true}
+                                loop={true}   
                                 pagination={{
                                     clickable: true,
                                 }}
@@ -54,7 +55,7 @@ export default (props: IProps) => {
                                 {imageUrls.map((item, i) => (
                                     <SwiperSlide style={{ marginRight: '30px' }} key={i}>
                                         <div className='swiper-image-container'>
-                                            <img alt={item} src={item.image} className="swiper-image" ></img>
+                                            <img alt={item} src={item.imageURL} className="swiper-image" ></img>
                                         </div>
                                     </SwiperSlide>
                                 ))}

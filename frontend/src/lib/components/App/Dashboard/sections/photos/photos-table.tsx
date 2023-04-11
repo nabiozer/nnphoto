@@ -140,7 +140,7 @@ export const PhotosTable = (props: any) => {
                   </TableCell>
 
                   <TableCell>
-                    <Avatar alt={photo.description} src={`${photo.image}`} />
+                    <Avatar alt={photo.description} src={`${photo.imageURL}`} />
                   </TableCell>
                   <TableCell>
                     <IconButton onClick={async () => router.push(`/dashboard/photos/form/edit/${photo._id}`)}>

@@ -1,23 +1,40 @@
 import {
-  Box, Button, Card, CardActions, CardContent,
+  Box, Card, CardActions, CardContent,
   CardHeader,
-  Divider, Grid, Switch, Typography
+  Divider, Grid, Switch, Typography, Input as MuiInput
 } from '@mui/material';
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch } from '../../../../../../store';
 import { getUserById, updateUserByAdmin } from '../../../../../../store/user/userActions';
+import useForm from '../../../../../_hooks/useForm';
+import Button from '../../../../Form/Button';
+import Input from '../../../../Form/Input';
 import { StatusType } from './type';
 
 
 export const AccountProfileDetails = ({ userDetails }: any) => {
 
-  const { reservationInfo: { date, place, packagePrice, packageDetails, advancePayment, album, photos, video }, _id } = userDetails;
-  const [uploadPhotoPercent, setUploadPhotoPercent] = useState(0)
-  const [uploading, setUploading] = useState(false);
+  const { reservationInfo: { date, place, packagePrice, packageDetails, advancePayment, album, }, _id, photos, video } = userDetails;
+
   const dispatch = useAppDispatch();
-  const [file, setFile] = useState<any>()
-console.log(file,_id)
+  const [file, setFile] = useState<any>([])
+  const [videoFile, setVideo] = useState<any>([])
+
+  const defaulValues = {
+    photos: '',
+    video: '',
+
+  }
+
+  const { control, errors, handleSubmit, setValue } = useForm({
+    defaultValues: defaulValues,
+    validationSchema: {
+
+    }
+  })
+
+
 
   const onChangeStatus = async (status: string) => {
     const data = {
@@ -31,21 +48,60 @@ console.log(file,_id)
 
   }
 
+  const onSubmit = async (data: any) => {
+    const res = await dispatch(updateUserByAdmin({ id: _id, data }));
 
-  const submit = async (event:any) => {
-    event.preventDefault()
+    if (res.meta.requestStatus === 'fulfilled') {
+      dispatch(getUserById(_id));
+    }
 
-    const formData = new FormData();
-    formData.append("file", file)
-  
-    await axios.put("http://localhost:5000/api/photoupdate/" + _id, formData, { headers: {'Content-Type': 'multipart/form-data'}})
-  
   }
 
-  const fileSelected = (event:any) => {
-    const file = event.target.files[0]
-		setFile(file)
-	}
+
+  useEffect(() => {
+    setValue('photos', photos);
+    setValue('video', video)
+  }, [photos, video])
+
+
+  const uploadHandler = async (event: any, property: string) => {
+    event.preventDefault()
+    const formData = new FormData();
+
+    if (property === 'video') {
+      formData.append("file", videoFile[0])
+    }
+    for (let i = 0; i < file.length; i++) {
+      formData.append("file", file[i]);
+
+    }
+
+    const result = await axios.put("http://localhost:5000/api/photoupdate/user/" + _id, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+    if (result.status === 200) {
+      console.log(result)
+      if (property === 'video') {
+        setValue('video', String(result.data))
+      } if (property === 'photos') {
+        setValue('photos', String(result.data))
+      }
+
+
+    }
+
+  }
+
+  const fileSelected = (event: any, property: string) => {
+    const files = event.target.files
+    if (property === 'video') {
+      setVideo(files)
+    }
+    if (property === 'photos') {
+      setFile(files)
+    }
+
+  }
+
+
 
 
   // const uploadPhotoHandler = async (e: any) => {
@@ -417,21 +473,49 @@ console.log(file,_id)
                   >
                     <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Video</Typography>
                     <Typography component="p" >{video ? 'İndir' : 'Hazırlanıyor'} </Typography>
-
+                    <Box
+                      component="div">
+                      <a href={photos} download>download</a>
+                    </Box>
                   </Grid>
+                  <Grid
+                    xs={12}
+                    sm={12}
+                    lg={12}
+                    md={12}
+                    item
+                    sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
+                  >
+                    <Grid container spacing={5}
+                    >
+                      <Grid item xs={6} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="video" name="video" placeholder="Video" label="Video" control={control} errors={errors} /></Grid>
 
-
-
-                    <form onSubmit={submit}>
-                    <input type="file" id="image-file" onChange={fileSelected} />
-                    <Button type="submit">Kaydet</Button>
-                    </form>
-                  
-
-
+                      <Grid item xs={6} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="photos" name="photos" placeholder="Photo" label="Photo" control={control} errors={errors} /></Grid>
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Box>
             </CardContent>
+            <CardActions>
+              
+              <Box component="form" onSubmit={(e) => uploadHandler(e, 'video')}>
+                <MuiInput type="file" id="image-file" onChange={(e) => fileSelected(e, 'video')} inputProps={{ multiple: true }} />
+                <Button type="submit" text="Video Yükle" />
+              </Box>
+              
+              <Box component="form" onSubmit={(e) => uploadHandler(e, 'photos')}>
+                <MuiInput type="file" id="image-file" onChange={(e) => fileSelected(e, 'photos')} inputProps={{ multiple: true }} />
+                <Button type="submit" text="Fotoğrafı Yükle" />
+              </Box>
+
+            </CardActions>
+            <CardActions>
+              <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+
+                <Button type="submit" text="Fotoğraf ve Videoları Kaydet" />
+              </Box>
+
+            </CardActions>
             <Divider />
           </Card>
 

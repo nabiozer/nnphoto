@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Swiper } from "../lib";
+import { Box, Swiper } from "../lib";
 import { RootState, useAppDispatch } from "../store";
 import { getPhotos } from "../store/photo/photoActions";
 
@@ -17,7 +17,7 @@ const Home = () => {
    dispatch(getPhotos());
   }, [dispatch]);
 
-console.log(photoList?.filter((photo:any) => photo.property === 'home'))
+
   return (
     <>
     <section id="home" >
