@@ -1,25 +1,38 @@
 import {
   Box, Card, CardActions, CardContent,
   CardHeader,
-  Divider, Grid, Switch, Typography, Input as MuiInput
+  Divider, Grid, Input as MuiInput, Switch, Typography
 } from '@mui/material';
 import axios from 'axios';
+
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+import 'filepond/dist/filepond.min.css';
 import { useEffect, useState } from 'react';
+import { registerPlugin } from 'react-filepond';
 import { useAppDispatch } from '../../../../../../store';
 import { getUserById, updateUserByAdmin } from '../../../../../../store/user/userActions';
+import useS3Download from '../../../../../_hooks/useDownload';
 import useForm from '../../../../../_hooks/useForm';
 import Button from '../../../../Form/Button';
 import Input from '../../../../Form/Input';
 import { StatusType } from './type';
+import DownloadIcon from '@mui/icons-material/Download';
 
-
+registerPlugin(FilePondPluginImagePreview);
 export const AccountProfileDetails = ({ userDetails }: any) => {
 
-  const { reservationInfo: { date, place, packagePrice, packageDetails, advancePayment, album, }, _id, photos, video } = userDetails;
-
+  const { reservationInfo: { date, place, packagePrice, packageDetails, advancePayment, album, }, _id, photos, video, photosURL, videoURL } = userDetails;
+  const [downloadObject, loading, error,progress] = useS3Download();
   const dispatch = useAppDispatch();
   const [file, setFile] = useState<any>([])
   const [videoFile, setVideo] = useState<any>([])
+  const [files, setFiles] = useState([]);
+
+  const handleFileUpload = (files: any) => {
+    console.log(files)
+    setFiles(files);
+  };
 
   const defaulValues = {
     photos: '',
@@ -55,7 +68,11 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
       dispatch(getUserById(_id));
     }
 
-  }
+  } 
+  useEffect(() => {
+    console.log(progress)
+  }, [progress])
+
 
 
   useEffect(() => {
@@ -76,7 +93,7 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
 
     }
 
-    const result = await axios.put("http://localhost:5000/api/photoupdate/user/" + _id, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+    const result = await axios.post("http://localhost:5000/api/photoupdate/user/" + _id, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
     if (result.status === 200) {
       console.log(result)
       if (property === 'video') {
@@ -103,38 +120,6 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
 
 
 
-
-  // const uploadPhotoHandler = async (e: any) => {
-  //   const file = e.target.files[0];
-  //   const formData = new FormData();
-  //   formData.append("file", file);
-  //   formData.append("_id", _id)
-  //   setUploading(true);
-
-  //   try {
-  //     const config = {
-  //       headers: {
-  //         "Content-Type": "multipart/form-data",
-  //       },
-  //     };
-
-  //     const { data } = await axios.post("http://localhost:5000/api/uploadfile", formData, config);
-
-
-  //     setUploadPhotoPercent(100)
-  //     setUploading(false);
-  //     console.log(data)
-  //     setTimeout(() => {
-  //       setUploadPhotoPercent(0)
-  //     }, 5000)
-
-
-  //     setUploading(false);
-  //   } catch (error) {
-  //     console.error(error);
-  //     setUploading(false);
-  //   }
-  // };
 
 
   return (
@@ -460,8 +445,9 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
                     item
                     sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
                   >
+
                     <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Fotoğraflar</Typography>
-                    <Typography component="p" >{photos ? 'İndir' : 'Yükleme aşamasında'}</Typography>
+                    <Typography component="p" >{photos && photosURL ? <DownloadIcon onClick={() => downloadObject(photosURL,photos)} /> : 'Yükleme aşamasında'}</Typography>
                   </Grid>
                   <Grid
                     xs={12}
@@ -472,11 +458,7 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
                     sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
                   >
                     <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Video</Typography>
-                    <Typography component="p" >{video ? 'İndir' : 'Hazırlanıyor'} </Typography>
-                    <Box
-                      component="div">
-                      <a href={photos} download>download</a>
-                    </Box>
+                    <Typography component="p" >{video && videoURL ? <DownloadIcon onClick={() => downloadObject(videoURL,video)} /> : 'Yükleme aşamasında'}</Typography>
                   </Grid>
                   <Grid
                     xs={12}
@@ -497,26 +479,22 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
               </Box>
             </CardContent>
             <CardActions>
-              
               <Box component="form" onSubmit={(e) => uploadHandler(e, 'video')}>
                 <MuiInput type="file" id="image-file" onChange={(e) => fileSelected(e, 'video')} inputProps={{ multiple: true }} />
                 <Button type="submit" text="Video Yükle" />
               </Box>
-              
               <Box component="form" onSubmit={(e) => uploadHandler(e, 'photos')}>
                 <MuiInput type="file" id="image-file" onChange={(e) => fileSelected(e, 'photos')} inputProps={{ multiple: true }} />
                 <Button type="submit" text="Fotoğrafı Yükle" />
               </Box>
-
             </CardActions>
             <CardActions>
               <Box component="form" onSubmit={handleSubmit(onSubmit)}>
-
                 <Button type="submit" text="Fotoğraf ve Videoları Kaydet" />
               </Box>
-
             </CardActions>
             <Divider />
+
           </Card>
 
         </Grid>

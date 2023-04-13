@@ -21,6 +21,21 @@ import Select from '../../../../../Form/Select';
 import { Layout as DashboardLayout } from '../../../layouts/dashboard/layout';
 import PhotoDetails from '../photos-detail';
 
+import { FilePond, registerPlugin } from 'react-filepond';
+
+// Import FilePond styles
+import 'filepond/dist/filepond.min.css';
+
+// Import the Image EXIF Orientation and Image Preview plugins
+// Note: These need to be installed separately
+// `npm i filepond-plugin-image-preview filepond-plugin-image-exif-orientation --save`
+
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+
+// Register the plugins
+registerPlugin( FilePondPluginImagePreview);
+
 
 function Copyright(props: any) {
     return (
@@ -43,7 +58,8 @@ export default function PhotoForm({ type, id }: any) {
     const photoDetails = useSelector((state: RootState) => state.photo.photoDetails.data)
     const isEdit = id ? true : false;
     const router = useRouter();
-    
+    const [file, setFile] = useState()
+
     const defaulValues = {
         property: '',
         image: '',
@@ -58,22 +74,14 @@ export default function PhotoForm({ type, id }: any) {
 
         }
     })
-
-
-    const fileUpload = async (event:any) => {
-        const file = event.target.files[0]
-        const formData = new FormData();
-
-        formData.append("file", file);
-      
-
-    const result = await axios.put("http://localhost:5000/api/photoupdate/photos/" + id, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
-        if(result.status === 200) {
-           console.log(result)
-            setValue('image', String(result.data))
-          
+    const handleProcessFile = (error:any, file:any):any => {
+        if (!error) {
+            setValue('image', String(file?.filename))
         }
-    }
+        return
+      };
+
+    
 
     useEffect(() => {
         if (isEdit) {
@@ -81,7 +89,7 @@ export default function PhotoForm({ type, id }: any) {
                 const res = await dispatch(getPhotoById(id))
                 if (res.meta.requestStatus === 'fulfilled') {
                     const { property, image, description, src, colorCodes } = res?.payload
-                    setValue('property', property);                   
+                    setValue('property', property);
                     setValue('image', image)
                     setValue('description', description);
                     setValue('src', src);
@@ -93,7 +101,7 @@ export default function PhotoForm({ type, id }: any) {
     }, [isEdit])
 
     const onSubmit = async (data: any) => {
-       
+
         if (isEdit) {
             const res = await dispatch(updatePhoto({ id, data }));
             if (res.meta.requestStatus === 'fulfilled') {
@@ -136,7 +144,19 @@ export default function PhotoForm({ type, id }: any) {
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Select options={{ data: [{ Value: 'Ana Sayfa', Id: PhotoProperty.Home }, { Value: 'Galeri', Id: PhotoProperty.Gallery }, { Value: 'Video', Id: PhotoProperty.Video }], displayField: 'Value', displayValue: 'Id' }} id="property" name="property" label="Tip" control={control} errors={errors} setValue={setValue} defaultValue={defaulValues.property} fullWidth /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="description" name="description" placeholder="Açıklama" label="Açıklama" control={control} errors={errors} /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="src" name="src" placeholder="Video Link" label="Video Link" control={control} errors={errors} /></Grid>
-                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} > <Box sx={{display:'flex',flexDirection:'row'}}><MuiInput type="file" id="image-file" onChange={fileUpload} /><Input id="image" name="image" placeholder="Açıklama" label="Image" control={control} errors={errors} /></Box></Grid>
+                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="image" name="image" placeholder="Açıklama" label="Image" control={control} errors={errors} /></Grid>
+                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }}>   <Box component='form'>
+                    <FilePond
+                        files={file}
+                        onupdatefiles={() => setFile}
+                        maxFiles={3}
+                        instantUpload={false}
+                        allowProcess
+                        server={"http://localhost:5000/api/photoupdate/photos/" + id}
+                        name="file" /* sets the file input name, it's filepond by default */
+                        labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+                    />
+                </Box></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} >
                             <Button
                                 type="submit"
@@ -149,6 +169,7 @@ export default function PhotoForm({ type, id }: any) {
                         </Grid>
                     </Grid>
                 </Box>
+             
                 <Copyright sx={{ mt: 8, mb: 4 }} />
             </Container>
         </DashboardLayout>
