@@ -18,25 +18,14 @@ const CustomCircularProgress: FC<ICircularProgressProps> = ({
       
         <CircularProgress
           variant="determinate"
-          sx={{
-            color: (theme) => theme.palette.grey[50],
-          }}
+         
           {...(size !== 0 && { size: size })}
           thickness={thickness}
           value={100}
         />
   
         <CircularProgress
-          sx={{
-            color: color,
-            ...(rounded && {
-              [`& .${circularProgressClasses.circle}`]: {
-                strokeLinecap: "round",
-              },
-            }),
-            position: "absolute",
-            left: 0,
-          }}
+          
           {...(size !== 0 && { size: size })}
           {...(value !== undefined && { variant: "determinate" })}
           value={value}
@@ -50,13 +39,6 @@ const CustomCircularProgress: FC<ICircularProgressProps> = ({
     <Typography
       variant="caption"
       component="div"
-      color={(label as IProgressLabel).color}
-      {...((label as IProgressLabel).fontSize && {
-        fontSize: (label as IProgressLabel).fontSize,
-      })}
-      {...((label as IProgressLabel).fontWeight && {
-        fontWeight: (label as IProgressLabel).fontWeight,
-      })}
     >
     {`${Math.round(value || 0)}%`}{" "}
     </Typography>

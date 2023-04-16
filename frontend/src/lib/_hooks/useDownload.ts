@@ -1,17 +1,18 @@
-import { useEffect, useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
+import { useEffect, useState } from 'react';
 
 type UseS3DownloadReturnType = [
   downloadObject: (a:string,b:string) => void,
   loading: boolean,
   progress: number,
-  error: Error | null
+  error: Error | null,
 ];
 
-const useS3Download = (): UseS3DownloadReturnType => {
+const useS3Download = (setValue:any): UseS3DownloadReturnType => {
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState(false);
-  const [progress, setProgress] = useState(0);
+
+
 
   const downloadObject = (signedUrl:string,name:string) => {
     setLoading(true);
@@ -22,14 +23,12 @@ const useS3Download = (): UseS3DownloadReturnType => {
       responseType: 'blob',
       headers: {
         'Content-Disposition': `attachment; filename="${name}"`,
-        'Content-Type': `application/octet-stream`,
       },
       onDownloadProgress: (progressEvent) => {
         const { loaded, total } = progressEvent;
         const percentCompleted = Math.round((loaded * 100) / total!);
-        setProgress(percentCompleted);
+        setValue(percentCompleted);
       
-        console.log(percentCompleted)
       }
     })
       .then((response: AxiosResponse<Blob>) => {
@@ -41,16 +40,16 @@ const useS3Download = (): UseS3DownloadReturnType => {
         link.click();
         link.remove();
         setLoading(false);
-        setProgress(0);
+        setValue(0);
       })
       .catch((error: Error) => {
         setError(error);
         setLoading(false);
-        setProgress(0);
+        setValue(0);
       });
   };
 
-  return [downloadObject, loading, progress, error];
+  return [downloadObject, loading, error];
 };
 
 export default useS3Download;

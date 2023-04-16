@@ -1,18 +1,20 @@
+import DownloadIcon from '@mui/icons-material/Download';
 import {
   Box, Card, CardContent,
   CardHeader,
-  Divider, Grid, Typography
+  Divider, Grid, IconButton, Typography
 } from '@mui/material';
-import axios from 'axios';
 import { useState } from 'react';
-
-
+import useS3Download from '../../../_hooks/useDownload';
+import CircularProgressWithLabel from '../../Display/Progress/WithLabel';
 
 export const ProfileDetails = ({ userDetails }: any) => {
 
-  const { reservationInfo: { date, place, packagePrice, packageDetails, advancePayment, album, photos, video } } = userDetails;
+  const { reservationInfo: { date, place, packagePrice, packageDetails, advancePayment, album },photos, video, photosURL, videoURL } = userDetails;
+  const [progress, setProgress] = useState<any>(null);
+  const [downloadObject, loading, error] = useS3Download(setProgress);
+  const [downloadObj, setDownloadObj] = useState<string>('')
 
- 
   return (
     <>
       <Grid container spacing={2} padding={3} >
@@ -145,7 +147,7 @@ export const ProfileDetails = ({ userDetails }: any) => {
                     <Typography component="p" >{album}</Typography>
                   </Grid>
 
-                
+
 
 
                 </Grid>
@@ -253,7 +255,9 @@ export const ProfileDetails = ({ userDetails }: any) => {
                     sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
                   >
                     <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Fotoğraflar</Typography>
-                    <Typography component="p" >{photos ? 'İndir' : 'Yükleme aşamasında'}</Typography>
+                    {progress && downloadObj === 'photos' ?
+                      <CircularProgressWithLabel value={progress} /> :
+                      <Typography component="p" >{photos && photosURL ? <IconButton disabled={progress} onClick={() => { setDownloadObj('photo'); downloadObject(photosURL, photos) }} ><DownloadIcon /></IconButton> : 'Yükleme aşamasında'}</Typography>}
 
                   </Grid>
 
@@ -267,7 +271,7 @@ export const ProfileDetails = ({ userDetails }: any) => {
                     sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
                   >
                     <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Video</Typography>
-                    <Typography component="p" >{video ? 'İndir' : 'Hazırlanıyor'} </Typography>
+                    {progress && downloadObj === 'video' ? <CircularProgressWithLabel value={progress}/> : <Typography component="p" >{video && videoURL ? <IconButton disabled={progress} onClick={() => { setDownloadObj('video'); downloadObject(videoURL, video) }}><DownloadIcon /></IconButton> : 'Yükleme aşamasında'}</Typography>}
 
                   </Grid>
                 </Grid>

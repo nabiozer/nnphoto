@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 import generateToken from "../utils/generateToken.js";
 import User from "../models/UserModel.js";
+import { getObjectSignedUrl } from "../utils/s3.js";
 
 //  @desc Auth user & get TOKEN
 //  @route POST /api/users/login
@@ -39,7 +40,16 @@ const authUser = asyncHandler(async (req, res) => {
 const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
+ 
+  
   if (user) {
+ 
+      const photosWithUrl = await getObjectSignedUrl(user?.photos);
+
+   
+      const videosWithUrl = await getObjectSignedUrl(user?.video);
+   
+    
     res.json({
       _id: user._id,
       name: user.name,
@@ -52,6 +62,8 @@ const getUserProfile = asyncHandler(async (req, res) => {
       video: user.video,
       photos: user.photos,
       status: user.status,
+      photosURL: photosWithUrl,
+      videoURL:videosWithUrl
     });
   } else {
     res.status(404);
@@ -220,7 +232,12 @@ const deleteUser = asyncHandler(async (req, res) => {
 const getUserById = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id).select("-password");
   if (user) {
-    res.json(user);
+  
+      const photosWithUrl = user.photos ? await getObjectSignedUrl(user?.photos) : null;
+      const videosWithUrl = user.video ? await getObjectSignedUrl(user?.video) : null;
+
+    
+    res.json({...user?.toObject(),photosURL:photosWithUrl,videoURL:videosWithUrl});
   } else {
     res.status(404);
     throw new Error("user not found");

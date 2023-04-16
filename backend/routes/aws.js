@@ -2,9 +2,8 @@
 import express from "express";
 import asyncHandler from "express-async-handler";
 import multer from "multer";
-import Photo from "../models/PhotoModel.js";
 import User from "../models/UserModel.js";
-import { getObjectSignedUrl, uploadFile } from "../utils/s3.js";
+import {  uploadFile } from "../utils/s3.js";
 
 const router = express.Router();
 
@@ -25,7 +24,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({ storage });
 
 // put user
-router.put("/user/:id", upload.array("file"), async (req, res) => {
+router.post("/user/:id", upload.array("file"), async (req, res) => {
   const file = req.files[0];
   
  
@@ -43,7 +42,7 @@ router.put("/user/:id", upload.array("file"), async (req, res) => {
 
 });
 
-router.put("/photos/:id", upload.array("file"), async (req, res) => {
+router.post("/photos/:id", upload.array("file"), async (req, res) => {
   const file = req.files[0];
   
  
@@ -59,6 +58,16 @@ router.put("/photos/:id", upload.array("file"), async (req, res) => {
   }
 
 });
+
+router.get("/download/:filename", async (req, res) => {
+  const filename = req.params.filename
+ 
+  const x = await getObjectDownload(filename)
+  res.send(JSON.stringify(x?.Body))
+ console.log(x?.Body,'xx')
+
+});
+
 
 const updateUserPhotos = asyncHandler(async (req, res) => {
   await uploadFile(fileBuffer, imageName, file.mimetype);

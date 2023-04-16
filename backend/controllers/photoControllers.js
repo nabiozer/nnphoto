@@ -32,7 +32,7 @@ const getPhotoById = asyncHandler(async (req, res) => {
   const photo = await Photo.findById(req.params.id);
   if (photo) {
     const photoWithUrl = await getObjectSignedUrl(photo?.image);
-    const newPhoto = {...photo._doc,imageURL:photoWithUrl || photo._doc.image}
+    const newPhoto = {...photo.toObject(),imageURL:photoWithUrl || photo._doc.image}
    
     
     res.json(newPhoto);

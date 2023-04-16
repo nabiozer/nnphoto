@@ -12,7 +12,7 @@ interface IPhoto {
     colorCodes:[]
 }
 interface IState {
-  data : IPhoto | IPhoto[] | null,
+  data : IPhoto  | null,
   loading:boolean,
   error:string,
 }
