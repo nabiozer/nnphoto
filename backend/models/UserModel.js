@@ -56,12 +56,32 @@ const userSchema = mongoose.Schema(
       },
       album: {
         type: String,
-        default: "25x65 - 2 Adet Aile Albumu -50x70 poster",
+        default: "25x50 - 2 Jumbo  ",
       },
       isPoster:{
         type:Boolean,
         default: false,
-      }
+      },
+      posterDetail:{
+        type: String,
+        default: "",
+      },
+      canvasDetail:{
+        type: String,
+        default: '',
+      },
+      pvc:{
+        type:String,
+        default:'white'
+      },
+      box:{
+        type:String,
+        default:''
+      },
+      wood:{
+        type:String,
+        default:''
+      },
     },
 
     chosen: {

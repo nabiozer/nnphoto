@@ -28,10 +28,8 @@ const PhotoDetails = ({ details }: any) => {
                         {details?.imageURL && <Box
                             component="img"
                             sx={{
-
-
                                 width: '100%',
-                                maxHeight: '500px',
+                                maxHeight: '600px',
 
                                 objectFit: 'cover'
                             }}
@@ -52,7 +50,7 @@ const PhotoDetails = ({ details }: any) => {
 
                         <Box
                             component="div"
-                            sx={{ justify: 'center', textAlign: 'center', alignItems: 'center', width: '100%', maxHeight: '500px !important', display: 'block' }}
+                            sx={{ justify: 'center', textAlign: 'center', alignItems: 'center', width: '100%', maxHeight: '600px !important', display: 'block' }}
 
                         > <PlayerYoutube selectedVideo={details.src} /></Box>
 

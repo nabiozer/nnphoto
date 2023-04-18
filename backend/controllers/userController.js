@@ -45,8 +45,6 @@ const getUserProfile = asyncHandler(async (req, res) => {
   if (user) {
  
       const photosWithUrl = await getObjectSignedUrl(user?.photos);
-
-   
       const videosWithUrl = await getObjectSignedUrl(user?.video);
    
     
@@ -154,6 +152,11 @@ const registerUser = asyncHandler(async (req, res) => {
     advancePayment,
     album,
     isPoster,
+    posterDetail,
+    canvasDetail,
+    pcv,
+    box,
+    wood
   } = req.body;
   const userExist = await User.findOne({ email });
 
@@ -175,6 +178,11 @@ const registerUser = asyncHandler(async (req, res) => {
       advancePayment,
       album,
       isPoster,
+      posterDetail,
+      canvasDetail,
+      pcv,
+      box,
+      wood
     },
   });
   if (user) {
@@ -265,6 +273,11 @@ const updateUser = asyncHandler(async (req, res) => {
       packagePrice: req.body.packagePrice || user.reservationInfo.packagePrice,
       place: req.body.place || user.reservationInfo.place,
       isPoster: req.body.isPoster || user.reservationInfo.isPoster,
+      posterDetail:req.body.posterDetail || user.reservationInfo.posterDetail,
+      canvasDetails:req.body.canvasDetails || user.reservationInfo.canvasDetails,
+      pvc:req.body.pvc || user.reservationInfo.pvc,
+      box:req.body.box || user.reservationInfo.box,
+      wood:req.body.wood || user.reservationInfo.wood,
     };
 
     const chosen = {

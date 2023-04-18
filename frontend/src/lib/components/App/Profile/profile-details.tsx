@@ -198,7 +198,7 @@ export const ProfileDetails = ({ userDetails }: any) => {
                     item
                     sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
                   >
-                    <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Ödenen Tutar</Typography>
+                    <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Ödenen </Typography>
                     <Typography component="p" >{advancePayment} TL</Typography>
 
                   </Grid>
@@ -211,7 +211,7 @@ export const ProfileDetails = ({ userDetails }: any) => {
                     item
                     sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
                   >
-                    <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Kalan Ödeme</Typography>
+                    <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Kalan </Typography>
                     <Typography component="p" >{packagePrice - advancePayment} TL</Typography>
 
                   </Grid>

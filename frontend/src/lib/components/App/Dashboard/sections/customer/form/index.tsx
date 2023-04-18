@@ -57,6 +57,11 @@ export default function Form({ type, id }: any) {
             album: '',
             address: '',
             phoneNumber: '',
+            posterDetail:'',
+            canvasDetail:'',
+            pvc:'',
+            box:'',
+            wood:'',
         },
         validationSchema: {
 
@@ -70,7 +75,7 @@ export default function Form({ type, id }: any) {
             const getUser = async () => {
                 const res = await dispatch(getUserById(id))
                 if (res.meta.requestStatus === 'fulfilled') {
-                    const { email, name, address, phoneNumber, reservationInfo: { date, advancePayment, album, packageDetails, packagePrice, place } } = res?.payload
+                    const { email, name, address, phoneNumber, reservationInfo: { date, advancePayment, album:{album,posterDetail,canvasDetail,pvc,box,wood}, packageDetails, packagePrice, place } } = res?.payload
                     setValue('email', email);
                     setValue('name', name);
                     setValue('date', date);
@@ -81,6 +86,11 @@ export default function Form({ type, id }: any) {
                     setValue('advancePayment', advancePayment);
                     setValue('packageDetails', packageDetails);
                     setValue('packagePrice', packagePrice);
+                    setValue('posterDetail', posterDetail);
+                    setValue('canvasDetail', canvasDetail);
+                    setValue('pvc', pvc);
+                    setValue('box', box);
+                    setValue('wood', wood);
                 }
             }
             getUser()

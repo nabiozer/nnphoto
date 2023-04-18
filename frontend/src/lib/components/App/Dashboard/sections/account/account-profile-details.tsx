@@ -477,34 +477,16 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
                     sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
                   >
                     <Grid container spacing={5}
-                    >
-                      <Grid item xs={6} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="video" name="video" placeholder="Video" label="Video" control={control} errors={errors} /></Grid>
-
+                    >                 
                       <Grid item xs={6} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="photos" name="photos" placeholder="Photo" label="Photo" control={control} errors={errors} /></Grid>
+                      <Grid item xs={6} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="video" name="video" placeholder="Video" label="Video" control={control} errors={errors} /></Grid>
                     </Grid>
                   </Grid>
                 </Grid>
               </Box>
             </CardContent>
             <CardActions>
-            <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }}>   <Box component='div'>
-                    <FilePond
-                        files={file}
-                        onupdatefiles={() => setFile}
-                        maxFiles={3}
-                        instantUpload={false}
-                        allowProcess
-                        onprocessfile={(error,file) => handleProcessFile(error,file,'video')}
-                        server={"http://localhost:5000/api/photoupdate/user/" + _id}
-                        onremovefile={(file) => {
-                       
-                            // set the value you want to set here
-                            video ? setValue('video', video)  : setValue('video', '')
-                          }}
-                        name="file" /* sets the file input name, it's filepond by default */
-                        labelIdle='Drag & Drop your Video or <span class="filepond--label-action">Browse</span>'
-                    />
-                </Box></Grid>
+           
               <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }}>   <Box component='div'>
 
                     
@@ -523,6 +505,24 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
                           }}
                         name="file" /* sets the file input name, it's filepond by default */
                         labelIdle='Drag & Drop your Photos or <span class="filepond--label-action">Browse</span>'
+                    />
+                </Box></Grid>
+                <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }}>   <Box component='div'>
+                    <FilePond
+                        files={file}
+                        onupdatefiles={() => setFile}
+                        maxFiles={3}
+                        instantUpload={false}
+                        allowProcess
+                        onprocessfile={(error,file) => handleProcessFile(error,file,'video')}
+                        server={"http://localhost:5000/api/photoupdate/user/" + _id}
+                        onremovefile={(file) => {
+                       
+                            // set the value you want to set here
+                            video ? setValue('video', video)  : setValue('video', '')
+                          }}
+                        name="file" /* sets the file input name, it's filepond by default */
+                        labelIdle='Drag & Drop your Video or <span class="filepond--label-action">Browse</span>'
                     />
                 </Box></Grid>
               
