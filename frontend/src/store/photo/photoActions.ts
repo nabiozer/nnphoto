@@ -1,4 +1,4 @@
-import { photoActions } from './photoSlice';
+
 import axios from 'axios';
 import store from '../index';
 import { toast } from 'react-toastify';
@@ -44,9 +44,26 @@ const api = axios.create({
 
   //get photo list
 
-export const getPhotos = createAsyncThunk('data/getPhotos', async () => {
-    const response = await api.get('photos');
+export const getPhotosPagination = createAsyncThunk('data/getPhotosPagination', async (params?:any) => {
+    const response = await api.get(`/photos?${params}`);
     return response.data;
+});
+
+export const getPhotosHome = createAsyncThunk('data/getPhotosHome', async () => {
+  const response = await api.get('/photos/home');
+  return response.data;
+});
+export const getPhotosGallery = createAsyncThunk('data/getPhotosGallery', async () => {
+  const response = await api.get('/photos/gallery');
+  return response.data;
+});
+export const getPhotosVideo = createAsyncThunk('data/getPhotosVideo', async () => {
+  const response = await api.get('/photos/video');
+  return response.data;
+});
+export const getPhotosAlbum = createAsyncThunk('data/getPhotosAlbum', async () => {
+  const response = await api.get('/photos/album');
+  return response.data;
 });
 
 export const createPhoto = createAsyncThunk('data/createPhoto', async (data?:any) => {
@@ -65,7 +82,7 @@ export const deletePhoto = createAsyncThunk('data/deletePhotos', async (id?:any)
 
 export const getPhotoById = createAsyncThunk('data/getPhotoById', async (id?:any) => {
 
-  const response = await api.get(`/photos/${id}`);
+  const response = await api.get(`/photos${id || ''}`);
   return response.data;
 
 });

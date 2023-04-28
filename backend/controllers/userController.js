@@ -40,14 +40,10 @@ const authUser = asyncHandler(async (req, res) => {
 const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
- 
-  
   if (user) {
- 
-      const photosWithUrl = await getObjectSignedUrl(user?.photos);
-      const videosWithUrl = await getObjectSignedUrl(user?.video);
-   
-    
+    const photosWithUrl = user?.photos ? await getObjectSignedUrl(user?.photos) : '';
+    const videosWithUrl = user?.video ? await getObjectSignedUrl(user?.video) : '';
+
     res.json({
       _id: user._id,
       name: user.name,
@@ -60,8 +56,8 @@ const getUserProfile = asyncHandler(async (req, res) => {
       video: user.video,
       photos: user.photos,
       status: user.status,
-      photosURL: photosWithUrl,
-      videoURL:videosWithUrl
+      photosURL: photosWithUrl ,
+      videoURL: videosWithUrl,
     });
   } else {
     res.status(404);
@@ -150,13 +146,12 @@ const registerUser = asyncHandler(async (req, res) => {
     packagePrice,
     packageDetails,
     advancePayment,
-    album,
-    isPoster,
+    albumPack,
     posterDetail,
     canvasDetail,
-    pcv,
+    pvc,
     box,
-    wood
+    wood,
   } = req.body;
   const userExist = await User.findOne({ email });
 
@@ -171,18 +166,19 @@ const registerUser = asyncHandler(async (req, res) => {
     address,
     phoneNumber,
     reservationInfo: {
+      album: {
+        albumPack,
+        posterDetail,
+        canvasDetail,
+        pvc,
+        box,
+        wood,
+      },
       date,
       place,
       packagePrice,
       packageDetails,
       advancePayment,
-      album,
-      isPoster,
-      posterDetail,
-      canvasDetail,
-      pcv,
-      box,
-      wood
     },
   });
   if (user) {
@@ -199,7 +195,7 @@ const registerUser = asyncHandler(async (req, res) => {
       video: user.video,
       photos: user.photos,
       status: user.status,
-      album: user.album,
+   
       token: generateToken(user._id),
     });
   } else {
@@ -240,12 +236,18 @@ const deleteUser = asyncHandler(async (req, res) => {
 const getUserById = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id).select("-password");
   if (user) {
-  
-      const photosWithUrl = user.photos ? await getObjectSignedUrl(user?.photos) : null;
-      const videosWithUrl = user.video ? await getObjectSignedUrl(user?.video) : null;
+    const photosWithUrl = user.photos
+      ? await getObjectSignedUrl(user?.photos)
+      : null;
+    const videosWithUrl = user.video
+      ? await getObjectSignedUrl(user?.video)
+      : null;
 
-    
-    res.json({...user?.toObject(),photosURL:photosWithUrl,videoURL:videosWithUrl});
+    res.json({
+      ...user?.toObject(),
+      photosURL: photosWithUrl,
+      videoURL: videosWithUrl,
+    });
   } else {
     res.status(404);
     throw new Error("user not found");
@@ -263,21 +265,31 @@ const updateUser = asyncHandler(async (req, res) => {
       user.password = req.body.password || user.password;
     }
 
+
+    console.log(req.body, user.reservationInfo.album)
+    const albumInfo = {
+     
+        albumPack: req.body.albumPack || user.reservationInfo.album.albumPack,
+        posterDetail:
+          req.body.posterDetail || user.reservationInfo.album.posterDetail,
+        canvasDetail:
+          req.body.canvasDetail || user.reservationInfo.album.canvasDetail,
+        pvc: req.body.pvc ,
+        box: req.body.box ,
+        wood: req.body.wood ,
+   
+    };
+
     const reservationInfo = {
+      album: albumInfo,
       advancePayment:
         req.body.advancePayment || user.reservationInfo.advancePayment,
       date: req.body.date || user.reservationInfo.date,
-      album: req.body.album || user.reservationInfo.album,
       packageDetails:
         req.body.packageDetails || user.reservationInfo.packageDetails,
       packagePrice: req.body.packagePrice || user.reservationInfo.packagePrice,
       place: req.body.place || user.reservationInfo.place,
       isPoster: req.body.isPoster || user.reservationInfo.isPoster,
-      posterDetail:req.body.posterDetail || user.reservationInfo.posterDetail,
-      canvasDetails:req.body.canvasDetails || user.reservationInfo.canvasDetails,
-      pvc:req.body.pvc || user.reservationInfo.pvc,
-      box:req.body.box || user.reservationInfo.box,
-      wood:req.body.wood || user.reservationInfo.wood,
     };
 
     const chosen = {
@@ -301,7 +313,7 @@ const updateUser = asyncHandler(async (req, res) => {
     user.video = req.body.video || user.video;
     user.photos = req.body.photos || user.photos;
     user.status = req.body.status || user.status;
-    user.album = req.body.album || user.album;
+
 
     const updatedUser = await user.save();
 

@@ -2,27 +2,79 @@ import asyncHandler from "express-async-handler";
 import Photo from "../models/PhotoModel.js";
 import { getObjectSignedUrl } from "../utils/s3.js";
 
-//  @desc Fetch all photos
-//  @route Get /api/photos
+//  @desc Fetch home photos
+//  @route Get /api/photos/home
 //  @acces Public
 
-const getPhotos = asyncHandler(async (req, res) => {
-  const photos = await Photo.find({});
-    
-  const photosWithURL = []
-  
-  for (let photo of photos) {
-    
-    if (photo.image) {
-        const imageURL =  await getObjectSignedUrl(photo?.image);
+const getPhotosWithUrl = asyncHandler(async (req, res) => {
+  const PageSize = req.query.PageSize | -1;
+  const PageNumber = PageSize === -1 ? 0 : req.query.PageNumber;
+  const skipNum = (PageNumber - 1) * PageSize;
+  const filterProperty = req?.url?.split('/')?.slice(-1)[0];
 
-      photosWithURL.push({...photo._doc,imageURL: imageURL})
+
+  const photos =
+    PageSize === -1
+      ? await Photo.find({property:filterProperty})
+      : await Photo.find({property:filterProperty}).skip(skipNum).limit(PageSize);
+
+  const TotalCount = await Photo.countDocuments({property:filterProperty});
+  const TotalPages = PageSize === -1 ? 1 : Math.ceil(TotalCount / PageSize);
+
+  const photosWithURL = [];
+
+  for (let photo of photos) {
+    if (photo.image) {
+      const imageURL = await getObjectSignedUrl(photo?.image);
+
+      photosWithURL.push({ ...photo._doc, imageURL: imageURL });
     } else {
-        photosWithURL.push(photo)
+      photosWithURL.push(photo);
     }
   }
 
-  res.json(photosWithURL);
+  res.json({
+    Data: photosWithURL,
+    TotalCount,
+    PageNumber,
+    PageSize,
+    TotalPages,
+  });
+});
+
+
+const getPhotos = asyncHandler(async (req, res) => {
+  const PageSize = req.query.PageSize | -1;
+  const PageNumber = PageSize === -1 ? 0 : req.query.PageNumber;
+  const skipNum = (PageNumber - 1) * PageSize;
+
+  const photos =
+    PageSize === -1
+      ? await Photo.find({})
+      : await Photo.find({}).skip(skipNum).limit(PageSize);
+
+  const TotalCount = await Photo.countDocuments();
+  const TotalPages = PageSize === -1 ? 1 : Math.ceil(TotalCount / PageSize);
+
+  const photosWithURL = [];
+
+  for (let photo of photos) {
+    if (photo.image) {
+      const imageURL = await getObjectSignedUrl(photo?.image);
+
+      photosWithURL.push({ ...photo._doc, imageURL: imageURL });
+    } else {
+      photosWithURL.push(photo);
+    }
+  }
+
+  res.json({
+    Data: photosWithURL,
+    TotalCount,
+    PageNumber,
+    PageSize,
+    TotalPages,
+  });
 });
 
 //  @desc Fetch  photo
@@ -32,9 +84,11 @@ const getPhotoById = asyncHandler(async (req, res) => {
   const photo = await Photo.findById(req.params.id);
   if (photo) {
     const photoWithUrl = await getObjectSignedUrl(photo?.image);
-    const newPhoto = {...photo.toObject(),imageURL:photoWithUrl || photo._doc.image}
-   
-    
+    const newPhoto = {
+      ...photo.toObject(),
+      imageURL: photoWithUrl || photo._doc.image,
+    };
+
     res.json(newPhoto);
   } else {
     res.status(404);
@@ -102,4 +156,4 @@ const updatePhoto = asyncHandler(async (req, res) => {
   }
 });
 
-export { getPhotos, getPhotoById, deletePhoto, createPhoto, updatePhoto };
+export { getPhotos, getPhotoById, deletePhoto, createPhoto, updatePhoto,getPhotosWithUrl };

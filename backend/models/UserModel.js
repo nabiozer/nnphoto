@@ -54,34 +54,37 @@ const userSchema = mongoose.Schema(
 
         default: "",
       },
-      album: {
-        type: String,
-        default: "25x50 - 2 Jumbo  ",
+      album:{
+        albumPack: {
+          type: String,
+          default: "25x50 - 2 Jumbo",
+        },
+        isPoster:{
+          type:Boolean,
+          default: false,
+        },
+        posterDetail:{
+          type: String,
+          default: "",
+        },
+        canvasDetail:{
+          type: String,
+          default: '',
+        },
+        pvc:{
+          type:String,
+          default:'white'
+        },
+        box:{
+          type:String,
+          default:''
+        },
+        wood:{
+          type:String,
+          default:''
+        },
       },
-      isPoster:{
-        type:Boolean,
-        default: false,
-      },
-      posterDetail:{
-        type: String,
-        default: "",
-      },
-      canvasDetail:{
-        type: String,
-        default: '',
-      },
-      pvc:{
-        type:String,
-        default:'white'
-      },
-      box:{
-        type:String,
-        default:''
-      },
-      wood:{
-        type:String,
-        default:''
-      },
+     
     },
 
     chosen: {

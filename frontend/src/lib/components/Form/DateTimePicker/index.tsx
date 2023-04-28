@@ -280,6 +280,7 @@ const DateTimePicker: FC<any> = ({
           }}
           {...rest}
           inputRef={ref}
+          fullWidth={fullWidth}
         />
       </LocalizationProvider></ThemeWrapper>
   );

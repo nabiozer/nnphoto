@@ -1,5 +1,6 @@
 import React from 'react'
 import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
+import { Box, Pvc, Wood } from '../customer/type';
 
 type Props = {}
 
@@ -96,10 +97,10 @@ const styles = StyleSheet.create({
     },
     modalBox: {
         position: 'absolute',
-     
+
         top: '438px',
         left: '155px',
-      
+
         width: '28px',
         height: '24px',
         backgroundColor: 'black',
@@ -112,49 +113,46 @@ const styles = StyleSheet.create({
         height: '24px',
         backgroundColor: 'black',
     },
-    name:{
+    name: {
         position: 'absolute',
         top: '620px',
         left: '155px',
         color: 'red'
     },
-    tel:{
+    tel: {
         position: 'absolute',
         top: '620px',
         left: '390px',
         color: 'red'
-   
+
     },
-    address:{
+    address: {
         position: 'absolute',
         top: '690px',
         left: '155px',
-        width:'340px',
+        width: '340px',
         color: 'red'
-     
+
     },
-    
+
 });
-const AlbumForm = ({colorCode,albumName,coverText,isPoster,albumDetail,name,phoneNumber,address}:any) => {
+const AlbumForm = ({ colorCode, albumName, coverText, albumDetail, name, phoneNumber, address, posterDetail, canvasDetail, pvc, box, wood }: any) => {
     return (
         <Document>
             <Page  >
 
                 <View style={styles.section}>
                     <Image src="/assets/album/form.jpg" style={styles.pageBackground} />
-                    <Text style={styles.pvcBoxWhite}></Text>
-                    <Text style={styles.pvcBoxBlack}></Text>
-                    <Text style={styles.walnutWood}></Text>
-                    <Text style={styles.blackWood}></Text>
-                    <Text style={styles.modalBox}></Text>
-                    <Text style={styles.woodBox}></Text>
+                    <Text style={pvc === Pvc.White ? styles.pvcBoxWhite : styles.pvcBoxBlack}></Text>
+                    {wood !== '' && <Text style={wood === Wood.Black ? styles.blackWood : styles.walnutWood}></Text>}
+                    {box !== '' && <Text style={box === Box.Modal ? styles.modalBox : styles.woodBox}></Text>}
                     <Text style={styles.firmName}>NNPHOTOFILM</Text>
                     <Text style={styles.albumName}>{albumName}</Text>
                     <Text style={styles.materialName}>{colorCode}</Text>
                     <Text style={styles.setName}>{albumDetail}</Text>
                     <Text style={styles.coverText}>{coverText}</Text>
-                    {isPoster && <Text style={styles.poster}>ECO-46</Text>}
-                    <Text style={styles.canvas}>ECO-46</Text>
+                    {posterDetail && <Text style={styles.poster}>{posterDetail}</Text>}
+                    {canvasDetail && <Text style={styles.canvas}>{canvasDetail}</Text>}
                     <Text style={styles.name}>{name}</Text>
                     <Text style={styles.tel}>{phoneNumber}</Text>
                     <Text style={styles.address}>{address}</Text>

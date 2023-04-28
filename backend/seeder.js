@@ -16,8 +16,8 @@ const importData = async () => {
       
         await User.deleteMany();
         await User.insertMany(users)
-        await Photo.deleteMany();
-        await Photo.insertMany(photos);
+        // await Photo.deleteMany();
+        // await Photo.insertMany(photos);
 
     
         console.log('data imported')
@@ -32,7 +32,7 @@ const importData = async () => {
 
 const destroyData = async () => {
     try {
-        await Photo.deleteMany();
+   
         await User.deleteMany();
 
         console.log('data destroyed')

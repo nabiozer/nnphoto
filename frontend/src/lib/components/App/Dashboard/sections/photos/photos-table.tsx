@@ -155,7 +155,7 @@ export const PhotosTable = (props: any) => {
                       ));
 
                       if (res.meta.requestStatus === 'fulfilled') {
-                        dispatch(getPhotos());
+                        dispatch(getPhotos(''));
                       }
                     }
 
@@ -176,7 +176,7 @@ export const PhotosTable = (props: any) => {
         onRowsPerPageChange={onRowsPerPageChange}
         page={page}
         rowsPerPage={rowsPerPage}
-        rowsPerPageOptions={[5, 10, 25]}
+        rowsPerPageOptions={[5, 10, 20]}
       />
     </Card>
   );

@@ -4,12 +4,11 @@ import { useEffect, useState } from 'react';
 type UseS3DownloadReturnType = [
   downloadObject: (a:string,b:string) => void,
   loading: boolean,
-  progress: number,
-  error: Error | null,
+  error: Error | null | number,
 ];
 
 const useS3Download = (setValue:any): UseS3DownloadReturnType => {
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
 

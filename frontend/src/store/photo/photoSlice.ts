@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createPhoto, deletePhoto, getPhotoById, getPhotos, updatePhoto } from './photoActions';
+import { createPhoto, deletePhoto, getPhotoById, getPhotosAlbum, getPhotosGallery, getPhotosHome, getPhotosPagination, getPhotosVideo, updatePhoto } from './photoActions';
 
 interface IPhoto {
     image: string;
@@ -11,18 +11,35 @@ interface IPhoto {
     imageURL?: string;
     colorCodes:[]
 }
+
+interface ICommon {
+    PageNumber: number;
+    PageSize: number;
+    TotalCount:number,
+    TotalPages: number
+}
+
+interface  IData extends ICommon {
+    Data:IPhoto[];
+
+}
 interface IState {
   data : IPhoto  | null,
   loading:boolean,
   error:string,
 }
 interface IStates {
-  data : IPhoto[],
+  data : IData | null,
   loading:boolean,
   error:string,
 }
 interface IPhotoInitial {
   photoList :IStates,
+  photoListHome:IStates,
+  photoListAlbum:IStates,
+  photoListGallery:IStates,
+  photoListVideo:IStates,
+  photoListPagination :IStates,
   photoUpdate:IState,
   photoDelete:IState,
   photoCreate:IState,
@@ -30,7 +47,32 @@ interface IPhotoInitial {
 }
 const initialState:IPhotoInitial = {
     photoList: {
-        data: null || [],
+        data: null ,
+        loading: false,
+        error: '',
+    },
+    photoListHome: {
+        data: null ,
+        loading: false,
+        error: '',
+    },
+    photoListAlbum: {
+        data: null ,
+        loading: false,
+        error: '',
+    },
+    photoListGallery: {
+        data: null ,
+        loading: false,
+        error: '',
+    },
+    photoListVideo: {
+        data: null ,
+        loading: false,
+        error: '',
+    },
+    photoListPagination: {
+        data: null ,
         loading: false,
         error: '',
     },
@@ -61,19 +103,73 @@ const photoSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(getPhotos.pending, (state: any) => {
-                state.photoList.loading = true;
-                state.photoList.error = '';
+            .addCase(getPhotosHome.pending, (state: any) => {
+                state.photoListHome.loading = true;
+                state.photoListHome.error = '';
             })
-            .addCase(getPhotos.fulfilled, (state: any, action: any) => {
-                state.photoList.data = action.payload;
-                state.photoList.loading = false;
-                state.photoList.error = '';
+            .addCase(getPhotosHome.fulfilled, (state: any, action: any) => {
+                state.photoListHome.data = action.payload;
+                state.photoListHome.loading = false;
+                state.photoListHome.error = '';
             })
-            .addCase(getPhotos.rejected, (state: any, action: any) => {
-                state.photoList.loading = false;
-                state.photoList.error = action.error.message || '';
+            .addCase(getPhotosHome.rejected, (state: any, action: any) => {
+                state.photoListHome.loading = false;
+                state.photoListHome.error = action.error.message || '';
             })
+            .addCase(getPhotosAlbum.pending, (state: any) => {
+                state.photoListAlbum.loading = true;
+                state.photoListAlbum.error = '';
+            })
+            .addCase(getPhotosAlbum.fulfilled, (state: any, action: any) => {
+                state.photoListAlbum.data = action.payload;
+                state.photoListAlbum.loading = false;
+                state.photoListAlbum.error = '';
+            })
+            .addCase(getPhotosAlbum.rejected, (state: any, action: any) => {
+                state.photoListAlbum.loading = false;
+                state.photoListAlbum.error = action.error.message || '';
+            })
+            .addCase(getPhotosGallery.rejected, (state: any, action: any) => {
+                state.photoListGallery.loading = false;
+                state.photoListGallery.error = action.error.message || '';
+            })
+            .addCase(getPhotosGallery.pending, (state: any) => {
+                state.photoListGallery.loading = true;
+                state.photoListGallery.error = '';
+            })
+            .addCase(getPhotosGallery.fulfilled, (state: any, action: any) => {
+                state.photoListGallery.data = action.payload;
+                state.photoListGallery.loading = false;
+                state.photoListGallery.error = '';
+            })
+            .addCase(getPhotosVideo.rejected, (state: any, action: any) => {
+                state.photoListVideo.loading = false;
+                state.photoListVideo.error = action.error.message || '';
+            })
+            .addCase(getPhotosVideo.pending, (state: any) => {
+                state.photoListVideo.loading = true;
+                state.photoListVideo.error = '';
+            })
+            .addCase(getPhotosVideo.fulfilled, (state: any, action: any) => {
+                state.photoListVideo.data = action.payload;
+                state.photoListVideo.loading = false;
+                state.photoListVideo.error = '';
+            })
+
+            .addCase(getPhotosPagination.pending, (state: any) => {
+                state.photoListPagination.loading = true;
+                state.photoListPagination.error = '';
+            })
+            .addCase(getPhotosPagination.fulfilled, (state: any, action: any) => {
+                state.photoListPagination.data = action.payload;
+                state.photoListPagination.loading = false;
+                state.photoListPagination.error = '';
+            })
+            .addCase(getPhotosPagination.rejected, (state: any, action: any) => {
+                state.photoListPagination.loading = false;
+                state.photoListPagination.error = action.error.message || '';
+            })
+
             .addCase(getPhotoById.pending, (state: any) => {
                 state.photoDetails.loading = true;
                 state.photoDetails.error = '';
@@ -125,7 +221,11 @@ const photoSlice = createSlice({
             .addCase(updatePhoto.rejected, (state: any, action: any) => {
                 state.photoUpdate.loading = false;
                 state.photoUpdate.error = action.error.message || '';
-            });
+            })
+           
+           
+            
+            ;
     },
     // create photo
 });

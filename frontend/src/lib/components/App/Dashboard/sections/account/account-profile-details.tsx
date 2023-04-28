@@ -24,7 +24,7 @@ import CircularProgressWithLabel from '../../../../Display/Progress/WithLabel';
 registerPlugin(FilePondPluginImagePreview);
 export const AccountProfileDetails = ({ userDetails }: any) => {
 
-  const { reservationInfo: { date, place, packagePrice, packageDetails, advancePayment, album, }, _id, photos, video, photosURL, videoURL } = userDetails;
+  const { reservationInfo: { date, place, packagePrice, packageDetails, advancePayment, album:{albumName,posterDetail,canvasDetail,pvc,box,wood}, }, _id, photos, video, photosURL, videoURL } = userDetails;
 
   const [progress, setProgress] = useState<any>(null);
   const [downloadObject, loading, error] = useS3Download(setProgress);
@@ -345,7 +345,7 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
                     sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
                   >
                     <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Albüm</Typography>
-                    <Typography component="p" >{album}</Typography>
+                    <Typography component="p" >{albumName}</Typography>
                   </Grid>
                 </Grid>
               </Box>

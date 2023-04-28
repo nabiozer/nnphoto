@@ -6,7 +6,7 @@ export const MuiFieldTheme:Components ={
     MuiInputLabel:{
         styleOverrides:{
             root:{
-              
+       
                fontSize: "18px"
             },        
         }
@@ -22,14 +22,15 @@ export const MuiFieldTheme:Components ={
                 },
                 ':hover' : {
                     '& > .select-svg' : {
-                        color: `${(theme as Theme).palette.secondary.main} !important`
+                        color: `${(theme as Theme).palette.common.black} !important`
                     }
-                }
+                },
+                height:'40px'
             }) ,
             input:({ownerState,theme}) => ({
                 ...(ownerState?.inputProps?.readOnly && {
                     color: alpha((theme as Theme).palette.common.black,0.38)
-                })
+                }),
             })
             
         }

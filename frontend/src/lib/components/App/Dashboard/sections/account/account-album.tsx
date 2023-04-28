@@ -18,7 +18,7 @@ import { getDownloadFile } from "../../../../../_helpers/utility";
 
 const AlbumChoice = ({ userDetails }: any) => {
 
-  const { chosen: { album: { colorCode, albumName }, poster, cover, isChoiced, coverText }, reservationInfo: { isPoster,album }, _id,address,phoneNumber,name } = userDetails;
+  const { chosen: { album: { colorCode, albumName }, poster, cover, isChoiced, coverText }, reservationInfo: { album:{albumPack,pvc,box,wood,posterDetail,canvasDetail} }, _id,address,phoneNumber,name } = userDetails;
   const dispatch = useAppDispatch();
   const router = useRouter();
   const userId = router.query.id;
@@ -38,7 +38,7 @@ const AlbumChoice = ({ userDetails }: any) => {
       albumName: yup.string().required('Bu alanın doldurulması zorunludur.'),
       cover: yup.string().required('Bu alanın doldurulması zorunludur.'),
       coverText: yup.string().required('Bu alanın doldurulması zorunludur.'),
-      ...(isPoster && { poster: yup.string().required('Bu alanın doldurulması zorunludur.') }),
+      ...(posterDetail && { poster: yup.string().required('Bu alanın doldurulması zorunludur.') }),
     }
   })
 
@@ -65,7 +65,7 @@ const AlbumChoice = ({ userDetails }: any) => {
   }
 
   const renderPdf = async () => {
-    const component = (<AlbumForm colorCode={colorCode} albumName={albumName} coverText={coverText} albumDetail={album} isPoster={isPoster} address={address} phoneNumber={phoneNumber} name={name} />)
+    const component = (<AlbumForm colorCode={colorCode} albumName={albumName} coverText={coverText} albumDetail={albumPack}  address={address} phoneNumber={phoneNumber} name={name} box={box} canvasDetail={canvasDetail} posterDetail={posterDetail} pvc={pvc} wood={wood} />)
     const blob = await pdf(component).toBlob();
 
     getDownloadFile(
@@ -153,7 +153,7 @@ const AlbumChoice = ({ userDetails }: any) => {
                   <Input id="coverText" name="coverText" placeholder="Kapak Yazısı" label="Kapak Yazısı" control={control} errors={errors} disabled={isChoiced} />
 
                 </Grid>
-                {isPoster && <Grid
+                {posterDetail && <Grid
                   xs={12}
                   sm={12}
                   lg={12}

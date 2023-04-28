@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -6,18 +6,36 @@ import {
     faCircleChevronRight,
     faCircleXmark
 } from '@fortawesome/free-solid-svg-icons'
+import { RootState, useAppDispatch } from '../../../../store';
+import { useSelector } from 'react-redux';
+import { getPhotosGallery } from '../../../../store/photo/photoActions';
 
 
-const PhotoGallery = ({ galleryImages }: any) => {
+const PhotoGallery = () => {
+
 
     const [slideNumber, setSlideNumber] = useState(0)
     const [openModal, setOpenModal] = useState(false)
+
+
+    const dispatch = useAppDispatch()
+
+
+    const photoListGallery = useSelector((state: RootState) => state?.photo?.photoListGallery?.data?.Data)
+
+   
+    useEffect(() => {
+        if(!photoListGallery) {
+            dispatch(getPhotosGallery());
+        }
+    
+      }, [dispatch,photoListGallery]);
+
 
     const handleOpenModal = (index: any) => {
         setSlideNumber(index)
         setOpenModal(true)
     }
-
     // Close Modal
     const handleCloseModal = () => {
         setOpenModal(false)
@@ -25,27 +43,28 @@ const PhotoGallery = ({ galleryImages }: any) => {
 
     // Previous Image
     const prevSlide = () => {
+        photoListGallery && 
         slideNumber === 0
-            ? setSlideNumber(galleryImages.length - 1)
+            ? setSlideNumber(photoListGallery?.length - 1)
             : setSlideNumber(slideNumber - 1)
     }
 
     // Next Image  
     const nextSlide = () => {
-        slideNumber + 1 === galleryImages.length
+        slideNumber + 1 === photoListGallery?.length
             ? setSlideNumber(0)
             : setSlideNumber(slideNumber + 1)
     }
 
     return (
         <div>
-            {openModal &&
+            {openModal && photoListGallery &&
                 <div className='sliderWrap'>
                     <FontAwesomeIcon icon={faCircleXmark} className='btnClose' onClick={handleCloseModal} />
                     <FontAwesomeIcon icon={faCircleChevronLeft} className='btnPrev' onClick={prevSlide} />
                     <FontAwesomeIcon icon={faCircleChevronRight} className='btnNext' onClick={nextSlide} />
                     <div className='fullScreenImage'>
-                        <img src={galleryImages[slideNumber].image} alt='' />
+                        <img src={photoListGallery[slideNumber].imageURL} alt='' />
                     </div>
                 </div>
             }
@@ -53,19 +72,19 @@ const PhotoGallery = ({ galleryImages }: any) => {
             {/* <br />
       Current slide number:  {slideNumber}
       <br />
-      Total Slides: {galleryImages.length}
+      Total Slides: {photoListGallery.length}
       <br /><br /> */}
 
             <div className='img-grid'>
                 {
-                    galleryImages && galleryImages.map((slide: any, index: any) => {
+                    photoListGallery && photoListGallery.map((slide: any, index: any) => {
                         return (
                             <motion.div className="img-wrap" key={index}
                                 layout
                                 whileHover={{ opacity: 1 }}
                                 onClick={() => handleOpenModal(index)}
                             >
-                                <motion.img src={slide.image} alt="uploaded pic"
+                                <motion.img src={slide.imageURL} alt="uploaded pic"
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     transition={{ delay: 1 }}

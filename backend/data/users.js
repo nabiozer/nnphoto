@@ -22,7 +22,14 @@ const users = [
       packagePrice: 1500,
       advancePayment: 300,
       packageDetails: "fotoğraf çekimi ve video klip (1dk)",
-      album: "50x60",
+      album:{
+        albumPack:'25x50 - 2 Jumbo Cep',
+        posterDetail:'50x70',
+        canvasDetail:'',
+        pvc:'White',
+        box:'',
+        wood:''
+      },
     },
 
     chosen: {
@@ -47,6 +54,14 @@ const users = [
       address: "abdülbaki golpınarlı u1 ",
       phoneNumber: "5303180728",
     reservationInfo: {
+      album:{
+        albumPack:'25x50 - 2 Jumbo Cep',
+        posterDetail:'50x70',
+        canvasDetail:'',
+        pvc:'White',
+        box:'',
+        wood:''
+      },
       date: "03.04.2022",
       hour: "13:00",
       place: "plato2",
@@ -85,7 +100,15 @@ const users = [
       packagePrice: 1700,
       advancePayment: 300,
       packageDetails: "fotoğraf çekimi ve video klip (1dk)",
-      isPoster:false
+      isPoster:false,
+      album:{
+        albumPack:'25x50 - 2 Jumbo Cep',
+        posterDetail:'50x70',
+        canvasDetail:'',
+        pvc:'White',
+        box:'',
+        wood:''
+      },
     },
 
     chosen: {
@@ -109,9 +132,18 @@ const users = [
     email: "u4@example.com",
     password: bcrypt.hashSync("123456", 10),
 
-      adress: "abdülbaki golpınarlı u1 ",
+      address: "abdülbaki golpınarlı u1 ",
       phoneNumber: "5303180728",
     reservationInfo: {
+      album:{
+        albumPack:'25x50 - 2 Jumbo Cep',
+        posterDetail:'',
+        canvasDetail:'',
+        pvc:'White',
+        box:'',
+        wood:''
+
+      },
       date: "03.04.2022",
       hour: "13:00",
       place: "plato2",

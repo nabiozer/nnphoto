@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -7,9 +7,28 @@ import {
     faCircleXmark
 } from '@fortawesome/free-solid-svg-icons'
 import PlayerYoutube from '../PlayerYoutube';
+import { getPhotosVideo } from '../../../../store/photo/photoActions';
+import { RootState, useAppDispatch } from '../../../../store';
+import { useSelector } from 'react-redux';
 
 
-const VideoGallery = ({ galleryImages }: any) => {
+const VideoGallery = () => {
+
+
+    const dispatch = useAppDispatch()
+
+
+    const photoListVideo = useSelector((state: RootState) => state?.photo?.photoListVideo?.data?.Data)
+
+   
+    useEffect(() => {
+        if(!photoListVideo) {
+            dispatch(getPhotosVideo());
+        }
+
+        console.log(photoListVideo,'xxx')
+    
+      }, [dispatch,photoListVideo]);
 
     const [slideNumber, setSlideNumber] = useState(0)
     const [openModal, setOpenModal] = useState(false)
@@ -26,27 +45,27 @@ const VideoGallery = ({ galleryImages }: any) => {
 
     // Previous Image
     const prevSlide = () => {
-        slideNumber === 0
-            ? setSlideNumber(galleryImages.length - 1)
+        slideNumber === 0 && photoListVideo
+            ? setSlideNumber(photoListVideo.length - 1)
             : setSlideNumber(slideNumber - 1)
     }
 
     // Next Image  
     const nextSlide = () => {
-        slideNumber + 1 === galleryImages.length
+        slideNumber + 1 === photoListVideo?.length
             ? setSlideNumber(0)
             : setSlideNumber(slideNumber + 1)
     }
 
     return (
-        <div>
-            {openModal &&
+        <div> 
+            {openModal && photoListVideo &&
                 <div className='sliderWrap'>
                     <FontAwesomeIcon icon={faCircleXmark} className='btnClose' onClick={handleCloseModal} />
                     <FontAwesomeIcon icon={faCircleChevronLeft} className='btnPrev' onClick={prevSlide} />
                     <FontAwesomeIcon icon={faCircleChevronRight} className='btnNext' onClick={nextSlide} />
                     <div className='fullScreenImage'>
-                        <PlayerYoutube selectedVideo={galleryImages[slideNumber].src}/>
+                        <PlayerYoutube selectedVideo={photoListVideo[slideNumber]?.src}/>
                     </div>
                 </div>
             }
@@ -54,26 +73,29 @@ const VideoGallery = ({ galleryImages }: any) => {
             {/* <br />
       Current slide number:  {slideNumber}
       <br />
-      Total Slides: {galleryImages.length}
+      Total Slides: {photoListVideo.length}
       <br /><br /> */}
 
             <div className='img-grid'>
                 {
-                    galleryImages && galleryImages.map((slide: any, index: any) => {
-                        return (
+                    photoListVideo && photoListVideo.map((slide: any, index: any) => {
+                        if(slide.imageURL) { return (
                             <motion.div className="img-wrap" key={index}
                                 layout
                                 whileHover={{ opacity: 1 }}
                                 onClick={() => handleOpenModal(index)}
                             >
-                                <motion.img src={slide.image} alt="uploaded pic"
+                                <motion.img src={slide.imageURL} alt="uploaded pic"
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     transition={{ delay: 1 }}
                                 />
                             </motion.div>
 
-                        )
+                        )} else {
+                            return null
+                        }
+                       
                     })
                 }
             </div>

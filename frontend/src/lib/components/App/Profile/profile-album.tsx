@@ -1,12 +1,11 @@
 import { Box, Button, Card, CardActions, CardContent, CardHeader, Divider, Grid } from "@mui/material";
-import { useRouter } from "next/router";
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSelector } from "react-redux";
 import * as yup from 'yup';
 import { RootState, useAppDispatch } from "../../../../store";
 import { getPhotos } from "../../../../store/photo/photoActions";
-import { getProfile, getUserById, updateProfile, updateUserByAdmin } from "../../../../store/user/userActions";
+import { getProfile, updateProfile } from "../../../../store/user/userActions";
 import { PhotoProperty } from "../../../../types/photo";
 import useForm from "../../../_hooks/useForm";
 import useWatch from "../../../_hooks/useWatch";
@@ -17,7 +16,7 @@ import Select from "../../Form/Select";
 
 const ProfileAlbumChoice = ({ userDetails }: any) => {
 
-  const { chosen: { album: { colorCode, albumName }, poster, cover, isChoiced, coverText }, reservationInfo: { isPoster }, _id } = userDetails;
+  const { chosen: { album: { colorCode, albumName }, poster, cover, isChoiced, coverText }, reservationInfo: { album: { albumPack, posterDetail } }, _id } = userDetails;
   const dispatch = useAppDispatch();
   const photoList = useSelector((state: RootState) => state.photo.photoList.data)
 
@@ -37,7 +36,7 @@ const ProfileAlbumChoice = ({ userDetails }: any) => {
       albumName: yup.string().required('Bu alanın doldurulması zorunludur.'),
       cover: yup.string().required('Bu alanın doldurulması zorunludur.'),
       coverText: yup.string().required('Bu alanın doldurulması zorunludur.'),
-      ...(isPoster && { poster: yup.string().required('Bu alanın doldurulması zorunludur.') }),
+      ...(posterDetail && { poster: yup.string().required('Bu alanın doldurulması zorunludur.') }),
     }
   })
 
@@ -106,7 +105,7 @@ const ProfileAlbumChoice = ({ userDetails }: any) => {
                 item
                 sx={{ justify: 'center', alignItems: 'center', width: '100%' }}
               >
-                  <Box component='img' src={`/images/albums/${AlbumNameVal.split('-')[1]}.jpeg`} sx={{ width: '100%' }}></Box>
+                  <Box component='img' src={photoList.filter(photo => photo?.property === PhotoProperty.Album).find(photo => photo?.description === AlbumNameVal)?.imageURL} sx={{ width: '100%' }} ></Box>
                 </Grid>
 
                 <Grid
@@ -157,7 +156,7 @@ const ProfileAlbumChoice = ({ userDetails }: any) => {
                   <Input id="coverText" name="coverText" placeholder="Kapak Yazısı" label="Kapak Yazısı" control={control} errors={errors} disabled={isChoiced} />
 
                 </Grid>
-                {isPoster && <Grid
+                {posterDetail && <Grid
                   xs={12}
                   sm={12}
                   lg={12}

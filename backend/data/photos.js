@@ -45,32 +45,32 @@
     },
     {
         image:'/images/nnphotofilm/1.jpg',
-        property:'galeri'
+        property:'gallery'
      
     },
     {
         image:'/images/nnphotofilm/2.jpg',
-        property:'galeri'
+        property:'gallery'
     },
     {
         image:'/images/nnphotofilm/3.jpg',
-        property:'galeri'
+        property:'gallery'
     },
     {
         image:'/images/nnphotofilm/4.jpg',
-        property:'galeri'
+        property:'gallery'
     },
     {
         image:  '/images/nnphotofilm/NN_01880.jpg',
-        property:'galeri'
+        property:'gallery'
     },
     {
         image: '/images/nnphotofilm/NN_01880.jpg',
-        property:'galeri'
+        property:'gallery'
     },
     {
         image: '/images/nnphotofilm/NN_01880.jpg',
-        property:'galeri'
+        property:'gallery'
     },
 
 

@@ -9,6 +9,14 @@ interface IUser {
         phoneNumber: string;
     };
     reservationInfo: {
+        album:{
+            album:string;
+            pvc:string;
+            wood:string;
+            box:string;
+            posterDetail:string;
+            canvasDetail:string;
+        },
         date: string;
         hour: string;
         place: string;

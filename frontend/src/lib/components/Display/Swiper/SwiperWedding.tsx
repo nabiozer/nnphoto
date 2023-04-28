@@ -1,19 +1,35 @@
 import { Box } from '@mui/material';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import SwiperCore, { A11y, Autoplay, EffectCreative, EffectFade, Mousewheel, Navigation, Pagination, Scrollbar } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.min.css';
 import 'swiper/swiper.min.css';
+import { RootState, useAppDispatch } from '../../../../store';
+import { useSelector } from 'react-redux';
+import { getPhotosHome } from '../../../../store/photo/photoActions';
 
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, EffectFade, Autoplay]);
 
 interface IProps {
-    images: any;   
+  
     className?: any;
 }
 //eslint-disable-next-line 
-export default (props: IProps) => {
-    const { images } = props;
+export default () => {
+    
+
+    const dispatch = useAppDispatch()
+
+
+    const photoListHome = useSelector((state: RootState) => state?.photo?.photoListHome?.data?.Data)
+
+   
+    useEffect(() => {
+        if(!photoListHome) {
+            dispatch(getPhotosHome());
+        }
+    
+      }, [dispatch,photoListHome]);
 
     
     return (
@@ -49,7 +65,7 @@ export default (props: IProps) => {
                                 modules={[Navigation, Mousewheel,EffectCreative]}
                                
                             >
-                                {images.map((item:any, i:number) => (
+                                {photoListHome?.map((item:any, i:number) => (
                                     <SwiperSlide style={{ marginRight: '30px' }} key={i}>
                                         <div className='swiper-image-container-wedding'>
                                             <img alt={item.description} src={item.image} className="swiper-image-wedding" ></img>
