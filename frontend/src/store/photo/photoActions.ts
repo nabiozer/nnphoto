@@ -45,7 +45,7 @@ const api = axios.create({
   //get photo list
 
 export const getPhotosPagination = createAsyncThunk('data/getPhotosPagination', async (params?:any) => {
-    const response = await api.get(`/photos?${params}`);
+    const response = await api.get(`/photos${params ? '?' : ''}${params}`);
     return response.data;
 });
 
@@ -82,7 +82,7 @@ export const deletePhoto = createAsyncThunk('data/deletePhotos', async (id?:any)
 
 export const getPhotoById = createAsyncThunk('data/getPhotoById', async (id?:any) => {
 
-  const response = await api.get(`/photos${id || ''}`);
+  const response = await api.get(`/photos/${id || ''}`);
   return response.data;
 
 });

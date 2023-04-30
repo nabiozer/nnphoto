@@ -72,8 +72,6 @@
         image: '/images/nnphotofilm/NN_01880.jpg',
         property:'gallery'
     },
-
-
     {
         image: '/images/albums/24.jpg',
         property:'album',

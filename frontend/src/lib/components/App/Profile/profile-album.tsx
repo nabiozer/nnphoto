@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useSelector } from "react-redux";
 import * as yup from 'yup';
 import { RootState, useAppDispatch } from "../../../../store";
-import { getPhotos } from "../../../../store/photo/photoActions";
+import { getPhotosPagination } from "../../../../store/photo/photoActions";
 import { getProfile, updateProfile } from "../../../../store/user/userActions";
 import { PhotoProperty } from "../../../../types/photo";
 import useForm from "../../../_hooks/useForm";
@@ -18,7 +18,7 @@ const ProfileAlbumChoice = ({ userDetails }: any) => {
 
   const { chosen: { album: { colorCode, albumName }, poster, cover, isChoiced, coverText }, reservationInfo: { album: { albumPack, posterDetail } }, _id } = userDetails;
   const dispatch = useAppDispatch();
-  const photoList = useSelector((state: RootState) => state.photo.photoList.data)
+  const photoList = useSelector((state: RootState) => state?.photo?.photoList?.data?.Data)
 
 
   const defaultValues = {
@@ -45,7 +45,7 @@ const ProfileAlbumChoice = ({ userDetails }: any) => {
 
 
   useEffect(() => {
-    !photoList.length && dispatch(getPhotos());
+    !photoList?.length && dispatch(getPhotosPagination(''));
   }, [dispatch]);
 
   useEffect(() => {
@@ -105,7 +105,7 @@ const ProfileAlbumChoice = ({ userDetails }: any) => {
                 item
                 sx={{ justify: 'center', alignItems: 'center', width: '100%' }}
               >
-                  <Box component='img' src={photoList.filter(photo => photo?.property === PhotoProperty.Album).find(photo => photo?.description === AlbumNameVal)?.imageURL} sx={{ width: '100%' }} ></Box>
+                  <Box component='img' src={photoList?.filter(photo => photo?.property === PhotoProperty.Album).find(photo => photo?.description === AlbumNameVal)?.imageURL} sx={{ width: '100%' }} ></Box>
                 </Grid>
 
                 <Grid

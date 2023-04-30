@@ -9,9 +9,10 @@ import { useSelector } from 'react-redux';
 import { cleanNullProperty, jsonToQueryString, queryStringToJson } from '../../../lib';
 import { Layout as DashboardLayout } from '../../../lib/components/App/Dashboard/layouts/dashboard/layout';
 import { PhotosTable } from '../../../lib/components/App/Dashboard/sections/photos/photos-table';
-import { PhotosSearch } from '../../../lib/components/App/Dashboard/sections/videos/photos-search copy';
+
 import { useAppDispatch } from '../../../store';
 import { getPhotosPagination } from '../../../store/photo/photoActions';
+import { PhotosSearch } from '../../../lib/components/App/Dashboard/sections/photos/photos-search';
 
 
 const now = new Date();
@@ -36,57 +37,48 @@ const useCustomerIds = (customers: any) => {
 };
 
 const Page = () => {
-  const [page, setPage] = useState(0);
+
 
   const dispatch = useAppDispatch();
   const router = useRouter();
   const params = router.query;
-  const [rowsPerPage, setRowsPerPage] = useState(5);
   // const customers = useCustomers(page, rowsPerPage);
   // const customersIds = useCustomerIds(customers);
   // const customersSelection = useSelection(customersIds);
 
-  const userLoginInfo = useSelector((state: any) => state.user.userLogin)
-  const photoList = useSelector((state: any) => state.photo.photoListPagination.data?.Data)
+
+  const photoList = useSelector((state: any) => state.photo.photoListPagination.data)
 
 
-  const apiCallDefault :any = {
-    PageNumber: cleanNullProperty(queryStringToJson(params))?.pageNumber || 0,
-    PageSize : cleanNullProperty(queryStringToJson(params))?.PageSize || 20,
-
-  }
+ 
   useEffect(() => {
-   console.log( jsonToQueryString(cleanNullProperty(params))[0],'x')
-    console.log(params?.pageNumber)
-    console.log(cleanNullProperty(queryStringToJson(params)),'param')
-    dispatch(getPhotosPagination(jsonToQueryString(cleanNullProperty(params))));
-  }, [dispatch,params]);
+
+    dispatch(getPhotosPagination(jsonToQueryString({...params,PageNumber: params.PageNumber || 1,PageSize: params.PageSize || 20})));
+  }, [dispatch, params]);
 
 
 
-  
+
 
   const handleRowsPerPageChange = useCallback(
     (event: any) => {
-      setRowsPerPage(event.target.value)
+  
+  
       onSubmit({
         ...queryStringToJson(cleanNullProperty(params)),
-        pageSize:event.target.value
-   
-    })
+        PageSize: event.target.value
 
-  
-
+      })
     },
     []
   );
 
-  const onSubmit = (data:any) => {
-    const newData= {...data};
+  const onSubmit = (data: any) => {
+    const newData = { ...data };
 
     const q = jsonToQueryString(cleanNullProperty(newData));
 
-    if(q) {
+    if (q) {
       router.push(`/dashboard/photos?${q}`)
     } else {
       router.push(`/dashboard/photos`)
@@ -160,25 +152,25 @@ const Page = () => {
               </div>
             </Stack>
             <PhotosSearch />
-            <PhotosTable 
-              count={photoList?.length}
-              items={photoList}
-              page={apiCallDefault?.pageNumber + 1}
-              rowsPerPage={rowsPerPage}
-              onPageChange={(event:any,page:any) => {
-                console.log(page)
+            <PhotosTable
+              count={photoList?.TotalCount}
+              items={photoList?.Data}
+              page={photoList?.PageNumber - 1}
+              rowsPerPage={photoList?.PageSize}
+              onPageChange={(_, page: any) => {
                 onSubmit({
-                  ...queryStringToJson(cleanNullProperty(params)),
-                  pageNumber:page 
-             
-              })}}
-               onRowsPerPageChange={handleRowsPerPageChange}
-              // onSelectAll={customersSelection.handleSelectAll}
-              // onSelectOne={customersSelection.handleSelectOne}
-              // onDeselectAll={customersSelection.handleDeselectAll}
-              // onDeselectOne={customersSelection.handleDeselectOne}
-           
-              // selected={customersSelection.selected}
+                  ...params,
+                  PageNumber: page + 1
+
+                })
+              }}
+              onRowsPerPageChange={handleRowsPerPageChange}
+            // onSelectAll={customersSelection.handleSelectAll}
+            // onSelectOne={customersSelection.handleSelectOne}
+            // onDeselectAll={customersSelection.handleDeselectAll}
+            // onDeselectOne={customersSelection.handleDeselectOne}
+
+            // selected={customersSelection.selected}
             />
           </Stack>
         </Container>

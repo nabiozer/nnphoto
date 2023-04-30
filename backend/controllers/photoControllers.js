@@ -10,6 +10,7 @@ const getPhotosWithUrl = asyncHandler(async (req, res) => {
   const PageSize = req.query.PageSize | -1;
   const PageNumber = PageSize === -1 ? 0 : req.query.PageNumber;
   const skipNum = (PageNumber - 1) * PageSize;
+
   const filterProperty = req?.url?.split('/')?.slice(-1)[0];
 
 
@@ -43,17 +44,21 @@ const getPhotosWithUrl = asyncHandler(async (req, res) => {
 });
 
 
-const getPhotos = asyncHandler(async (req, res) => {
-  const PageSize = req.query.PageSize | -1;
-  const PageNumber = PageSize === -1 ? 0 : req.query.PageNumber;
+const getPhotosPagination = asyncHandler(async (req, res) => {
+  console.log(req.query.PageSize)
+  console.log(req.query.PageNumber)
+  const PageSize = Number(req.query.PageSize) ;
+  const PageNumber = Number(req.query.PageNumber) || 1;
   const skipNum = (PageNumber - 1) * PageSize;
+  const propertyFilter = (req.query.Property)
+  
 
-  const photos =
-    PageSize === -1
-      ? await Photo.find({})
-      : await Photo.find({}).skip(skipNum).limit(PageSize);
 
-  const TotalCount = await Photo.countDocuments();
+
+
+  const photos = await Photo.find(propertyFilter ? {property:propertyFilter} :{}).skip(skipNum).limit(PageSize);
+
+  const TotalCount = await Photo.countDocuments({});
   const TotalPages = PageSize === -1 ? 1 : Math.ceil(TotalCount / PageSize);
 
   const photosWithURL = [];
@@ -76,6 +81,7 @@ const getPhotos = asyncHandler(async (req, res) => {
     TotalPages,
   });
 });
+
 
 //  @desc Fetch  photo
 //  @route Get /api/photos/:id
@@ -156,4 +162,4 @@ const updatePhoto = asyncHandler(async (req, res) => {
   }
 });
 
-export { getPhotos, getPhotoById, deletePhoto, createPhoto, updatePhoto,getPhotosWithUrl };
+export { getPhotoById, deletePhoto, createPhoto, updatePhoto,getPhotosWithUrl ,getPhotosPagination};

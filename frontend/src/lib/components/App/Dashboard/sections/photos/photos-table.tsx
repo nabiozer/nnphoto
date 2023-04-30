@@ -20,7 +20,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { useAppDispatch } from '../../../../../../store';
-import { deletePhoto, getPhotos } from '../../../../../../store/photo/photoActions';
+import { deletePhoto, getPhotosPagination } from '../../../../../../store/photo/photoActions';
 
 export const PhotosTable = (props: any) => {
   const {
@@ -155,7 +155,7 @@ export const PhotosTable = (props: any) => {
                       ));
 
                       if (res.meta.requestStatus === 'fulfilled') {
-                        dispatch(getPhotos(''));
+                        dispatch(getPhotosPagination(''));
                       }
                     }
 
