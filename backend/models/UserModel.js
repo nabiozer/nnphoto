@@ -28,9 +28,9 @@ const userSchema = mongoose.Schema(
 
     reservationInfo: {
       date: {
-        type: String,
+        type: Number,
 
-        default: "",
+        default: null
       },
       place: {
         type: String,

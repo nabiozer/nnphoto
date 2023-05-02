@@ -76,6 +76,7 @@ export const PhotosTable = (props: any) => {
                 Video Source
               </TableCell>
               <TableCell />
+              <TableCell />
             </TableRow>
           </TableHead>
           <TableBody>

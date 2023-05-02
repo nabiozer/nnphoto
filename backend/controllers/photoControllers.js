@@ -45,20 +45,15 @@ const getPhotosWithUrl = asyncHandler(async (req, res) => {
 
 
 const getPhotosPagination = asyncHandler(async (req, res) => {
-  console.log(req.query.PageSize)
-  console.log(req.query.PageNumber)
+
   const PageSize = Number(req.query.PageSize) ;
   const PageNumber = Number(req.query.PageNumber) || 1;
   const skipNum = (PageNumber - 1) * PageSize;
   const propertyFilter = (req.query.Property)
   
-
-
-
-
   const photos = await Photo.find(propertyFilter ? {property:propertyFilter} :{}).skip(skipNum).limit(PageSize);
 
-  const TotalCount = await Photo.countDocuments({});
+  const TotalCount = await Photo.countDocuments(propertyFilter ? {property:propertyFilter} :{});
   const TotalPages = PageSize === -1 ? 1 : Math.ceil(TotalCount / PageSize);
 
   const photosWithURL = [];

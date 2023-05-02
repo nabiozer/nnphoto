@@ -214,6 +214,30 @@ const getUsers = asyncHandler(async (req, res) => {
   res.json(users);
 });
 
+
+
+
+const getUsersPagination = asyncHandler(async (req, res) => {
+
+  const PageSize = Number(req.query.PageSize);
+  const PageNumber = Number(req.query.PageNumber) || 1;
+  const skipNum = (PageNumber - 1) * PageSize;
+
+  const users = await User.find({}).skip(skipNum).limit(PageSize);
+
+  const TotalCount = await User.countDocuments({});
+  const TotalPages = PageSize === -1 ? 1 : Math.ceil(TotalCount / PageSize);
+
+  res.json({
+    Data: users,
+    TotalCount,
+    PageNumber,
+    PageSize,
+    TotalPages,
+  });
+});
+
+
 //  @desc Delete user
 //  @route GET /api/users:id
 //  @acces Private Admin
@@ -331,6 +355,7 @@ export {
   registerUser,
   updateUserProfile,
   getUsers,
+  getUsersPagination,
   deleteUser,
   updateUser,
   getUserById,

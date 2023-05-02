@@ -35,7 +35,7 @@ import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import useWatch from '../../../../../../_hooks/useWatch';
 
 // Register the plugins
-registerPlugin( FilePondPluginImagePreview);
+registerPlugin(FilePondPluginImagePreview);
 
 
 function Copyright(props: any) {
@@ -66,7 +66,7 @@ export default function PhotoForm({ type, id }: any) {
         image: '',
         description: '',
         src: '',
-        colorCodes:''
+        colorCodes: ''
     }
 
     const { control, errors, handleSubmit, setValue } = useForm({
@@ -76,12 +76,12 @@ export default function PhotoForm({ type, id }: any) {
 
         }
     })
-    const handleProcessFile = (error:any, file:any) => {
+    const handleProcessFile = (error: any, file: any) => {
         if (!error && file.serverId) {
             console.log
             setValue('image', file?.file?.name)
         }
-      };
+    };
     useEffect(() => {
         if (isEdit) {
             const getPhoto = async () => {
@@ -100,16 +100,20 @@ export default function PhotoForm({ type, id }: any) {
 
     }, [isEdit])
 
+
+    const PropertyVal = useWatch({ control, fieldName: 'property' })
     const onSubmit = async (data: any) => {
 
-
+        const newData = {
+            ...data, ...(data?.colorCodes && PropertyVal === PhotoProperty.Album && { colorCodes: (data?.colorCodes?.split(',')) })
+        }
         if (isEdit) {
-            const res = await dispatch(updatePhoto({ id, data:{...data,...(data?.colorCodes && {colorCodes: (data?.colorCodes?.split(','))})} }));
+            const res = await dispatch(updatePhoto({ id, newData }));
             if (res.meta.requestStatus === 'fulfilled') {
                 router.push('/dashboard/photos');
             }
         } else {
-            const res = await dispatch(createPhoto({data:{...data,...(data?.colorCodes && {colorCodes: (data?.colorCodes?.split(','))})}} ));
+            const res = await dispatch(createPhoto({ newData }));
             if (res.meta.requestStatus === 'fulfilled') {
                 router.push('/dashboard/photos');
             }
@@ -117,7 +121,7 @@ export default function PhotoForm({ type, id }: any) {
     }
 
 
-    const PropertyVal = useWatch({ control, fieldName: 'property' })
+
 
     return (
         <DashboardLayout >
@@ -145,29 +149,29 @@ export default function PhotoForm({ type, id }: any) {
                     }}
                 >
                     <Grid container spacing={1} component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1, padding: '2rem' }}>
-                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Select options={{ data: [{ Value: 'Ana Sayfa', Id: PhotoProperty.Home }, { Value: 'Galeri', Id: PhotoProperty.Gallery }, { Value: 'Video', Id: PhotoProperty.Video },{ Value: 'Album', Id: PhotoProperty.Album }], displayField: 'Value', displayValue: 'Id' }} id="property" name="property" label="Tip" control={control} errors={errors} setValue={setValue} defaultValue={defaulValues.property} fullWidth /></Grid>
+                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Select options={{ data: [{ Value: 'Ana Sayfa', Id: PhotoProperty.Home }, { Value: 'Galeri', Id: PhotoProperty.Gallery }, { Value: 'Video', Id: PhotoProperty.Video }, { Value: 'Album', Id: PhotoProperty.Album }], displayField: 'Value', displayValue: 'Id' }} id="property" name="property" label="Tip" control={control} errors={errors} setValue={setValue} defaultValue={defaulValues.property} fullWidth /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="description" name="description" placeholder="Açıklama" label="Açıklama" control={control} errors={errors} /></Grid>
-                        {PropertyVal ===  PhotoProperty.Video && <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="src" name="src" placeholder="Video Link" label="Video Link" control={control} errors={errors} /></Grid>}
+                        {PropertyVal === PhotoProperty.Video && <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="src" name="src" placeholder="Video Link" label="Video Link" control={control} errors={errors} /></Grid>}
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="image" name="image" placeholder="Görsel" label="Görsel" control={control} errors={errors} /></Grid>
-                       {PropertyVal === PhotoProperty.Album && <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="colorCodes" name="colorCodes" placeholder="Renk Kodları" label="Renk kodları" control={control} errors={errors} /></Grid>}
+                        {PropertyVal === PhotoProperty.Album && <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="colorCodes" name="colorCodes" placeholder="Renk Kodları" label="Renk kodları" control={control} errors={errors} /></Grid>}
                         <Grid item xs={12} md={12} sm={12} lg={12} sx={{ mt: 2 }}>   <Box component='div'>
-                    <FilePond
-                        files={file}
-                        onupdatefiles={() => setFile}
-                        maxFiles={3}
-                        instantUpload={false}
-                        allowProcess
-                        onprocessfile={handleProcessFile}
-                        server={"http://localhost:5000/api/photoupdate/photos/" + id}
-                        onremovefile={(file) => {
-                       
-                            // set the value you want to set here
-                            photoDetails?.image ? setValue('image', photoDetails.image)  : setValue('image', '')
-                          }}
-                        name="file" /* sets the file input name, it's filepond by default */
-                        labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
-                    />
-                </Box></Grid>
+                            <FilePond
+                                files={file}
+                                onupdatefiles={() => setFile}
+                                maxFiles={3}
+                                instantUpload={false}
+                                allowProcess
+                                onprocessfile={handleProcessFile}
+                                server={"http://localhost:5000/api/photoupdate/photos/" + id}
+                                onremovefile={(file) => {
+
+                                    // set the value you want to set here
+                                    photoDetails?.image ? setValue('image', photoDetails.image) : setValue('image', '')
+                                }}
+                                name="file" /* sets the file input name, it's filepond by default */
+                                labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+                            />
+                        </Box></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} >
                             <Button
                                 type="submit"
@@ -180,7 +184,7 @@ export default function PhotoForm({ type, id }: any) {
                         </Grid>
                     </Grid>
                 </Box>
-             
+
                 <Copyright sx={{ mt: 8, mb: 4 }} />
             </Container>
         </DashboardLayout>

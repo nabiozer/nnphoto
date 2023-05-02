@@ -18,11 +18,11 @@ import { getDownloadFile } from "../../../../../_helpers/utility";
 
 const AlbumChoice = ({ userDetails }: any) => {
 
-  const { chosen: { album: { colorCode, albumName }, poster, cover, isChoiced, coverText }, reservationInfo: { album:{albumPack,pvc,box,wood,posterDetail,canvasDetail} }, _id,address,phoneNumber,name } = userDetails;
+  const { chosen: { album: { colorCode, albumName }, poster, cover, isChoiced, coverText }, reservationInfo: { album: { albumPack, pvc, box, wood, posterDetail, canvasDetail } }, _id, address, phoneNumber, name } = userDetails;
   const dispatch = useAppDispatch();
   const router = useRouter();
   const userId = router.query.id;
-  
+
   const photoList = useSelector((state: RootState) => state.photo.photoList.data)
 
   const { control, errors, handleSubmit, setValue } = useForm({
@@ -54,7 +54,7 @@ const AlbumChoice = ({ userDetails }: any) => {
 
   const AlbumNameVal = useWatch({ control, fieldName: 'albumName' })
 
-  
+
   const onAlbumSave = async (dataNew: any) => {
 
     const res = await dispatch(updateUserByAdmin({ id: _id, data: dataNew }));
@@ -65,11 +65,11 @@ const AlbumChoice = ({ userDetails }: any) => {
   }
 
   const renderPdf = async () => {
-    const component = (<AlbumForm colorCode={colorCode} albumName={albumName} coverText={coverText} albumDetail={albumPack}  address={address} phoneNumber={phoneNumber} name={name} box={box} canvasDetail={canvasDetail} posterDetail={posterDetail} pvc={pvc} wood={wood} />)
+    const component = (<AlbumForm colorCode={colorCode} albumName={albumName} coverText={coverText} albumDetail={albumPack} address={address} phoneNumber={phoneNumber} name={name} box={box} canvasDetail={canvasDetail} posterDetail={posterDetail} pvc={pvc} wood={wood} />)
     const blob = await pdf(component).toBlob();
 
     getDownloadFile(
-      blob,'Album.pdf'
+      blob, 'Album.pdf'
     )
   }
   return (
@@ -87,7 +87,7 @@ const AlbumChoice = ({ userDetails }: any) => {
             title="Albüm Seçimleri"
           />
           <CardContent sx={{ pt: 2 }}>
-            <Button  onClick={renderPdf}>Render</Button>
+            <Button onClick={renderPdf}>Render</Button>
             <Box >
               <Grid
                 container
@@ -95,14 +95,14 @@ const AlbumChoice = ({ userDetails }: any) => {
                 padding={1}
 
               >
-              <Grid
-                xs={12}
-                sm={12}
-                lg={12}
-                md={12}
-                item
-                sx={{ justify: 'center', alignItems: 'center', width: '100%' }}
-              >
+                <Grid
+                  xs={12}
+                  sm={12}
+                  lg={12}
+                  md={12}
+                  item
+                  sx={{ justify: 'center', alignItems: 'center', width: '100%' }}
+                >
                   {<Box component='img' src={photoList.filter(photo => photo?.property === PhotoProperty.Album).find(photo => photo?.description === AlbumNameVal)?.imageURL} sx={{ width: '100%' }}></Box>}
                 </Grid>
                 <Grid

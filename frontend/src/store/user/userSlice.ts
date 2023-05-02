@@ -45,13 +45,25 @@ interface IUser {
     token?:string;
 }
 
+interface ICommon {
+    PageNumber: number;
+    PageSize: number;
+    TotalCount:number,
+    TotalPages: number
+}
+
+interface  IUserPagination extends ICommon {
+    Data:IUser[];
+
+}
+
 interface IState {
     data : IUser  | null,
     loading:boolean,
     error:string,
   }
   interface IStates {
-    data : IUser[] | null,
+    data : IUserPagination | null,
     loading:boolean,
     error:string,
   }
@@ -105,9 +117,6 @@ const userSlice = createSlice({
             state.userList.data = null;
             state.userList.loading = false;
             state.userList.error = '';
-        },
-        userList(state, action: any) {
-            state.userList = action.payload;
         },
         // userRegister(state, action: PayloadAction<User>) {
         //     state.userRegister = { ...action.payload };

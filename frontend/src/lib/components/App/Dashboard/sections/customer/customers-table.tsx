@@ -21,6 +21,7 @@ import { deleteUser, fetchUsers } from '../../../../../../store/user/userActions
 import { IUser } from '../../../../../../types/user';
 import { useRouter } from 'next/router';
 import InfoIcon from '@mui/icons-material/Info';
+import { getDate } from '../../../../../_helpers';
 
 export const CustomersTable = (props: any) => {
   const {
@@ -137,7 +138,7 @@ export const CustomersTable = (props: any) => {
                     {customer.phoneNumber}
                   </TableCell>
                   <TableCell>
-                    {customer.reservationInfo.date}
+                    {getDate(customer.reservationInfo.date,'Ppp')}
                   </TableCell>
                   <TableCell>
                     {customer.reservationInfo.place}
@@ -170,7 +171,7 @@ export const CustomersTable = (props: any) => {
                       ));
 
                       if (res.meta.requestStatus === 'fulfilled') {
-                        dispatch(fetchUsers());
+                        dispatch(fetchUsers(''));
                       }
                     }
 

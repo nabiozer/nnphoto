@@ -102,8 +102,8 @@ export const updateUserByAdmin = createAsyncThunk('data/updateUserByAdmin', asyn
 
 //get user list
 
-export const fetchUsers = createAsyncThunk('data/getUsers', async () => {
-    const response = await api.get('users');
+export const fetchUsers = createAsyncThunk('data/getUsers', async (params?:any) => {
+  const response = await api.get(`/users${params ? '?' : ''}${params}`);
     return response.data;
 });
 

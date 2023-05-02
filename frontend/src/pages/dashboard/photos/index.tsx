@@ -18,23 +18,7 @@ import { PhotosSearch } from '../../../lib/components/App/Dashboard/sections/pho
 const now = new Date();
 
 
-// const useCustomers = (page: any, rowsPerPage: any) => {
-//   return useMemo(
-//     () => {
-//       return applyPagination(data, page, rowsPerPage);
-//     },
-//     [page, rowsPerPage]
-//   );
-// };
 
-const useCustomerIds = (customers: any) => {
-  return useMemo(
-    () => {
-      return customers.map((customer: any) => customer.id);
-    },
-    [customers]
-  );
-};
 
 const Page = () => {
 
@@ -42,10 +26,6 @@ const Page = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const params = router.query;
-  // const customers = useCustomers(page, rowsPerPage);
-  // const customersIds = useCustomerIds(customers);
-  // const customersSelection = useSelection(customersIds);
-
 
   const photoList = useSelector((state: any) => state.photo.photoListPagination.data)
 
@@ -108,7 +88,7 @@ const Page = () => {
             >
               <Stack spacing={1}>
                 <Typography variant="h4">
-                  Customers
+                  Photos
                 </Typography>
                 <Stack
                   alignItems="center"
