@@ -219,13 +219,38 @@ const getUsers = asyncHandler(async (req, res) => {
 
 const getUsersPagination = asyncHandler(async (req, res) => {
 
-  const PageSize = Number(req.query.PageSize);
+  const PageSize = Number(req.query.PageSize) || 10;
   const PageNumber = Number(req.query.PageNumber) || 1;
   const skipNum = (PageNumber - 1) * PageSize;
+  const Name = req.query.Name || "";
+  const StartDateFilter = req.query.StartDate || null;
+  const EndDateFilter = req.query.EndDate || null;
+  const query = {
+   
+   
+  };
 
-  const users = await User.find({}).skip(skipNum).limit(PageSize);
+  if (Name) {
+    query.name = {
+      $regex: new RegExp(Name, 'i')
+    };
+  }
+  
+  if(StartDateFilter) {
+    query["reservationInfo.date"] =  {
+      $gte: StartDateFilter,
+      $lte:EndDateFilter
+    }
+};
 
-  const TotalCount = await User.countDocuments({});
+  
+  // if (StartDateFilter) {
+  //   query?.reservationInfo?.date = StartDateFilter;
+  // }
+  
+  const users = await User.find(query).skip(skipNum).limit(PageSize);
+
+  const TotalCount = await User.countDocuments(query);
   const TotalPages = PageSize === -1 ? 1 : Math.ceil(TotalCount / PageSize);
 
   res.json({
