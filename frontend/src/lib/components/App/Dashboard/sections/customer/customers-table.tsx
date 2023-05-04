@@ -15,6 +15,7 @@ import {
 
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
+import DownloadIcon from '@mui/icons-material/Download';
 import PropTypes from 'prop-types';
 import { useAppDispatch } from '../../../../../../store';
 import { deleteUser, fetchUsers } from '../../../../../../store/user/userActions';
@@ -22,21 +23,23 @@ import { IUser } from '../../../../../../types/user';
 import { useRouter } from 'next/router';
 import InfoIcon from '@mui/icons-material/Info';
 import { getDate } from '../../../../../_helpers';
+import Tooltip from '../../../../Display/Tooltip';
+import { getDownloadFile } from '../../../../../_helpers/utility';
+import ContractPdf from './contract-pdf';
+import { pdf } from '@react-pdf/renderer';
+
 
 export const CustomersTable = (props: any) => {
   const {
     count = 0,
     items = [],
     onDeselectAll,
-    onDeselectOne,
     onPageChange = () => { },
     onRowsPerPageChange,
     onSelectAll,
-    onSelectOne,
     page = 0,
     rowsPerPage = 0,
     selected = [],
-    reloadCustomers = () => null,
   } = props;
 
   const selectedSome = (selected?.length > 0) && (selected?.length < items?.length);
@@ -45,6 +48,14 @@ export const CustomersTable = (props: any) => {
   const dispatch = useAppDispatch();
   const router = useRouter()
 
+  const renderPdf = async (userDetails:any) => {
+    const component = (<ContractPdf userDetails={userDetails} />)
+    const blob = await pdf(component).toBlob();
+
+    getDownloadFile(
+      blob, 'Album.pdf'
+    )
+  }
   return (
     <Card sx={{ overflowX: 'auto' }}>
       <Box sx={{ minWidth: 800 }}>
@@ -92,6 +103,7 @@ export const CustomersTable = (props: any) => {
                 Durum
               </TableCell>
               <TableCell />
+              <TableCell />
             </TableRow>
           </TableHead>
           <TableBody>
@@ -138,7 +150,7 @@ export const CustomersTable = (props: any) => {
                     {customer.phoneNumber}
                   </TableCell>
                   <TableCell>
-                    {getDate(customer.reservationInfo.date,'Ppp')}
+                    {getDate(customer.reservationInfo.date, 'Ppp')}
                   </TableCell>
                   <TableCell>
                     {customer.reservationInfo.place}
@@ -153,31 +165,44 @@ export const CustomersTable = (props: any) => {
                     {customer.reservationInfo.advancePayment}
                   </TableCell>
                   <TableCell>
-                   {customer.status}
+                    {customer.status}
                   </TableCell>
                   <TableCell>
                     {/* {createdAt} */}
                   </TableCell>
                   <TableCell>
-                    <IconButton onClick={async () => router.push(`/dashboard/customers/form/edit/${customer._id}`)}>
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton onClick={async () => router.push(`/dashboard/customers/details/${customer._id}`)}>
-                      <InfoIcon />
-                    </IconButton>
-                    <IconButton onClick={async () => {
-                      const res = await dispatch(deleteUser(
-                        customer._id,
-                      ));
+                    <Tooltip title="Edit">
+                      <IconButton onClick={async () => router.push(`/dashboard/customers/form/edit/${customer._id}`)}>
+                        <EditIcon />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Details">
+                      <IconButton onClick={async () => router.push(`/dashboard/customers/details/${customer._id}`)}>
+                        <InfoIcon />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Delete">
+                      <IconButton onClick={async () => {
+                        const res = await dispatch(deleteUser(
+                          customer._id,
+                        ));
 
-                      if (res.meta.requestStatus === 'fulfilled') {
-                        dispatch(fetchUsers(''));
+                        if (res.meta.requestStatus === 'fulfilled') {
+                          dispatch(fetchUsers(''));
+                        }
                       }
-                    }
 
-                    }>
-                      <DeleteForeverIcon />
-                    </IconButton>
+                      }>
+                        <DeleteForeverIcon />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Excel Export">
+                      <IconButton onClick={() => renderPdf(customer)
+                      }>
+                        <DownloadIcon />
+                      </IconButton>
+                    </Tooltip>
+
                   </TableCell>
                 </TableRow>
               );

@@ -16,14 +16,15 @@ const users = [
     phoneNumber: "5303180728",
 
     reservationInfo: {
-      date: "02.04.2022",
+      date: null,
       hour: "12:00",
       place: "plato",
       packagePrice: 1500,
       advancePayment: 300,
-      packageDetails: "fotoğraf çekimi ve video klip (1dk)",
+      packageDetails: '3',
       album:{
-        albumPack:'25x50 - 2 Jumbo Cep',
+        albumDetail:'25x50',
+        familyDetail:'2',
         posterDetail:'50x70',
         canvasDetail:'',
         pvc:'White',
@@ -55,19 +56,20 @@ const users = [
       phoneNumber: "5303180728",
     reservationInfo: {
       album:{
-        albumPack:'25x50 - 2 Jumbo Cep',
+        albumDetail:'25x50',
+        familyDetail:'2',
         posterDetail:'50x70',
         canvasDetail:'',
         pvc:'White',
         box:'',
         wood:''
       },
-      date: "03.04.2022",
+      date: null,
       hour: "13:00",
       place: "plato2",
       packagePrice: 1700,
       advancePayment: 300,
-      packageDetails: "fotoğraf çekimi ve video klip (1dk)",
+      packageDetails:'3',
       isPoster:true
     },
 
@@ -94,20 +96,23 @@ const users = [
       address: "abdülbaki golpınarlı u1 ",
       phoneNumber: "5303180728",
     reservationInfo: {
-      date: "03.04.2022",
+      date: null,
       hour: "13:00",
       place: "plato2",
       packagePrice: 1700,
       advancePayment: 300,
-      packageDetails: "fotoğraf çekimi ve video klip (1dk)",
+      packageDetails: '2',
       isPoster:false,
       album:{
-        albumPack:'25x50 - 2 Jumbo Cep',
+        albumDetail:'25x50',
+        familyDetail:'2',
         posterDetail:'50x70',
         canvasDetail:'',
         pvc:'White',
         box:'',
-        wood:''
+        wood:'',
+        albumDetail:'25x50',
+        familyDetail:'2'
       },
     },
 
@@ -136,7 +141,8 @@ const users = [
       phoneNumber: "5303180728",
     reservationInfo: {
       album:{
-        albumPack:'25x50 - 2 Jumbo Cep',
+        albumDetail:'25x50',
+        familyDetail:'2',
         posterDetail:'',
         canvasDetail:'',
         pvc:'White',
@@ -144,12 +150,12 @@ const users = [
         wood:''
 
       },
-      date: "03.04.2022",
+      date: null,
       hour: "13:00",
       place: "plato2",
       packagePrice: 1700,
       advancePayment: 300,
-      packageDetails: "fotoğraf çekimi ve video klip (1dk)",
+      packageDetails: '1'
     },
 
     chosen: {

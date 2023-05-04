@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useSelector } from "react-redux";
 import * as yup from 'yup';
 import { RootState, useAppDispatch } from "../../../../store";
-import { getPhotosPagination } from "../../../../store/photo/photoActions";
+import { getPhotosAlbum, getPhotosPagination } from "../../../../store/photo/photoActions";
 import { getProfile, updateProfile } from "../../../../store/user/userActions";
 import { PhotoProperty } from "../../../../types/photo";
 import useForm from "../../../_hooks/useForm";
@@ -44,8 +44,14 @@ const ProfileAlbumChoice = ({ userDetails }: any) => {
   const AlbumNameVal = useWatch({ control, fieldName: 'albumName' })
 
 
+  const photoListAlbum = useSelector((state:RootState) => state.photo.photoListAlbum.data?.Data)
+ 
+
   useEffect(() => {
-    !photoList?.length && dispatch(getPhotosPagination(''));
+    if(!photoListAlbum) {
+      dispatch(getPhotosAlbum())
+    }
+   
   }, [dispatch]);
 
   useEffect(() => {
@@ -62,9 +68,8 @@ const ProfileAlbumChoice = ({ userDetails }: any) => {
 
 
 
-
   useEffect(() => {
-    setValue('colorCode', photoList?.filter(photo => photo.property === PhotoProperty.Album)?.find((item) => item.description === AlbumNameVal)?.colorCodes[0])
+    setValue('colorCode', photoListAlbum?.find((item) => item.description === AlbumNameVal)?.colorCodes[0]!)
   }, [AlbumNameVal])
 
 
@@ -105,7 +110,7 @@ const ProfileAlbumChoice = ({ userDetails }: any) => {
                 item
                 sx={{ justify: 'center', alignItems: 'center', width: '100%' }}
               >
-                  <Box component='img' src={photoList?.filter(photo => photo?.property === PhotoProperty.Album).find(photo => photo?.description === AlbumNameVal)?.imageURL} sx={{ width: '100%' }} ></Box>
+                  <Box component='img' src={photoListAlbum?.find(photo => photo?.description === AlbumNameVal)?.imageURL} sx={{ width: '100%' }} ></Box>
                 </Grid>
 
                 <Grid
@@ -116,7 +121,7 @@ const ProfileAlbumChoice = ({ userDetails }: any) => {
                   item
                   sx={{ justify: 'center', alignItems: 'center', width: '100%' }}
                 >
-                  <Select disabled={isChoiced} options={{ data: photoList?.filter(photo => photo.property === PhotoProperty.Album) || [], displayField: 'description', displayValue: 'description' }} id="albumName" name="albumName" label="Albüm Adı" control={control} errors={errors} setValue={setValue} defaultValue={defaultValues.albumName} fullWidth />
+                  <Select disabled={isChoiced} options={{ data: photoListAlbum || [], displayField: 'description', displayValue: 'description' }} id="albumName" name="albumName" label="Albüm Adı" control={control} errors={errors} setValue={setValue} defaultValue={defaultValues.albumName} fullWidth />
                 </Grid>
                 {AlbumNameVal && <Grid
                   xs={12}
@@ -129,7 +134,7 @@ const ProfileAlbumChoice = ({ userDetails }: any) => {
 
                   <Select
                     disabled={isChoiced}
-                    options={{ data: photoList?.filter(photo => photo.property === PhotoProperty.Album)?.find((item) => item.description === AlbumNameVal)?.colorCodes?.map(item => { return ({ ColorCode: item }) }) || [], displayField: 'ColorCode', displayValue: 'ColorCode' }} id="colorCode" name="colorCode" label="Renk Kodu" control={control} errors={errors} setValue={setValue} defaultValue={defaultValues.albumName} fullWidth />
+                    options={{ data: photoListAlbum?.find((item) => item.description === AlbumNameVal)?.colorCodes?.map(item => { return ({ ColorCode: item }) }) || [], displayField: 'ColorCode', displayValue: 'ColorCode' }} id="colorCode" name="colorCode" label="Renk Kodu" control={control} errors={errors} setValue={setValue} defaultValue={defaultValues.albumName} fullWidth />
 
                 </Grid>}
                 <Grid

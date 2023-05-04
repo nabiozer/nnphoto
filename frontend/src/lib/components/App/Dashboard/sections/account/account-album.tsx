@@ -1,38 +1,48 @@
 import { Box, Button, Card, CardActions, CardContent, CardHeader, Divider, Grid } from "@mui/material";
 import { useRouter } from "next/router";
-
+import { pdf } from "@react-pdf/renderer";
 import { useEffect } from 'react';
 import { useSelector } from "react-redux";
 import * as yup from 'yup';
 import { RootState, useAppDispatch } from "../../../../../../store";
+import { getPhotosAlbum } from "../../../../../../store/photo/photoActions";
 import { getUserById, updateUserByAdmin } from "../../../../../../store/user/userActions";
+import { getDownloadFile } from "../../../../../_helpers/utility";
 import useForm from "../../../../../_hooks/useForm";
 import useWatch from "../../../../../_hooks/useWatch";
 import Input from "../../../../Form/Input";
-import { PhotoProperty } from "../../../../../../types/photo";
 import AlbumForm from "./album-form";
-import { pdf } from "@react-pdf/renderer";
-import { getDownloadFile } from "../../../../../_helpers/utility";
+import Select from "../../../../Form/Select";
 
 
 
 const AlbumChoice = ({ userDetails }: any) => {
 
-  const { chosen: { album: { colorCode, albumName }, poster, cover, isChoiced, coverText }, reservationInfo: { album: { albumPack, pvc, box, wood, posterDetail, canvasDetail } }, _id, address, phoneNumber, name } = userDetails;
+  const { chosen: { album: { colorCode, albumName }, poster, cover, isChoiced, coverText }, reservationInfo: { album: { pvc, box, wood, posterDetail,albumDetail,familyDetail,canvasDetail } }, _id, address, phoneNumber, name } = userDetails;
   const dispatch = useAppDispatch();
   const router = useRouter();
   const userId = router.query.id;
 
-  const photoList = useSelector((state: RootState) => state.photo.photoList.data)
+  const photoListAlbum = useSelector((state:RootState) => state.photo.photoListAlbum.data?.Data)
+ 
+
+  useEffect(() => {
+    if(!photoListAlbum) {
+      dispatch(getPhotosAlbum())
+    }
+   
+  }, [dispatch]);
+
+  const defaultValues = {
+    colorCode: colorCode,
+    albumName: albumName,
+    poster: poster,
+    cover: cover,
+    coverText: coverText,
+  }
 
   const { control, errors, handleSubmit, setValue } = useForm({
-    defaultValues: {
-      colorCode: colorCode,
-      albumName: albumName,
-      poster: poster,
-      cover: cover,
-      coverText: coverText,
-    },
+    defaultValues: defaultValues,
     validationSchema: {
       colorCode: yup.string().required('Bu alanın doldurulması zorunludur.'),
       albumName: yup.string().required('Bu alanın doldurulması zorunludur.'),
@@ -65,7 +75,7 @@ const AlbumChoice = ({ userDetails }: any) => {
   }
 
   const renderPdf = async () => {
-    const component = (<AlbumForm colorCode={colorCode} albumName={albumName} coverText={coverText} albumDetail={albumPack} address={address} phoneNumber={phoneNumber} name={name} box={box} canvasDetail={canvasDetail} posterDetail={posterDetail} pvc={pvc} wood={wood} />)
+    const component = (<AlbumForm colorCode={colorCode} albumName={albumName} coverText={coverText} albumDetail={albumDetail} familyDetail={familyDetail} address={address} phoneNumber={phoneNumber} name={name} box={box} canvasDetail={canvasDetail} posterDetail={posterDetail} pvc={pvc} wood={wood} />)
     const blob = await pdf(component).toBlob();
 
     getDownloadFile(
@@ -103,7 +113,7 @@ const AlbumChoice = ({ userDetails }: any) => {
                   item
                   sx={{ justify: 'center', alignItems: 'center', width: '100%' }}
                 >
-                  {<Box component='img' src={photoList.filter(photo => photo?.property === PhotoProperty.Album).find(photo => photo?.description === AlbumNameVal)?.imageURL} sx={{ width: '100%' }}></Box>}
+                  {<Box component='img' src={photoListAlbum?.find(photo => photo?.description === AlbumNameVal)?.imageURL} sx={{ width: '100%' }}></Box>}
                 </Grid>
                 <Grid
                   xs={12}
@@ -114,21 +124,23 @@ const AlbumChoice = ({ userDetails }: any) => {
                   sx={{ justify: 'center', textAlign: 'center', alignItems: 'center', width: '100%' }}
                 >
 
-                  <Input id="albumName" name="albumName" placeholder="Albüm Adı" label="Albüm Adı" control={control} errors={errors} disabled={isChoiced} />
+          <Select disabled={isChoiced} options={{ data: photoListAlbum || [], displayField: 'description', displayValue: 'description' }} id="albumName" name="albumName" label="Albüm Adı" control={control} errors={errors} setValue={setValue} defaultValue={defaultValues.albumName} fullWidth />
 
                 </Grid>
-                <Grid
+                {AlbumNameVal && <Grid
                   xs={12}
                   sm={6}
                   lg={6}
                   md={6}
                   item
-                  sx={{ justify: 'center', textAlign: 'center', alignItems: 'center', width: '100%' }}
+                  sx={{ justify: 'center', alignItems: 'center', width: '100%' }}
                 >
 
-                  <Input id="colorCode" name="colorCode" placeholder="Albüm Renk" label="Albüm Renk" control={control} errors={errors} disabled={isChoiced} />
+                  <Select
+                    disabled={isChoiced}
+                    options={{ data: photoListAlbum?.find((item) => item.description === AlbumNameVal)?.colorCodes?.map(item => { return ({ ColorCode: item }) }) || [], displayField: 'ColorCode', displayValue: 'ColorCode' }} id="colorCode" name="colorCode" label="Renk Kodu" control={control} errors={errors} setValue={setValue} defaultValue={defaultValues.albumName} fullWidth />
 
-                </Grid>
+                </Grid>}
                 <Grid
                   xs={12}
                   sm={6}

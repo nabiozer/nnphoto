@@ -41,8 +41,12 @@ const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
   if (user) {
-    const photosWithUrl = user?.photos ? await getObjectSignedUrl(user?.photos) : '';
-    const videosWithUrl = user?.video ? await getObjectSignedUrl(user?.video) : '';
+    const photosWithUrl = user?.photos
+      ? await getObjectSignedUrl(user?.photos)
+      : "";
+    const videosWithUrl = user?.video
+      ? await getObjectSignedUrl(user?.video)
+      : "";
 
     res.json({
       _id: user._id,
@@ -56,7 +60,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
       video: user.video,
       photos: user.photos,
       status: user.status,
-      photosURL: photosWithUrl ,
+      photosURL: photosWithUrl,
       videoURL: videosWithUrl,
     });
   } else {
@@ -146,8 +150,10 @@ const registerUser = asyncHandler(async (req, res) => {
     packagePrice,
     packageDetails,
     advancePayment,
-    albumPack,
+
     posterDetail,
+    albumDetail,
+    familyDetail,
     canvasDetail,
     pvc,
     box,
@@ -167,7 +173,9 @@ const registerUser = asyncHandler(async (req, res) => {
     phoneNumber,
     reservationInfo: {
       album: {
-        albumPack,
+     
+        albumDetail,
+        familyDetail,
         posterDetail,
         canvasDetail,
         pvc,
@@ -195,7 +203,7 @@ const registerUser = asyncHandler(async (req, res) => {
       video: user.video,
       photos: user.photos,
       status: user.status,
-   
+
       token: generateToken(user._id),
     });
   } else {
@@ -214,40 +222,32 @@ const getUsers = asyncHandler(async (req, res) => {
   res.json(users);
 });
 
-
-
-
 const getUsersPagination = asyncHandler(async (req, res) => {
-
   const PageSize = Number(req.query.PageSize) || 10;
   const PageNumber = Number(req.query.PageNumber) || 1;
   const skipNum = (PageNumber - 1) * PageSize;
   const Name = req.query.Name || "";
   const StartDateFilter = req.query.StartDate || null;
   const EndDateFilter = req.query.EndDate || null;
-  const query = {
-   
-   
-  };
+  const query = {};
 
   if (Name) {
     query.name = {
-      $regex: new RegExp(Name, 'i')
+      $regex: new RegExp(Name, "i"),
     };
   }
-  
-  if(StartDateFilter) {
-    query["reservationInfo.date"] =  {
-      $gte: StartDateFilter,
-      $lte:EndDateFilter
-    }
-};
 
-  
+  if (StartDateFilter) {
+    query["reservationInfo.date"] = {
+      $gte: StartDateFilter,
+      $lte: EndDateFilter,
+    };
+  }
+
   // if (StartDateFilter) {
   //   query?.reservationInfo?.date = StartDateFilter;
   // }
-  
+
   const users = await User.find(query).skip(skipNum).limit(PageSize);
 
   const TotalCount = await User.countDocuments(query);
@@ -261,7 +261,6 @@ const getUsersPagination = asyncHandler(async (req, res) => {
     TotalPages,
   });
 });
-
 
 //  @desc Delete user
 //  @route GET /api/users:id
@@ -314,19 +313,20 @@ const updateUser = asyncHandler(async (req, res) => {
       user.password = req.body.password || user.password;
     }
 
-
-    console.log(req.body, user.reservationInfo.album)
+    console.log(req.body, user.reservationInfo.album);
     const albumInfo = {
      
-        albumPack: req.body.albumPack || user.reservationInfo.album.albumPack,
-        posterDetail:
-          req.body.posterDetail || user.reservationInfo.album.posterDetail,
-        canvasDetail:
-          req.body.canvasDetail || user.reservationInfo.album.canvasDetail,
-        pvc: req.body.pvc ,
-        box: req.body.box ,
-        wood: req.body.wood ,
-   
+      posterDetail:
+        req.body.posterDetail || user.reservationInfo.album.posterDetail,
+      canvasDetail:
+        req.body.canvasDetail || user.reservationInfo.album.canvasDetail,
+      albumDetail:
+        req.body.albumDetail || user.reservationInfo.album.albumDetail,
+      familyDetail:
+        req.body.familyDetail || user.reservationInfo.album.familyDetail,
+      pvc: req.body.pvc,
+      box: req.body.box,
+      wood: req.body.wood,
     };
 
     const reservationInfo = {
@@ -362,7 +362,6 @@ const updateUser = asyncHandler(async (req, res) => {
     user.video = req.body.video || user.video;
     user.photos = req.body.photos || user.photos;
     user.status = req.body.status || user.status;
-
 
     const updatedUser = await user.save();
 

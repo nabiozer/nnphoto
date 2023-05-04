@@ -45,7 +45,6 @@ const userSchema = mongoose.Schema(
 
       packageDetails: {
         type: String,
-
         default: "",
       },
 
@@ -55,13 +54,18 @@ const userSchema = mongoose.Schema(
         default: "",
       },
       album:{
-        albumPack: {
-          type: String,
-          default: "25x50 - 2 Jumbo",
-        },
+     
         isPoster:{
           type:Boolean,
           default: false,
+        },
+        albumDetail: {
+          type: String,
+          default: "25x50 - 2 Jumbo",
+        },
+        familyDetail:{
+          type: String,
+          default: "2",
         },
         posterDetail:{
           type: String,

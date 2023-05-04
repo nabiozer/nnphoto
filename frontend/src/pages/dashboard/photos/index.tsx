@@ -33,7 +33,6 @@ const Page = () => {
 
 
   useEffect(() => {
-
     dispatch(getPhotosPagination(jsonToQueryString({ ...params, PageNumber: params.PageNumber || 1, PageSize: params.PageSize || 20 })));
   }, [dispatch, params]);
 

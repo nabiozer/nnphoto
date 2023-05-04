@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     },
 
 });
-const AlbumForm = ({ colorCode, albumName, coverText, albumDetail, name, phoneNumber, address, posterDetail, canvasDetail, pvc, box, wood }: any) => {
+const AlbumForm = ({ colorCode, albumName, coverText, albumDetail, familyDetail,name, phoneNumber, address,posterDetail, canvasDetail, pvc, box, wood }: any) => {
     return (
         <Document>
             <Page  >
@@ -149,7 +149,7 @@ const AlbumForm = ({ colorCode, albumName, coverText, albumDetail, name, phoneNu
                     <Text style={styles.firmName}>NNPHOTOFILM</Text>
                     <Text style={styles.albumName}>{albumName}</Text>
                     <Text style={styles.materialName}>{colorCode}</Text>
-                    <Text style={styles.setName}>{albumDetail}</Text>
+                    <Text style={styles.setName}>{albumDetail} - {familyDetail && '2 Jumbo Cep'}</Text>
                     <Text style={styles.coverText}>{coverText}</Text>
                     {posterDetail && <Text style={styles.poster}>{posterDetail}</Text>}
                     {canvasDetail && <Text style={styles.canvas}>{canvasDetail}</Text>}

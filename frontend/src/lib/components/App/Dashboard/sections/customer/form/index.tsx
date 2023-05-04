@@ -9,20 +9,16 @@ import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 
-import axios from 'axios';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
-import * as yup from 'yup';
-import { Layout as DashboardLayout } from '../../../layouts/dashboard/layout';
 import { useEffect } from 'react';
-import { getUserById, registerUser, updateUserByAdmin } from '../../../../../../../store/user/userActions';
-import Input from '../../../../../Form/Input';
 import { useAppDispatch } from '../../../../../../../store';
+import { getUserById, registerUser, updateUserByAdmin } from '../../../../../../../store/user/userActions';
 import useForm from '../../../../../../_hooks/useForm';
-import Select from '../../../../../Form/Select';
-import { Pvc, Box as BoxP, Wood } from '../type';
-import DatePicker from '../../../../../Form/DatePicker';
 import DateTimePicker from '../../../../../Form/DateTimePicker';
+import Input from '../../../../../Form/Input';
+import Select from '../../../../../Form/Select';
+import { Layout as DashboardLayout } from '../../../layouts/dashboard/layout';
+import { Box as BoxP, Pvc, Wood } from '../type';
 
 
 
@@ -59,6 +55,8 @@ export default function Form({ type, id }: any) {
         address: '',
         phoneNumber: '',
         posterDetail: '',
+        albumDetail: '',
+        familyDetail: '',
         canvasDetail: '',
         pvc: '',
         box: '',
@@ -78,7 +76,7 @@ export default function Form({ type, id }: any) {
             const getUser = async () => {
                 const res = await dispatch(getUserById(id))
                 if (res.meta.requestStatus === 'fulfilled') {
-                    const { email, name, address, phoneNumber, reservationInfo: { date, advancePayment, album: { albumPack, posterDetail, canvasDetail, pvc, box, wood }, packageDetails, packagePrice, place } } = res?.payload
+                    const { email, name, address, phoneNumber, reservationInfo: { date, advancePayment, album: { albumDetail,familyDetail, posterDetail, canvasDetail, pvc, box, wood }, packageDetails, packagePrice, place } } = res?.payload
                     setValue('email', email);
                     setValue('name', name);
                     setValue('date', date);
@@ -88,7 +86,8 @@ export default function Form({ type, id }: any) {
                     setValue('advancePayment', advancePayment);
                     setValue('packageDetails', packageDetails);
                     setValue('packagePrice', packagePrice);
-                    setValue('albumPack', albumPack);
+                    setValue('albumDetail', albumDetail);
+                    setValue('familyDetail', familyDetail);
                     setValue('posterDetail', posterDetail);
                     setValue('canvasDetail', canvasDetail);
                     setValue('pvc', pvc);
@@ -156,7 +155,8 @@ export default function Form({ type, id }: any) {
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="packageDetails" name="packageDetails" placeholder="Paket Detay" label="Paket Detay" control={control} errors={errors} /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="address" name="address" placeholder="Adres" label="Adres" control={control} errors={errors} /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="phoneNumber" name="phoneNumber" placeholder="Telefon" label="Telefon" control={control} errors={errors} /></Grid>
-                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="albumPack" name="albumPack" placeholder="Albüm Detay" label="Albüm Detay" control={control} errors={errors} /></Grid>
+                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="albumDetail" name="albumDetail" placeholder="Albüm Detay" label="Albüm" control={control} errors={errors} /></Grid>
+                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="familyDetail" name="familyDetail" placeholder="Aile Albüm Detay" label="Aile Albüm Detay" control={control} errors={errors} /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="posterDetail" name="posterDetail" placeholder="Poster" label="Poster" control={control} errors={errors} /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="canvasDetail" name="canvasDetail" placeholder="Kanvas" label="Kanvas" control={control} errors={errors} /></Grid>
 

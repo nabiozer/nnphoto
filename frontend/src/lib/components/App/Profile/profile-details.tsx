@@ -10,7 +10,7 @@ import CircularProgressWithLabel from '../../Display/Progress/WithLabel';
 
 export const ProfileDetails = ({ userDetails }: any) => {
 
-  const { reservationInfo: { date, place, packagePrice, packageDetails, advancePayment, album:{albumPack} },photos, video, photosURL, videoURL } = userDetails;
+  const { reservationInfo: { date, place, packagePrice, packageDetails, advancePayment, album: { albumDetail, familyDetail, posterDetail, canvasDetail, } }, photos, video, photosURL, videoURL } = userDetails;
   const [progress, setProgress] = useState<any>(null);
   const [downloadObject, loading, error] = useS3Download(setProgress);
   const [downloadObj, setDownloadObj] = useState<string>('')
@@ -144,7 +144,7 @@ export const ProfileDetails = ({ userDetails }: any) => {
                     sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
                   >
                     <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Albüm</Typography>
-                    <Typography component="p" >{albumPack}</Typography>
+                    <Typography component="p" >{albumDetail} Panoramik Albüm- {familyDetail && `${familyDetail} Aile Albüm`} - {posterDetail && `${posterDetail} poster`} {canvasDetail && `${canvasDetail} poster`}</Typography>
                   </Grid>
 
 
@@ -271,7 +271,7 @@ export const ProfileDetails = ({ userDetails }: any) => {
                     sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
                   >
                     <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Video</Typography>
-                    {progress && downloadObj === 'video' ? <CircularProgressWithLabel value={progress}/> : <Typography component="p" >{video && videoURL ? <IconButton disabled={progress} onClick={() => { setDownloadObj('video'); downloadObject(videoURL, video) }}><DownloadIcon /></IconButton> : 'Yükleme aşamasında'}</Typography>}
+                    {progress && downloadObj === 'video' ? <CircularProgressWithLabel value={progress} /> : <Typography component="p" >{video && videoURL ? <IconButton disabled={progress} onClick={() => { setDownloadObj('video'); downloadObject(videoURL, video) }}><DownloadIcon /></IconButton> : 'Yükleme aşamasında'}</Typography>}
 
                   </Grid>
                 </Grid>
