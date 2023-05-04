@@ -31,22 +31,11 @@ const Page = () => {
   const customerList = useSelector((state: any) => state?.user?.userList?.data)
 
   useEffect(() => {
-    dispatch(fetchUsers(jsonToQueryString({...params,PageNumber: params.PageNumber || 1,PageSize: params.PageSize || 20})));
-  }, [dispatch,params]);
+    dispatch(fetchUsers(jsonToQueryString({ ...params, PageNumber: params.PageNumber || 1, PageSize: params.PageSize || 20 })));
+  }, [dispatch, params]);
 
 
-  const handleRowsPerPageChange = useCallback(
-    (event: any) => {
-  
-  
-      onSubmit({
-        ...queryStringToJson(cleanNullProperty(params)),
-        PageSize: event.target.value
-
-      })
-    },
-    []
-  );
+  const handleRowsPerPageChange = (event: any) => { onSubmit({ ...params, PageSize: event.target.value }) };
 
   const onSubmit = (data: any) => {
     const newData = { ...data };

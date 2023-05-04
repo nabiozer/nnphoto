@@ -27,33 +27,32 @@ const Page = () => {
   const router = useRouter();
   const params = router.query;
 
+
   const photoList = useSelector((state: any) => state.photo.photoListPagination.data)
 
 
- 
+
   useEffect(() => {
 
-    dispatch(getPhotosPagination(jsonToQueryString({...params,PageNumber: params.PageNumber || 1,PageSize: params.PageSize || 20})));
+    dispatch(getPhotosPagination(jsonToQueryString({ ...params, PageNumber: params.PageNumber || 1, PageSize: params.PageSize || 20 })));
   }, [dispatch, params]);
 
 
 
 
 
-  const handleRowsPerPageChange = useCallback(
+  const handleRowsPerPageChange =
     (event: any) => {
-  
-  
       onSubmit({
-        ...queryStringToJson(cleanNullProperty(params)),
+        ...params,
         PageSize: event.target.value
 
       })
-    },
-    []
-  );
+    }
+    ;
 
   const onSubmit = (data: any) => {
+    console.log(jsonToQueryString(cleanNullProperty(data)))
     const newData = { ...data };
 
     const q = jsonToQueryString(cleanNullProperty(newData));
