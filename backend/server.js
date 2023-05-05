@@ -11,6 +11,7 @@ import uploadRoutes from './routes/uploadRoutes.js'
 import awsUpload from './routes/awsUpload.js'
 import aws from './routes/aws.js'
 import expenseRoutes from './routes/expenseRoutes.js'
+import packageRoutes from './routes/packageRoutes.js'
 
 
 
@@ -32,6 +33,7 @@ app.get('/', (req, res) => {
 app.use('/api/photos',photoRoutes);
 app.use('/api/users',userRoutes);
 app.use('/api/expenses',expenseRoutes);
+app.use('/api/packages',packageRoutes);
 app.use('/api/upload',uploadRoutes);
 app.use('/api/uploadfile',awsUpload)
 app.use('/api/photoupdate',aws)

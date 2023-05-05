@@ -150,7 +150,6 @@ const registerUser = asyncHandler(async (req, res) => {
     packagePrice,
     packageDetails,
     advancePayment,
-
     posterDetail,
     albumDetail,
     familyDetail,
@@ -173,7 +172,6 @@ const registerUser = asyncHandler(async (req, res) => {
     phoneNumber,
     reservationInfo: {
       album: {
-     
         albumDetail,
         familyDetail,
         posterDetail,
@@ -315,7 +313,6 @@ const updateUser = asyncHandler(async (req, res) => {
 
     console.log(req.body, user.reservationInfo.album);
     const albumInfo = {
-     
       posterDetail:
         req.body.posterDetail || user.reservationInfo.album.posterDetail,
       canvasDetail:

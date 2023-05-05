@@ -18,9 +18,9 @@ export interface IAlbum {
 export interface IReservationInfo {
     date: number;
     place: string;
-    packagePrice: string;
+    packagePrice: number;
     packageDetails: string;
-    advancePayment: string;
+    advancePayment: number;
     album: IAlbum;
 }
 

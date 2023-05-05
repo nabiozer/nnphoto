@@ -46,23 +46,17 @@ export default function Form({ type, id }: any) {
     const router = useRouter();
 
     const defaultValues = {
-        email: '',
-        name: '',
-        date: '',
-        place: '',
+        packageName: '',
         packagePrice: '',
-        advancePayment: '',
-        packageDetails: '',
-        albumPack: '',
-        address: '',
-        phoneNumber: '',
-        posterDetail: '',
-        albumDetail: '',
+        albümDetail: '',
         familyDetail: '',
+        posterDetail: '',
         canvasDetail: '',
-        pvc: '',
-        box: '',
-        wood: '',
+        packageDetails: '',
+        videoKlip: '',
+        isDrone: false,
+        isPlaceInc: false,
+        
     }
     const { control, errors, handleSubmit, setValue } = useForm({
         defaultValues: defaultValues,
@@ -77,23 +71,20 @@ export default function Form({ type, id }: any) {
             const getUser = async () => {
                 const res = await dispatch(getUserById(id))
                 if (res.meta.requestStatus === 'fulfilled') {
-                    const { email, name, address, phoneNumber, reservationInfo: { date, advancePayment, album: { albumDetail,familyDetail, posterDetail, canvasDetail, pvc, box, wood }, packageDetails, packagePrice, place } } = res?.payload
-                    setValue('email', email);
-                    setValue('name', name);
-                    setValue('date', date);
-                    setValue('place', place);
-                    setValue('address', address);
-                    setValue('phoneNumber', phoneNumber);
-                    setValue('advancePayment', advancePayment);
-                    setValue('packageDetails', packageDetails);
+                    const { packageDetails,videoKlip,isDrone,isPlaceInc,packageName, packagePrice, albümDetail, familyDetail, posterDetail, canvasDetail, } = res?.payload
+                    setValue('packageName', packageName);
                     setValue('packagePrice', packagePrice);
-                    setValue('albumDetail', albumDetail);
+                    setValue('canvasDetail', canvasDetail);
+                    setValue('albümDetail', albümDetail);
                     setValue('familyDetail', familyDetail);
                     setValue('posterDetail', posterDetail);
-                    setValue('canvasDetail', canvasDetail);
-                    setValue('pvc', pvc);
-                    setValue('box', box);
-                    setValue('wood', wood);
+                    setValue('familyDetail', familyDetail);
+                    setValue('packageDetails', packageDetails);
+                    setValue('videoKlip', videoKlip);
+                    setValue('isDrone', isDrone);
+                    setValue('isPlaceInc', isPlaceInc);
+                
+
                 }
             }
             getUser()
@@ -169,7 +160,7 @@ export default function Form({ type, id }: any) {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Kullanıcı Oluştur
+                        Paket Oluştur
                     </Typography>
 
                     <Grid container spacing={1} component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ padding: 1 }}>

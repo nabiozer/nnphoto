@@ -15,6 +15,8 @@ interface IUser {
             wood:string;
             box:string;
             posterDetail:string;
+            albumDetail:string;
+            familyDetail:string;
             canvasDetail:string;
         },
         date: string;

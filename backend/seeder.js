@@ -1,11 +1,10 @@
-import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-
-import users from './data/users.js'
-import photos from './data/photos.js'
-import User from './models/UserModel.js'
-import Photo from './models/PhotoModel.js';
 import connectDB from './config/db.js';
+import packages from './data/packages.js';
+import users from './data/users.js';
+import Package from './models/PackageModel.js';
+import User from './models/UserModel.js';
+
 
 dotenv.config()
 connectDB();
@@ -16,6 +15,7 @@ const importData = async () => {
       
         await User.deleteMany();
         await User.insertMany(users)
+        await Package.insertMany(packages)
         // await Photo.deleteMany();
         // await Photo.insertMany(photos);
 

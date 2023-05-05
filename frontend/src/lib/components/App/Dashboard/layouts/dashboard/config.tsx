@@ -32,6 +32,15 @@ export const items = [
       </SvgIcon>
     )
   },
+  {
+    title: 'Paketler',
+    path: '/dashboard/packages',
+    icon: (
+      <SvgIcon fontSize="small">
+        <ChartBarIcon />
+      </SvgIcon>
+    )
+  },
 
   
   {
