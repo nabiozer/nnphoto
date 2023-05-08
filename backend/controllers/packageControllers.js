@@ -6,6 +6,32 @@ import Package from "../models/PackageModel.js";
 //  @acces Public
 
 const getPackages = asyncHandler(async (req, res) => {
+
+  const PageSize = Number(req.query.PageSize) || 10;
+  const PageNumber = Number(req.query.PageNumber) || 1;
+  const skipNum = (PageNumber - 1) * PageSize;
+
+
+
+
+  const photos =
+    PageSize === -1
+      ? await Package.find({})
+      : await Package.find({}).skip(skipNum).limit(PageSize);
+
+  const TotalCount = await Package.countDocuments({});
+  const TotalPages = PageSize === -1 ? 1 : Math.ceil(TotalCount / PageSize);
+
+
+
+  res.json({
+    Data: photos,
+    TotalCount,
+    PageNumber,
+    PageSize,
+    TotalPages,
+  });
+
   const packages = await Package.find({});
   res.json(packages);
 });
@@ -59,7 +85,7 @@ const updatePackage = asyncHandler(async (req, res) => {
   const {
     packageName,
     packagePrice,
-    albümDetail,
+    albumDetail,
     familyDetail,
     posterDetail,
     canvasDetail,
@@ -72,7 +98,7 @@ const updatePackage = asyncHandler(async (req, res) => {
   if (packageDetail) {
     packageDetail.packageName = packageName || packageDetail.packageName;
     packageDetail.packagePrice = packagePrice || packageDetail.packagePrice;
-    packageDetail.albümDetail = albümDetail || packageDetail.albümDetail;
+    packageDetail.albumDetail = albumDetail || packageDetail.albumDetail;
     packageDetail.familyDetail = familyDetail || packageDetail.familyDetail;
     packageDetail.posterDetail = posterDetail || packageDetail.posterDetail;
     packageDetail.canvasDetail = canvasDetail || packageDetail.canvasDetail;

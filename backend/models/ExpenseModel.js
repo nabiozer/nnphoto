@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 const expenseSchema = mongoose.Schema({
    
    
-    price : {
+    fee : {
         type:Number,
     },
     description : {

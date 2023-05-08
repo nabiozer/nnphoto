@@ -1,7 +1,8 @@
 
 
 import { useRouter } from 'next/router';
-import Form from '../../../../../lib/components/App/Dashboard/sections/packages/form';
+import Form from '../../../../../lib/components/App/Dashboard/sections/expenses/form';
+
 
 
 

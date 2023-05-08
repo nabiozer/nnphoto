@@ -23,7 +23,7 @@ const Detail = () => {
   return (
 
 
-<Box sx={{marginTop:'100px'}}>
+    <Box sx={{ marginTop: '100px' }}>
       <Head>
         <title>
           Profil | NNPHOTOFILM
@@ -34,7 +34,6 @@ const Detail = () => {
         style={{ height: 'calc(100% - 325px - 56px)' }}
       >
         <Container maxWidth="lg">
-
           <div>
             <Typography variant="h4">
 
@@ -49,7 +48,7 @@ const Detail = () => {
 
         </Container>
       </Box>
-      </Box>
+    </Box>
   )
 };
 

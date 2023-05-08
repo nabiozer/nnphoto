@@ -7,9 +7,10 @@ import { useSelector } from 'react-redux';
 import { jsonToQueryString } from '../../../lib';
 import { cleanNullProperty } from '../../../lib/_utility/utiliy';
 import { Layout as DashboardLayout } from '../../../lib/components/App/Dashboard/layouts/dashboard/layout';
-import { PackagesTable } from '../../../lib/components/App/Dashboard/sections/packages/package-table';
 import { useAppDispatch } from '../../../store';
-import { getPackagesPagination } from '../../../store/package/packageActions';
+import { getExpensesPagination } from '../../../store/expense/expenseActions';
+import { ExpensesSearch } from '../../../lib/components/App/Dashboard/sections/expenses/expense-search';
+import { ExpensesTable } from '../../../lib/components/App/Dashboard/sections/expenses/expense-table';
 
 
 const now = new Date();
@@ -22,12 +23,16 @@ const Page = () => {
   const params = router.query;
 
 
-  const packageList = useSelector((state: any) => state?.package?.packageListPagination?.data)
-  console.log(packageList)
+  const expenseList = useSelector((state: any) => state?.expense?.expenseListPagination?.data)
+  console.log(expenseList)
 
   useEffect(() => {
-    dispatch(getPackagesPagination(jsonToQueryString({ ...params, PageNumber: params.PageNumber || 1, PageSize: params.PageSize || 20 })));
+    dispatch(getExpensesPagination(jsonToQueryString({ ...params, PageNumber: params.PageNumber || 1, PageSize: params.PageSize || 20 })));
   }, [dispatch, params]);
+
+  // const sum = expenseList?.Data?.reduce((accumulator:any, object:any) => {
+  //   return accumulator + object.fee;
+  // }, 0);
 
 
   const handleRowsPerPageChange = (event: any) => { onSubmit({ ...params, PageSize: event.target.value }) };
@@ -38,9 +43,9 @@ const Page = () => {
     const q = jsonToQueryString(cleanNullProperty(newData));
 
     if (q) {
-      router.push(`/dashboard/packages?${q}`)
+      router.push(`/dashboard/expenses?${q}`)
     } else {
-      router.push(`/dashboard/packages`)
+      router.push(`/dashboard/expenses`)
     }
   }
 
@@ -48,7 +53,7 @@ const Page = () => {
     <DashboardLayout>
       <Head>
         <title>
-          Package | NNPHOTOFILM
+          Expense | NNPHOTOFILM
         </title>
       </Head>
       <Box
@@ -74,19 +79,20 @@ const Page = () => {
                     </SvgIcon>
                   )}
                   variant="contained"
-                  onClick={() => router.push('/dashboard/packages/form/new')}
+                  onClick={() => router.push('/dashboard/expenses/form/new')}
                 >
-                  Paket Ekle
+                  Harcama Ekle
                 </Button>
               </div>
+           
             </Stack>
-            {/* <PackagesSearch /> */}
-            <PackagesTable
-              count={packageList?.TotalCount}
-              items={packageList?.Data}
-              page={packageList?.PageNumber - 1}
-              rowsPerPage={packageList?.PageSize}
-              onPageChange={(_, page: any) => {
+            <ExpensesSearch />
+            <ExpensesTable
+              count={expenseList?.TotalCount}
+              items={expenseList?.Data}
+              page={expenseList?.PageNumber - 1}
+              rowsPerPage={expenseList?.PageSize}
+              onPageChange={(_:any, page: any) => {
                 onSubmit({
                   ...params,
                   PageNumber: page + 1

@@ -7,7 +7,7 @@ import Button from '../../../../Form/Button';
 import DateTimePicker from '../../../../Form/DateTimePicker';
 import Input from '../../../../Form/Input';
 
-export const CustomersSearch = () => {
+export const PackagesSearch = () => {
 
   const router = useRouter();
 

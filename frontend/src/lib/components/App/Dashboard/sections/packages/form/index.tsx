@@ -8,20 +8,15 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../../../../../../store';
-import { getUserById, registerUser, updateUserByAdmin } from '../../../../../../../store/user/userActions';
+import { createPackage, getPackageById, updatePackage } from '../../../../../../../store/package/packageActions';
 import useForm from '../../../../../../_hooks/useForm';
-import DateTimePicker from '../../../../../Form/DateTimePicker';
-import Input from '../../../../../Form/Input';
-import Select from '../../../../../Form/Select';
-import { Layout as DashboardLayout } from '../../../layouts/dashboard/layout';
-import { Box as BoxP, Packages, Pvc, Wood } from '../type';
 import useWatch from '../../../../../../_hooks/useWatch';
-
-
+import Input from '../../../../../Form/Input';
+import { Layout as DashboardLayout } from '../../../layouts/dashboard/layout';
+import Checkbox from '../../../../../Form/Checkbox';
 
 
 function Copyright(props: any) {
@@ -48,7 +43,7 @@ export default function Form({ type, id }: any) {
     const defaultValues = {
         packageName: '',
         packagePrice: '',
-        albümDetail: '',
+        albumDetail: '',
         familyDetail: '',
         posterDetail: '',
         canvasDetail: '',
@@ -56,7 +51,7 @@ export default function Form({ type, id }: any) {
         videoKlip: '',
         isDrone: false,
         isPlaceInc: false,
-        
+
     }
     const { control, errors, handleSubmit, setValue } = useForm({
         defaultValues: defaultValues,
@@ -68,14 +63,14 @@ export default function Form({ type, id }: any) {
 
     useEffect(() => {
         if (isEdit) {
-            const getUser = async () => {
-                const res = await dispatch(getUserById(id))
+            const getPackageDetails = async () => {
+                const res = await dispatch(getPackageById(id))
                 if (res.meta.requestStatus === 'fulfilled') {
-                    const { packageDetails,videoKlip,isDrone,isPlaceInc,packageName, packagePrice, albümDetail, familyDetail, posterDetail, canvasDetail, } = res?.payload
+                    const { packageDetails, videoKlip, isDrone, isPlaceInc, packageName, packagePrice, albumDetail, familyDetail, posterDetail, canvasDetail, } = res?.payload
                     setValue('packageName', packageName);
                     setValue('packagePrice', packagePrice);
                     setValue('canvasDetail', canvasDetail);
-                    setValue('albümDetail', albümDetail);
+                    setValue('albumDetail', albumDetail);
                     setValue('familyDetail', familyDetail);
                     setValue('posterDetail', posterDetail);
                     setValue('familyDetail', familyDetail);
@@ -83,21 +78,22 @@ export default function Form({ type, id }: any) {
                     setValue('videoKlip', videoKlip);
                     setValue('isDrone', isDrone);
                     setValue('isPlaceInc', isPlaceInc);
-                
+
 
                 }
             }
-            getUser()
+            getPackageDetails()
 
         }
     }, [isEdit])
 
-    const PackageDetailsVal = useWatch({ control, fieldName: 'packageDetails' })
+    const IsDroneVal = useWatch({ control, fieldName: 'isDrone' })
+    const IsPlaceIncludeVal = useWatch({ control, fieldName: 'isPlaceInc' })
 
 
     // useEffect(() => {
     //     if (!isEdit && PackageDetailsVal) {
-           
+
     //             if(PackageDetailsVal === Packages.one)
     //                 setValue('email', email);
     //                 setValue('name', name);
@@ -115,23 +111,23 @@ export default function Form({ type, id }: any) {
     //                 setValue('pvc', pvc);
     //                 setValue('box', box);
     //                 setValue('wood', wood);
-              
-       
+
+
 
     //     }
     // }, [PackageDetailsVal,isEdit])
 
     const onSubmit = async (data: any) => {
-        console.log(data)
+
         if (isEdit) {
-            const res = await dispatch(updateUserByAdmin({ id, data }));
+            const res = await dispatch(updatePackage({ id, data }));
             if (res.meta.requestStatus === 'fulfilled') {
-                router.push('/dashboard/customers');
+                router.push('/dashboard/packages');
             }
         } else {
-            const res = await dispatch(registerUser(data));
+            const res = await dispatch(createPackage(data));
             if (res.meta.requestStatus === 'fulfilled') {
-                router.push('/dashboard/customers');
+                router.push('/dashboard/packages');
             }
         }
 
@@ -160,30 +156,19 @@ export default function Form({ type, id }: any) {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Paket Oluştur
+                      {isEdit ? 'Paketi Düzenle' :  'Paket Oluştur'}
                     </Typography>
 
                     <Grid container spacing={1} component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ padding: 1 }}>
-                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="email" name="email" placeholder="E-Mail" label="Email" control={control} errors={errors} autoComplete="email" /></Grid>
-                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="name" name="name" placeholder="Kullanıcı Adı" label="Kullanıcı Adı" control={control} errors={errors} /></Grid>
-                        {!isEdit && <><Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="password" name="password" placeholder="Şifre" label="Şifre" control={control} errors={errors} autoComplete="current-password" type='password' /></Grid>
-                            <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="confirmpassword" name="confirmpassword" placeholder="Şifre Tekrar" label="Şifre Tekrar" control={control} errors={errors} autoComplete="current-password" type='password' /></Grid></>}
-                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><DateTimePicker id="date" name="date" label="Çekim Tarihi" disablePast control={control} errors={errors} unixTime fullWidth sx={{width:'100% '}}/></Grid>
-                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="place" name="place" placeholder="Çekim Yeri" label="Çekim Yeri" control={control} errors={errors} /></Grid>
-                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Select displayEmpty options={{ data: [{ value: Packages.one ,name:'Paket 1'}, { value: Packages.two,name:'Paket 2' },{ value: Packages.three,name:'Paket 3' }], displayField: 'name', displayValue: 'value' }} id="PackageDetails" name="PackageDetails" label="Paket Seçimi" control={control} errors={errors} setValue={setValue} defaultValue={defaultValues.packageDetails} fullWidth /></Grid>
+                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="packageName" name="packageName" placeholder="Paket Adı" label="Paket Adı" control={control} errors={errors} autoComplete="email" /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="packagePrice" name="packagePrice" placeholder="Paket Fiyatı" label="Paket Fiyatı" control={control} errors={errors} /></Grid>
-                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="advancePayment" name="advancePayment" placeholder="Kapora" label="Kapora" control={control} errors={errors} /></Grid>
-                      
-                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="address" name="address" placeholder="Adres" label="Adres" control={control} errors={errors} /></Grid>
-                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="phoneNumber" name="phoneNumber" placeholder="Telefon" label="Telefon" control={control} errors={errors} /></Grid>
-                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="albumDetail" name="albumDetail" placeholder="Albüm Detay" label="Albüm" control={control} errors={errors} /></Grid>
-                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="familyDetail" name="familyDetail" placeholder="Aile Albüm Adet" label="Aile Albüm Detay" control={control} errors={errors} /></Grid>
-                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="posterDetail" name="posterDetail" placeholder="Poster" label="Poster" control={control} errors={errors} /></Grid>
-                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="canvasDetail" name="canvasDetail" placeholder="Kanvas" label="Kanvas" control={control} errors={errors} /></Grid>
-
-                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} > <Select displayEmpty options={{ data: [{ value: Pvc.Black }, { value: Pvc.White }], displayField: 'value', displayValue: 'value' }} id="pvc" name="pvc" label="Pvc" control={control} errors={errors} setValue={setValue} defaultValue={defaultValues.pvc} fullWidth /></Grid>
-                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} > <Select displayEmpty options={{ data: [{ value: BoxP.Modal }, { value: BoxP.Wood }], displayField: 'value', displayValue: 'value' }} id="box" name="box" label="Kutu" control={control} errors={errors} setValue={setValue} defaultValue={defaultValues.box} fullWidth /></Grid>
-                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} > <Select displayEmpty options={{ data: [{ value: Wood.Walnut }, { value: Wood.Black }], displayField: 'value', displayValue: 'value' }} id="wood" name="wood" label="Ahşap" control={control} errors={errors} setValue={setValue} defaultValue={defaultValues.wood} fullWidth /></Grid>
+                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="albumDetail" name="albumDetail" placeholder="Albüm Detay" label="Albüm Detay" control={control} errors={errors} /></Grid>
+                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="familyDetail" name="familyDetail" placeholder="Aile Albüm Adet" label="Aile Albüm Adet" control={control} errors={errors} /></Grid>
+                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="posterDetail" name="posterDetail" placeholder="Poster Detay" label="Poster Detay" control={control} errors={errors} /></Grid>
+                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="canvasDetail" name="canvasDetail" placeholder="Kanvas Detay" label="Kanvas Detay" control={control} errors={errors} /></Grid>
+                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="videoKlip" name="videoKlip" placeholder="Video Klip" label="Video Klip" control={control} errors={errors} /></Grid>
+                        <Grid item xs={12} md={3} sm={3} lg={3} sx={{ mt: 2 }} ><Checkbox name="isDrone" label={IsDroneVal === true ? 'Drone Dahil' : 'Drone Dahil Değil'} control={control} errors={errors}/></Grid>
+                        <Grid item xs={12} md={3} sm={3} lg={3} sx={{ mt: 2 }} ><Checkbox name="isPlaceInc" label={IsPlaceIncludeVal === true ? 'Mekan Dahil' : 'Mekan Dahil Değil'} control={control} errors={errors}/></Grid>
                         <Grid item xs={12} md={12} sm={12} lg={12} sx={{ mt: 2 }} >
                             <Button
                                 type="submit"

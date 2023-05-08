@@ -15,21 +15,17 @@ import {
 
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
-import DownloadIcon from '@mui/icons-material/Download';
+import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { useAppDispatch } from '../../../../../../store';
-import { deleteUser, fetchUsers } from '../../../../../../store/user/userActions';
-import { IUser } from '../../../../../../types/user';
-import { useRouter } from 'next/router';
-import InfoIcon from '@mui/icons-material/Info';
-import { getDate } from '../../../../../_helpers';
+import { deleteExpense, getExpensesPagination } from '../../../../../../store/expense/expenseActions';
 import Tooltip from '../../../../Display/Tooltip';
-import { getDownloadFile } from '../../../../../_helpers/utility';
-import ContractPdf from './contract-pdf';
-import { pdf } from '@react-pdf/renderer';
+import { getDate } from '../../../../../_helpers';
 
 
-export const CustomersTable = (props: any) => {
+
+
+export const ExpensesTable = (props: any) => {
   const {
     count = 0,
     items = [],
@@ -48,14 +44,7 @@ export const CustomersTable = (props: any) => {
   const dispatch = useAppDispatch();
   const router = useRouter()
 
-  const renderPdf = async (userDetails:any) => {
-    const component = (<ContractPdf userDetails={userDetails} />)
-    const blob = await pdf(component).toBlob();
 
-    getDownloadFile(
-      blob, 'Album.pdf'
-    )
-  }
   return (
     <Card sx={{ overflowX: 'auto' }}>
       <Box sx={{ minWidth: 800 }}>
@@ -76,45 +65,27 @@ export const CustomersTable = (props: any) => {
                 />
               </TableCell>
               <TableCell>
-                Name
+                Harcama Tutarı
               </TableCell>
               <TableCell>
-                Email
+                Tarih
               </TableCell>
               <TableCell>
-                Phone
-              </TableCell>
-              <TableCell>
-                Date
-              </TableCell>
-              <TableCell>
-                Place
-              </TableCell>
-              <TableCell>
-                Package
-              </TableCell>
-              <TableCell>
-                Price
-              </TableCell>
-              <TableCell>
-                Deposit
-              </TableCell>
-              <TableCell>
-                Durum
+                Açıklama
               </TableCell>
               <TableCell />
               <TableCell />
             </TableRow>
           </TableHead>
           <TableBody>
-            {items?.map((customer: IUser) => {
-              const isSelected = selected?.includes(customer._id);
-              // const createdAt = format(customer?.createdAt, 'dd/MM/yyyy');
+            {items?.map((expenseDetail: any) => {
+              const isSelected = selected?.includes(expenseDetail._id);
+              // const createdAt = format(expenseDetail?.createdAt, 'dd/MM/yyyy');
 
               return (
                 <TableRow
                   hover
-                  key={customer._id}
+                  key={expenseDetail._id}
                   selected={isSelected}
                 >
                   <TableCell padding="checkbox">
@@ -122,9 +93,9 @@ export const CustomersTable = (props: any) => {
                         checked={isSelected}
                         onChange={(event) => {
                           if (event.target.checked) {
-                            onSelectOne?.(customer._id);
+                            onSelectOne?.(expenseDetail._id);
                           } else {
-                            onDeselectOne?.(customer._id);
+                            onDeselectOne?.(expenseDetail._id);
                           }
                         }}
                       /> */}
@@ -135,60 +106,40 @@ export const CustomersTable = (props: any) => {
                       direction="row"
                       spacing={2}
                     >
-                      {/* <Avatar src={customer.avatar}>
-                          {getInitials(customer.name)}
+                      {/* <Avatar src={expenseDetail.avatar}>
+                          {getInitials(expenseDetail.name)}
                         </Avatar> */}
                       <Typography variant="subtitle2">
-                        {customer.name}
+                        {expenseDetail.fee}
                       </Typography>
                     </Stack>
                   </TableCell>
                   <TableCell>
-                    {customer.email}
+                    {getDate(expenseDetail.date, 'P')}
                   </TableCell>
                   <TableCell>
-                    {customer.phoneNumber}
+                    {expenseDetail.description}
                   </TableCell>
-                  <TableCell>
-                    {getDate(customer.reservationInfo.date, 'Ppp')}
-                  </TableCell>
-                  <TableCell>
-                    {customer.reservationInfo.place}
-                  </TableCell>
-                  <TableCell>
-                    {customer.reservationInfo.packageDetails}
-                  </TableCell>
-                  <TableCell>
-                    {customer.reservationInfo.packagePrice}
-                  </TableCell>
-                  <TableCell>
-                    {customer.reservationInfo.advancePayment}
-                  </TableCell>
-                  <TableCell>
-                    {customer.status}
-                  </TableCell>
+
+
                   <TableCell>
                     {/* {createdAt} */}
                   </TableCell>
+                  <TableCell></TableCell>
                   <TableCell>
                     <Tooltip title="Edit">
-                      <IconButton onClick={async () => router.push(`/dashboard/customers/form/edit/${customer._id}`)}>
+                      <IconButton onClick={async () => router.push(`/dashboard/expenses/form/edit/${expenseDetail._id}`)}>
                         <EditIcon />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Details">
-                      <IconButton onClick={async () => router.push(`/dashboard/customers/details/${customer._id}`)}>
-                        <InfoIcon />
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Delete">
                       <IconButton onClick={async () => {
-                        const res = await dispatch(deleteUser(
-                          customer._id,
+                        const res = await dispatch(deleteExpense(
+                          expenseDetail._id,
                         ));
 
                         if (res.meta.requestStatus === 'fulfilled') {
-                          dispatch(fetchUsers(''));
+                          dispatch(getExpensesPagination(''));
                         }
                       }
 
@@ -196,13 +147,6 @@ export const CustomersTable = (props: any) => {
                         <DeleteForeverIcon />
                       </IconButton>
                     </Tooltip>
-                    <Tooltip title="Excel Export">
-                      <IconButton onClick={() => renderPdf(customer)
-                      }>
-                        <DownloadIcon />
-                      </IconButton>
-                    </Tooltip>
-
                   </TableCell>
                 </TableRow>
               );
@@ -223,7 +167,7 @@ export const CustomersTable = (props: any) => {
   );
 };
 
-CustomersTable.propTypes = {
+ExpensesTable.propTypes = {
   count: PropTypes.number,
   items: PropTypes.array,
   onDeselectAll: PropTypes.func,

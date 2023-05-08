@@ -237,8 +237,8 @@ const getUsersPagination = asyncHandler(async (req, res) => {
 
   if (StartDateFilter) {
     query["reservationInfo.date"] = {
-      $gte: StartDateFilter,
-      $lte: EndDateFilter,
+      ...(StartDateFilter && {$gte: StartDateFilter}),
+      ...(EndDateFilter &&{ $lte: EndDateFilter}),
     };
   }
 

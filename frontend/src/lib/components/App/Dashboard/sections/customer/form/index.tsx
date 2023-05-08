@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { useAppDispatch } from '../../../../../../../store';
+import { RootState, useAppDispatch } from '../../../../../../../store';
 import { getUserById, registerUser, updateUserByAdmin } from '../../../../../../../store/user/userActions';
 import useForm from '../../../../../../_hooks/useForm';
 import DateTimePicker from '../../../../../Form/DateTimePicker';
@@ -20,6 +20,8 @@ import Select from '../../../../../Form/Select';
 import { Layout as DashboardLayout } from '../../../layouts/dashboard/layout';
 import { Box as BoxP, Packages, Pvc, Wood } from '../type';
 import useWatch from '../../../../../../_hooks/useWatch';
+import { getPackagesPagination } from '../../../../../../../store/package/packageActions';
+import { useSelector } from 'react-redux';
 
 
 
@@ -44,6 +46,8 @@ export default function Form({ type, id }: any) {
 
 
     const router = useRouter();
+
+    const packageList = useSelector((state: RootState) => state.package.packageListPagination.data?.Data)
 
     const defaultValues = {
         email: '',
@@ -73,11 +77,15 @@ export default function Form({ type, id }: any) {
     })
 
     useEffect(() => {
+        !packageList && dispatch(getPackagesPagination(''))
+    }, [packageList])
+
+    useEffect(() => {
         if (isEdit) {
             const getUser = async () => {
                 const res = await dispatch(getUserById(id))
                 if (res.meta.requestStatus === 'fulfilled') {
-                    const { email, name, address, phoneNumber, reservationInfo: { date, advancePayment, album: { albumDetail,familyDetail, posterDetail, canvasDetail, pvc, box, wood }, packageDetails, packagePrice, place } } = res?.payload
+                    const { email, name, address, phoneNumber, reservationInfo: { date, advancePayment, album: { albumDetail, familyDetail, posterDetail, canvasDetail, pvc, box, wood }, packageDetails, packagePrice, place } } = res?.payload
                     setValue('email', email);
                     setValue('name', name);
                     setValue('date', date);
@@ -102,33 +110,19 @@ export default function Form({ type, id }: any) {
     }, [isEdit])
 
     const PackageDetailsVal = useWatch({ control, fieldName: 'packageDetails' })
+    console.log(PackageDetailsVal)
 
-
-    // useEffect(() => {
-    //     if (!isEdit && PackageDetailsVal) {
-           
-    //             if(PackageDetailsVal === Packages.one)
-    //                 setValue('email', email);
-    //                 setValue('name', name);
-    //                 setValue('date', date);
-    //                 setValue('place', place);
-    //                 setValue('address', address);
-    //                 setValue('phoneNumber', phoneNumber);
-    //                 setValue('advancePayment', advancePayment);
-    //                 setValue('packageDetails', packageDetails);
-    //                 setValue('packagePrice', packagePrice);
-    //                 setValue('albumDetail', albumDetail);
-    //                 setValue('familyDetail', familyDetail);
-    //                 setValue('posterDetail', posterDetail);
-    //                 setValue('canvasDetail', canvasDetail);
-    //                 setValue('pvc', pvc);
-    //                 setValue('box', box);
-    //                 setValue('wood', wood);
-              
-       
-
-    //     }
-    // }, [PackageDetailsVal,isEdit])
+    useEffect(() => {
+        if (PackageDetailsVal) {
+            const filteredPackage =  packageList?.find(item => item.packageName === PackageDetailsVal)
+                setValue('albumDetail',filteredPackage?.albumDetail || '')
+                setValue('packagePrice', filteredPackage?.packagePrice || '')
+                setValue('familyDetail', filteredPackage?.familyDetail || '')
+                setValue('posterDetail',filteredPackage?.posterDetail || '')
+                setValue('canvasDetail', filteredPackage?.canvasDetail || '')
+        }
+        
+    }, [PackageDetailsVal])
 
     const onSubmit = async (data: any) => {
         console.log(data)
@@ -177,19 +171,17 @@ export default function Form({ type, id }: any) {
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="name" name="name" placeholder="Kullanıcı Adı" label="Kullanıcı Adı" control={control} errors={errors} /></Grid>
                         {!isEdit && <><Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="password" name="password" placeholder="Şifre" label="Şifre" control={control} errors={errors} autoComplete="current-password" type='password' /></Grid>
                             <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="confirmpassword" name="confirmpassword" placeholder="Şifre Tekrar" label="Şifre Tekrar" control={control} errors={errors} autoComplete="current-password" type='password' /></Grid></>}
-                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><DateTimePicker id="date" name="date" label="Çekim Tarihi" disablePast control={control} errors={errors} unixTime fullWidth sx={{width:'100% '}}/></Grid>
+                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><DateTimePicker id="date" name="date" label="Çekim Tarihi" disablePast control={control} errors={errors} unixTime fullWidth sx={{ width: '100% ' }} /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="place" name="place" placeholder="Çekim Yeri" label="Çekim Yeri" control={control} errors={errors} /></Grid>
-                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Select displayEmpty options={{ data: [{ value: Packages.one ,name:'Paket 1'}, { value: Packages.two,name:'Paket 2' },{ value: Packages.three,name:'Paket 3' }], displayField: 'name', displayValue: 'value' }} id="PackageDetails" name="PackageDetails" label="Paket Seçimi" control={control} errors={errors} setValue={setValue} defaultValue={defaultValues.packageDetails} fullWidth /></Grid>
+                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Select displayEmpty options={{ data: packageList || [], displayField: 'packageName', displayValue: 'packageName' }} id="packageDetails" name="packageDetails" label="Paket Seçimi" control={control} errors={errors} setValue={setValue} defaultValue={defaultValues.packageDetails} fullWidth /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="packagePrice" name="packagePrice" placeholder="Paket Fiyatı" label="Paket Fiyatı" control={control} errors={errors} /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="advancePayment" name="advancePayment" placeholder="Kapora" label="Kapora" control={control} errors={errors} /></Grid>
-                      
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="address" name="address" placeholder="Adres" label="Adres" control={control} errors={errors} /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="phoneNumber" name="phoneNumber" placeholder="Telefon" label="Telefon" control={control} errors={errors} /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="albumDetail" name="albumDetail" placeholder="Albüm Detay" label="Albüm" control={control} errors={errors} /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="familyDetail" name="familyDetail" placeholder="Aile Albüm Adet" label="Aile Albüm Detay" control={control} errors={errors} /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="posterDetail" name="posterDetail" placeholder="Poster" label="Poster" control={control} errors={errors} /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="canvasDetail" name="canvasDetail" placeholder="Kanvas" label="Kanvas" control={control} errors={errors} /></Grid>
-
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} > <Select displayEmpty options={{ data: [{ value: Pvc.Black }, { value: Pvc.White }], displayField: 'value', displayValue: 'value' }} id="pvc" name="pvc" label="Pvc" control={control} errors={errors} setValue={setValue} defaultValue={defaultValues.pvc} fullWidth /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} > <Select displayEmpty options={{ data: [{ value: BoxP.Modal }, { value: BoxP.Wood }], displayField: 'value', displayValue: 'value' }} id="box" name="box" label="Kutu" control={control} errors={errors} setValue={setValue} defaultValue={defaultValues.box} fullWidth /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} > <Select displayEmpty options={{ data: [{ value: Wood.Walnut }, { value: Wood.Black }], displayField: 'value', displayValue: 'value' }} id="wood" name="wood" label="Ahşap" control={control} errors={errors} setValue={setValue} defaultValue={defaultValues.wood} fullWidth /></Grid>

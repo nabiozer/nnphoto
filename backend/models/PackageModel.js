@@ -11,7 +11,7 @@ const packageSchema = mongoose.Schema({
         type:Number,
         default:''
     },
-    albümDetail : {
+    albumDetail : {
         type:String,
         
     },

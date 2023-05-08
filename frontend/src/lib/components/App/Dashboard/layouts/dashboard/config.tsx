@@ -2,11 +2,14 @@ import ChartBarIcon from '@heroicons/react/24/solid/ChartBarIcon';
 import CogIcon from '@heroicons/react/24/solid/CogIcon';
 import UserPlusIcon from '@heroicons/react/24/solid/UserPlusIcon';
 import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { SvgIcon } from '@mui/material';
+import CurrencyLiraIcon from '@mui/icons-material/CurrencyLira';
+import InventoryIcon from '@mui/icons-material/Inventory';
 
 export const items = [
   {
-    title: 'Overview',
+    title: 'Genel',
     path: '/dashboard',
     icon: (
       <SvgIcon fontSize="small">
@@ -15,7 +18,7 @@ export const items = [
     )
   },
   {
-    title: 'Customers',
+    title: 'Müşteriler',
     path: '/dashboard/customers',
     icon: (
       <SvgIcon fontSize="small">
@@ -28,7 +31,7 @@ export const items = [
     path: '/dashboard/photos',
     icon: (
       <SvgIcon fontSize="small">
-        <ChartBarIcon />
+        <AddAPhotoIcon />
       </SvgIcon>
     )
   },
@@ -37,24 +40,21 @@ export const items = [
     path: '/dashboard/packages',
     icon: (
       <SvgIcon fontSize="small">
-        <ChartBarIcon />
+        <InventoryIcon />
       </SvgIcon>
     )
   },
-
-  
   {
-    title: 'Settings',
-    path: '/dashboard/settings',
+    title: 'Harcamalar',
+    path: '/dashboard/expenses',
     icon: (
       <SvgIcon fontSize="small">
-        <CogIcon />
+        <CurrencyLiraIcon />
       </SvgIcon>
     )
   },
-
   {
-    title: 'Register NewUser',
+    title: 'Müşteri Kaydet',
     path: '/dashboard/customers/form/new',
     icon: (
       <SvgIcon fontSize="small">
