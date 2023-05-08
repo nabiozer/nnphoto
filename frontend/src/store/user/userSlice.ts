@@ -92,8 +92,8 @@ interface IState {
     },
     userLogin: {
         data:
-            typeof window !== 'undefined' && localStorage?.getItem('userInfo')
-                ? JSON.parse(localStorage?.getItem('userInfo')!)
+            typeof window !== 'undefined' && sessionStorage?.getItem('userInfo')
+                ? JSON.parse(sessionStorage?.getItem('userInfo')!)
                 : null,
         loading: false,
         error: '',
@@ -110,11 +110,11 @@ const userSlice = createSlice({
     reducers: {
         userLogin(state, action: PayloadAction<IUser>) {
             state.userLogin.data = { ...action.payload };
-            localStorage.setItem('userInfo', JSON.stringify(action.payload));
+            sessionStorage.setItem('userInfo', JSON.stringify(action.payload));
         },
         userLogout(state) {
             state.userLogin.data = null;
-            localStorage.removeItem('userInfo');
+            sessionStorage.removeItem('userInfo');
         },
         userListReset(state) {
             state.userList.data = null;
@@ -174,7 +174,7 @@ const userSlice = createSlice({
                 state.userLogin.data = action.payload;
                 state.userLogin.loading = false;
                 state.userLogin.error = '';
-                localStorage.setItem('userInfo', JSON.stringify(action.payload));
+                sessionStorage.setItem('userInfo', JSON.stringify(action.payload));
             })
             .addCase(authUser.rejected, (state, action) => {
                 state.userLogin.loading = false;

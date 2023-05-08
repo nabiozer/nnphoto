@@ -54,7 +54,7 @@ const NavLinks = () => {
                 <>
                     <li className="dropdown">
                         {userInfo?.isAdmin ? (
-                            <NavLink href="/dashboard" text='dashboard' />
+                            <NavLink href="/dashboard" text='Admin' />
                         ) : (
                             <NavLink href="/Profile" text='Profile' />
                         )}
@@ -65,7 +65,7 @@ const NavLinks = () => {
                 </>
             ) : (
                 <li>
-                    <NavLink href="/auth/login" text='login' />
+                    <NavLink href="/auth/login" text='Giriş' />
                 </li>
             )}
 
