@@ -12,7 +12,16 @@ const getExpenses = asyncHandler(async (req, res) => {
   const skipNum = (PageNumber - 1) * PageSize;
   const StartDateFilter = req.query.StartDate || null;
   const EndDateFilter = req.query.EndDate || null;
+  const Description = req.query.Description || '';
+
+
   const query = {};
+
+  if (Description) {
+    query.description = {
+      $regex: new RegExp(Description, "i"),
+    };
+  }
 
   if (StartDateFilter) {
     query.date = {

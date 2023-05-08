@@ -80,7 +80,7 @@ export const OverviewTotalCustomers = ({ difference, positive = false, sx, value
 OverviewTotalCustomers.propTypes = {
   difference: PropTypes.number,
   positive: PropTypes.bool,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired,
   sx: PropTypes.object
 };
 

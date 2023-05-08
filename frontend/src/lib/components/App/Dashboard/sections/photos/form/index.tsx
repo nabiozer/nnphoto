@@ -72,8 +72,6 @@ export default function PhotoForm({ type, id }: any) {
     const { control, errors, handleSubmit, setValue } = useForm({
         defaultValues: defaulValues,
         validationSchema: {
-
-
         }
     })
     const handleProcessFile = (error: any, file: any) => {
@@ -113,7 +111,7 @@ export default function PhotoForm({ type, id }: any) {
                 router.push('/dashboard/photos');
             }
         } else {
-            const res = await dispatch(createPhoto({ newData }));
+            const res = await dispatch(createPhoto( newData ));
             if (res.meta.requestStatus === 'fulfilled') {
                 router.push('/dashboard/photos');
             }

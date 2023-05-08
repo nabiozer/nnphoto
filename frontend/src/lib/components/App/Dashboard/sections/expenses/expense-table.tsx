@@ -74,7 +74,6 @@ export const ExpensesTable = (props: any) => {
                 Açıklama
               </TableCell>
               <TableCell />
-              <TableCell />
             </TableRow>
           </TableHead>
           <TableBody>
@@ -120,12 +119,6 @@ export const ExpensesTable = (props: any) => {
                   <TableCell>
                     {expenseDetail.description}
                   </TableCell>
-
-
-                  <TableCell>
-                    {/* {createdAt} */}
-                  </TableCell>
-                  <TableCell></TableCell>
                   <TableCell>
                     <Tooltip title="Edit">
                       <IconButton onClick={async () => router.push(`/dashboard/expenses/form/edit/${expenseDetail._id}`)}>

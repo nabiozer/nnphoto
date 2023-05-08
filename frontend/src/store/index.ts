@@ -4,10 +4,11 @@ import photoSlice from './photo/photoSlice'
 import userSlice from './user/userSlice'
 import packageSlice from './package/packageSlice'
 import expenseSlice from './expense/expenseSlice'
+import overviewSlice from './overview/overviewSlice'
 
 
 const store = configureStore({
-  reducer: {user:userSlice.reducer,photo:photoSlice.reducer,package:packageSlice.reducer,expense:expenseSlice.reducer},
+  reducer: {user:userSlice.reducer,photo:photoSlice.reducer,package:packageSlice.reducer,expense:expenseSlice.reducer,overview:overviewSlice.reducer},
 })
 
 export type AppDispatch = typeof store.dispatch

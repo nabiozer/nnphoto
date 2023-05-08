@@ -20,11 +20,14 @@ import Input from '../../../../Form/Input';
 import { StatusType } from './type';
 import DownloadIcon from '@mui/icons-material/Download';
 import CircularProgressWithLabel from '../../../../Display/Progress/WithLabel';
+import { createExpense } from '../../../../../../store/expense/expenseActions';
+import { getDate } from '../../../../../_helpers';
+
 
 registerPlugin(FilePondPluginImagePreview);
 export const AccountProfileDetails = ({ userDetails }: any) => {
 
-  const { reservationInfo: { date, place, packagePrice, packageDetails, advancePayment, album:{albumDetail,familyDetail,posterDetail,canvasDetail,pvc,box,wood}, }, _id, photos, video, photosURL, videoURL } = userDetails;
+  const { reservationInfo: { extras,date, place, packagePrice, packageDetails, advancePayment, album:{albumDetail,familyDetail,posterDetail,canvasDetail,pvc,box,wood}, }, _id, photos, video, photosURL, videoURL,name } = userDetails;
 
   const [progress, setProgress] = useState<any>(null);
   const [downloadObject, loading, error] = useS3Download(setProgress);
@@ -60,6 +63,10 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
     }
     const res = await dispatch(updateUserByAdmin({ id: _id, data }));
     if (res.meta.requestStatus === 'fulfilled') {
+      if(status === 'Tamamlandı') {
+        const now = new Date()
+        await dispatch(createExpense({fee:600,description:`${getDate(date,'P')}-${name}-Albüm`,date:Math.floor(now.getTime() / 1000)}))
+      }
 
       dispatch(getUserById(_id));
     }
@@ -74,10 +81,7 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
     }
 
   }
-  useEffect(() => {
-    console.log(progress)
-  }, [progress])
-
+ 
 
 
   useEffect(() => {
@@ -347,6 +351,17 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
                     <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Albüm</Typography>
                     <Typography component="p" >{albumDetail} Panoramik Albüm- {familyDetail && `${familyDetail} Aile Albüm`} - {posterDetail && `${posterDetail} poster`} {canvasDetail && `${canvasDetail} poster`}</Typography>
                   </Grid>
+                 {extras && <Grid
+                    xs={12}
+                    sm={6}
+                    lg={6}
+                    md={6}
+                    item
+                    sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
+                  >
+                    <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Ekstralar</Typography>
+                    <Typography component="p" >{extras}</Typography>
+                  </Grid>}
                 </Grid>
               </Box>
             </CardContent>

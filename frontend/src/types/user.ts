@@ -22,6 +22,7 @@ export interface IReservationInfo {
     packageDetails: string;
     advancePayment: number;
     album: IAlbum;
+    extras?:string;
 }
 
 export interface IChosenAlbum {

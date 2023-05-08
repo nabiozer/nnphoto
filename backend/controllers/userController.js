@@ -16,7 +16,7 @@ const authUser = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      isAdmin: user.isAdmin,
+      // isAdmin: user.isAdmin,
       address: user.address,
       phoneNumber: user.phoneNumber,
       reservationInfo: user.reservationInfo,
@@ -157,6 +157,7 @@ const registerUser = asyncHandler(async (req, res) => {
     pvc,
     box,
     wood,
+    extras
   } = req.body;
   const userExist = await User.findOne({ email });
 
@@ -185,6 +186,7 @@ const registerUser = asyncHandler(async (req, res) => {
       packagePrice,
       packageDetails,
       advancePayment,
+      extras
     },
   });
   if (user) {
@@ -221,17 +223,28 @@ const getUsers = asyncHandler(async (req, res) => {
 });
 
 const getUsersPagination = asyncHandler(async (req, res) => {
+
   const PageSize = Number(req.query.PageSize) || 10;
   const PageNumber = Number(req.query.PageNumber) || 1;
   const skipNum = (PageNumber - 1) * PageSize;
-  const Name = req.query.Name || "";
+  const Name = req.query.Name || '';
   const StartDateFilter = req.query.StartDate || null;
   const EndDateFilter = req.query.EndDate || null;
-  const query = {};
+  const Status = req.query.Status || '';
+
+  const query = {
+    isAdmin:{$ne: true}
+  };
 
   if (Name) {
     query.name = {
       $regex: new RegExp(Name, "i"),
+    };
+  }
+
+  if (Status) {
+    query.status = {
+      $regex: new RegExp(Status, "i"),
     };
   }
 
@@ -311,8 +324,7 @@ const updateUser = asyncHandler(async (req, res) => {
       user.password = req.body.password || user.password;
     }
 
-    console.log(req.body, user.reservationInfo.album);
-    const albumInfo = {
+   const albumInfo = {
       posterDetail:
         req.body.posterDetail || user.reservationInfo.album.posterDetail,
       canvasDetail:
@@ -325,17 +337,20 @@ const updateUser = asyncHandler(async (req, res) => {
       box: req.body.box,
       wood: req.body.wood,
     };
+     
+ 
 
     const reservationInfo = {
       album: albumInfo,
       advancePayment:
-        req.body.advancePayment || user.reservationInfo.advancePayment,
+        req.body.advancePayment || req.body.status === 'Seçim' ?  user.reservationInfo.packagePrice : user.reservationInfo.advancePayment ,
       date: req.body.date || user.reservationInfo.date,
       packageDetails:
-        req.body.packageDetails || user.reservationInfo.packageDetails,
+        req.body.packageDetails ||  user.reservationInfo.packageDetails,
       packagePrice: req.body.packagePrice || user.reservationInfo.packagePrice,
       place: req.body.place || user.reservationInfo.place,
       isPoster: req.body.isPoster || user.reservationInfo.isPoster,
+      extras:req.body.extras || user.reservationInfo.extras
     };
 
     const chosen = {

@@ -6,6 +6,7 @@ import useForm from '../../../../../_hooks/useForm';
 import Button from '../../../../Form/Button';
 import DateTimePicker from '../../../../Form/DateTimePicker';
 import DatePicker from '../../../../Form/DatePicker';
+import Input from '../../../../Form/Input';
 
 export const ExpensesSearch = () => {
 
@@ -14,6 +15,7 @@ export const ExpensesSearch = () => {
   const defaulValues = {
     StartDate: null,
     EndDate: null,
+    Description:'',
   }
 
   const { control, errors, handleSubmit } = useForm({
@@ -40,6 +42,7 @@ export const ExpensesSearch = () => {
       <Grid container spacing={1} component="form" onSubmit={handleSubmit(onSubmit)} noValidate >
         <Grid item xs={12} md={4} sm={4} lg={4} ><DatePicker id="StartDate" name="StartDate" label="Çekim Tarihi" disablePast control={control} errors={errors} unixTime fullWidth sx={{ width: '100% ' }} /></Grid>
         <Grid item xs={12} md={4} sm={4} lg={4} ><DatePicker id="EndDate" name="EndDate" label="Çekim Tarihi" disablePast control={control} errors={errors} unixTime fullWidth sx={{ width: '100% ' }} /></Grid>
+        <Grid item xs={12} md={4} sm={4} lg={4}  ><Input id="Description" name="Description" placeholder="Açıklama" label="Açıklama" control={control} errors={errors} /></Grid>
         <Grid item xs={12} md={4} sm={4} lg={4}  >
           <Button text="Filtrele" type='submit' fullWidth />
         </Grid>

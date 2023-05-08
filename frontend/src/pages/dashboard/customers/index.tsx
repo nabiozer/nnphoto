@@ -53,7 +53,7 @@ const Page = () => {
     <DashboardLayout>
       <Head>
         <title>
-          Customers | NNPHOTOFILM
+          Müşteriler | NNPHOTOFILM
         </title>
       </Head>
       <Box
@@ -72,7 +72,7 @@ const Page = () => {
             >
               <Stack spacing={1}>
                 <Typography variant="h4">
-                  Customers
+                  Müşteriler
                 </Typography>
                 <Stack
                   alignItems="center"
@@ -83,21 +83,11 @@ const Page = () => {
                     color="inherit"
                     startIcon={(
                       <SvgIcon fontSize="small">
-                        <ArrowUpOnSquareIcon />
-                      </SvgIcon>
-                    )}
-                  >
-                    Import
-                  </Button>
-                  <Button
-                    color="inherit"
-                    startIcon={(
-                      <SvgIcon fontSize="small">
                         <ArrowDownOnSquareIcon />
                       </SvgIcon>
                     )}
                   >
-                    Export
+                    Excele Aktar
                   </Button>
                 </Stack>
               </Stack>

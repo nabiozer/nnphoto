@@ -67,6 +67,7 @@ export default function Form({ type, id }: any) {
         pvc: '',
         box: '',
         wood: '',
+        extras:'',
     }
     const { control, errors, handleSubmit, setValue } = useForm({
         defaultValues: defaultValues,
@@ -85,7 +86,7 @@ export default function Form({ type, id }: any) {
             const getUser = async () => {
                 const res = await dispatch(getUserById(id))
                 if (res.meta.requestStatus === 'fulfilled') {
-                    const { email, name, address, phoneNumber, reservationInfo: { date, advancePayment, album: { albumDetail, familyDetail, posterDetail, canvasDetail, pvc, box, wood }, packageDetails, packagePrice, place } } = res?.payload
+                    const { email, name, address, phoneNumber, reservationInfo: { extras,date, advancePayment, album: { albumDetail, familyDetail, posterDetail, canvasDetail, pvc, box, wood }, packageDetails, packagePrice, place } } = res?.payload
                     setValue('email', email);
                     setValue('name', name);
                     setValue('date', date);
@@ -102,6 +103,7 @@ export default function Form({ type, id }: any) {
                     setValue('pvc', pvc);
                     setValue('box', box);
                     setValue('wood', wood);
+                    setValue('extras', extras);
                 }
             }
             getUser()
@@ -182,6 +184,7 @@ export default function Form({ type, id }: any) {
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="familyDetail" name="familyDetail" placeholder="Aile Albüm Adet" label="Aile Albüm Detay" control={control} errors={errors} /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="posterDetail" name="posterDetail" placeholder="Poster" label="Poster" control={control} errors={errors} /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="canvasDetail" name="canvasDetail" placeholder="Kanvas" label="Kanvas" control={control} errors={errors} /></Grid>
+                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="extras" name="extras" placeholder="Ekstralar" label="Extralar" control={control} errors={errors} /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} > <Select displayEmpty options={{ data: [{ value: Pvc.Black }, { value: Pvc.White }], displayField: 'value', displayValue: 'value' }} id="pvc" name="pvc" label="Pvc" control={control} errors={errors} setValue={setValue} defaultValue={defaultValues.pvc} fullWidth /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} > <Select displayEmpty options={{ data: [{ value: BoxP.Modal }, { value: BoxP.Wood }], displayField: 'value', displayValue: 'value' }} id="box" name="box" label="Kutu" control={control} errors={errors} setValue={setValue} defaultValue={defaultValues.box} fullWidth /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} > <Select displayEmpty options={{ data: [{ value: Wood.Walnut }, { value: Wood.Black }], displayField: 'value', displayValue: 'value' }} id="wood" name="wood" label="Ahşap" control={control} errors={errors} setValue={setValue} defaultValue={defaultValues.wood} fullWidth /></Grid>

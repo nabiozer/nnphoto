@@ -278,7 +278,7 @@ const ContractPdf = (props: Props) => {
                         </View>
                         <View style={styles.flexRow}>
                             <Text style={[styles.ColProduct1, styles.colorRed]}>EKSTRA ÜRÜNLER</Text>
-                            <Text style={styles.ColProduct2}>{userDetails?.reservationInfo?.packageDetails === Packages.three ? 'DRONE(HAVA ŞARTLARI UYGUN İSE),VİDEO KLİP' : '-'}</Text>
+                            <Text style={styles.ColProduct2}>{userDetails?.reservationInfo?.packageDetails === Packages.three ? 'DRONE(HAVA ŞARTLARI UYGUN İSE),VİDEO KLİP' : ''}{userDetails?.reservationInfo?.extras}</Text>
                         </View>
                     </View>
                     <View style={styles.marginHeader}>

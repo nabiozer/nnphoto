@@ -19,16 +19,12 @@ export default () => {
     
 
     const dispatch = useAppDispatch()
-
-
     const photoListHome = useSelector((state: RootState) => state?.photo?.photoListHome?.data?.Data)
 
-   
     useEffect(() => {
         if(!photoListHome) {
             dispatch(getPhotosHome());
         }
-    
       }, [dispatch,photoListHome]);
 
     
@@ -68,7 +64,7 @@ export default () => {
                                 {photoListHome?.map((item:any, i:number) => (
                                     <SwiperSlide style={{ marginRight: '30px' }} key={i}>
                                         <div className='swiper-image-container-wedding'>
-                                            <img alt={item.description} src={item.image} className="swiper-image-wedding" ></img>
+                                            <img alt={item.description} src={item.imageURL} className="swiper-image-wedding" ></img>
                                         </div>
                                     </SwiperSlide>
                                 ))}

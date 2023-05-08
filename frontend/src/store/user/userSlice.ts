@@ -26,6 +26,7 @@ interface IUser {
         packageDetails: string;
         advancePayment: number;
         isPoster:boolean;
+        extras:string;
     };
 
     chosen: {

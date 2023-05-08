@@ -1,36 +1,33 @@
 import { Box, Button, Card, CardActions, CardContent, CardHeader, Divider, Grid } from "@mui/material";
 import { useRouter } from "next/router";
-import { pdf } from "@react-pdf/renderer";
 import { useEffect } from 'react';
 import { useSelector } from "react-redux";
 import * as yup from 'yup';
 import { RootState, useAppDispatch } from "../../../../../../store";
 import { getPhotosAlbum } from "../../../../../../store/photo/photoActions";
 import { getUserById, updateUserByAdmin } from "../../../../../../store/user/userActions";
-import { getDownloadFile } from "../../../../../_helpers/utility";
 import useForm from "../../../../../_hooks/useForm";
 import useWatch from "../../../../../_hooks/useWatch";
 import Input from "../../../../Form/Input";
-import AlbumForm from "./album-form";
 import Select from "../../../../Form/Select";
 
 
 
 const AlbumChoice = ({ userDetails }: any) => {
 
-  const { chosen: { album: { colorCode, albumName }, poster, cover, isChoiced, coverText }, reservationInfo: { album: { pvc, box, wood, posterDetail,albumDetail,familyDetail,canvasDetail } }, _id, address, phoneNumber, name } = userDetails;
+  const { chosen: { album: { colorCode, albumName }, poster, cover, isChoiced, coverText }, reservationInfo: { album: { pvc, box, wood, posterDetail, albumDetail, familyDetail, canvasDetail } }, _id, address, phoneNumber, name } = userDetails;
   const dispatch = useAppDispatch();
   const router = useRouter();
   const userId = router.query.id;
 
-  const photoListAlbum = useSelector((state:RootState) => state.photo.photoListAlbum.data?.Data)
- 
+  const photoListAlbum = useSelector((state: RootState) => state.photo.photoListAlbum.data?.Data)
+
 
   useEffect(() => {
-    if(!photoListAlbum) {
+    if (!photoListAlbum) {
       dispatch(getPhotosAlbum())
     }
-   
+
   }, [dispatch]);
 
   const defaultValues = {
@@ -74,14 +71,14 @@ const AlbumChoice = ({ userDetails }: any) => {
 
   }
 
-  const renderPdf = async () => {
-    const component = (<AlbumForm colorCode={colorCode} albumName={albumName} coverText={coverText} albumDetail={albumDetail} familyDetail={familyDetail} address={address} phoneNumber={phoneNumber} name={name} box={box} canvasDetail={canvasDetail} posterDetail={posterDetail} pvc={pvc} wood={wood} />)
-    const blob = await pdf(component).toBlob();
+  // const renderPdf = async () => {
+  //   const component = (<AlbumForm colorCode={colorCode} albumName={albumName} coverText={coverText} albumDetail={albumDetail} familyDetail={familyDetail} address={address} phoneNumber={phoneNumber} name={name} box={box} canvasDetail={canvasDetail} posterDetail={posterDetail} pvc={pvc} wood={wood} />)
+  //   const blob = await pdf(component).toBlob();
 
-    getDownloadFile(
-      blob, 'Album.pdf'
-    )
-  }
+  //   getDownloadFile(
+  //     blob, 'Album.pdf'
+  //   )
+  // }
   return (
 
     <Grid container spacing={2} padding={3} >
@@ -97,7 +94,7 @@ const AlbumChoice = ({ userDetails }: any) => {
             title="Albüm Seçimleri"
           />
           <CardContent sx={{ pt: 2 }}>
-            <Button onClick={renderPdf}>Render</Button>
+
             <Box >
               <Grid
                 container
@@ -124,7 +121,7 @@ const AlbumChoice = ({ userDetails }: any) => {
                   sx={{ justify: 'center', textAlign: 'center', alignItems: 'center', width: '100%' }}
                 >
 
-          <Select disabled={isChoiced} options={{ data: photoListAlbum || [], displayField: 'description', displayValue: 'description' }} id="albumName" name="albumName" label="Albüm Adı" control={control} errors={errors} setValue={setValue} defaultValue={defaultValues.albumName} fullWidth />
+                  <Select disabled={isChoiced} options={{ data: photoListAlbum || [], displayField: 'description', displayValue: 'description' }} id="albumName" name="albumName" label="Albüm Adı" control={control} errors={errors} setValue={setValue} defaultValue={defaultValues.albumName} fullWidth />
 
                 </Grid>
                 {AlbumNameVal && <Grid

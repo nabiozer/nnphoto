@@ -263,6 +263,7 @@ const DateTimePicker: FC<any> = ({
           }}
           {...(views ? { views: views } : {})}
           openTo={setOpenTo()}
+      
           inputFormat={
             views
               ? format

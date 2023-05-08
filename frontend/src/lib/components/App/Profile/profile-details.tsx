@@ -10,7 +10,7 @@ import CircularProgressWithLabel from '../../Display/Progress/WithLabel';
 
 export const ProfileDetails = ({ userDetails }: any) => {
 
-  const { reservationInfo: { date, place, packagePrice, packageDetails, advancePayment, album: { albumDetail, familyDetail, posterDetail, canvasDetail, } }, photos, video, photosURL, videoURL } = userDetails;
+  const { reservationInfo: { extras,date, place, packagePrice, packageDetails, advancePayment, album: { albumDetail, familyDetail, posterDetail, canvasDetail, } }, photos, video, photosURL, videoURL } = userDetails;
   const [progress, setProgress] = useState<any>(null);
   const [downloadObject, loading, error] = useS3Download(setProgress);
   const [downloadObj, setDownloadObj] = useState<string>('')
@@ -146,6 +146,17 @@ export const ProfileDetails = ({ userDetails }: any) => {
                     <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Albüm</Typography>
                     <Typography component="p" >{albumDetail} Panoramik Albüm- {familyDetail && `${familyDetail} Aile Albüm`} - {posterDetail && `${posterDetail} poster`} {canvasDetail && `${canvasDetail} poster`}</Typography>
                   </Grid>
+                  {extras && <Grid
+                    xs={12}
+                    sm={6}
+                    lg={6}
+                    md={6}
+                    item
+                    sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
+                  >
+                    <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Ekstralar</Typography>
+                    <Typography component="p" >{extras}</Typography>
+                  </Grid>}
 
 
 

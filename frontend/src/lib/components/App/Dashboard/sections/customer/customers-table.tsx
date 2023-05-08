@@ -27,6 +27,8 @@ import Tooltip from '../../../../Display/Tooltip';
 import { getDownloadFile } from '../../../../../_helpers/utility';
 import ContractPdf from './contract-pdf';
 import { pdf } from '@react-pdf/renderer';
+import AlbumForm from '../account/album-form';
+import ArticleIcon from '@mui/icons-material/Article';
 
 
 export const CustomersTable = (props: any) => {
@@ -53,7 +55,17 @@ export const CustomersTable = (props: any) => {
     const blob = await pdf(component).toBlob();
 
     getDownloadFile(
-      blob, 'Album.pdf'
+      blob, `${userDetails?.name}-${getDate(userDetails?.reservationInfo?.date,'P')}-sozlesme.pdf`
+    )
+  }
+
+  const renderAlbumPdf = async (data:IUser) => {
+   
+    const component = (<AlbumForm customer={data} />)
+    const blob = await pdf(component).toBlob();
+
+    getDownloadFile(
+      blob,`EforSipariş-${data?.name}-${getDate(data?.reservationInfo?.date,'P')}.pdf`
     )
   }
   return (
@@ -76,28 +88,28 @@ export const CustomersTable = (props: any) => {
                 />
               </TableCell>
               <TableCell>
-                Name
+                Kullanıcı Adı
               </TableCell>
               <TableCell>
                 Email
               </TableCell>
               <TableCell>
-                Phone
+                Telefon
               </TableCell>
               <TableCell>
-                Date
+                Tarih
               </TableCell>
               <TableCell>
-                Place
+                Mekan
               </TableCell>
               <TableCell>
-                Package
+                Paket
               </TableCell>
               <TableCell>
-                Price
+                  Ücret
               </TableCell>
               <TableCell>
-                Deposit
+                Kapora
               </TableCell>
               <TableCell>
                 Durum
@@ -196,8 +208,14 @@ export const CustomersTable = (props: any) => {
                         <DeleteForeverIcon />
                       </IconButton>
                     </Tooltip>
-                    <Tooltip title="Excel Export">
+                    <Tooltip title="Sözleşme İndir">
                       <IconButton onClick={() => renderPdf(customer)
+                      }>
+                        <ArticleIcon />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Albüm Formu İndir">
+                      <IconButton onClick={() => renderAlbumPdf(customer)
                       }>
                         <DownloadIcon />
                       </IconButton>

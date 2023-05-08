@@ -2,7 +2,7 @@ import Head from 'next/head';
 import { subDays, subHours } from 'date-fns';
 import { Box, Container, Unstable_Grid2 as Grid } from '@mui/material';
 
-import {Layout as DashboardLayout } from '../../lib/components/App/Dashboard/layouts/dashboard/layout'
+import { Layout as DashboardLayout } from '../../lib/components/App/Dashboard/layouts/dashboard/layout'
 import { OverviewBudget } from '../../lib/components/App/Dashboard/sections/overview/overview-budget';
 import { OverviewLatestOrders } from '../../lib/components/App/Dashboard/sections/overview/overview-latest-orders';
 import { OverviewLatestProducts } from '../../lib/components/App/Dashboard/sections/overview/overview-latest-products';
@@ -11,11 +11,25 @@ import { OverviewTasksProgress } from '../../lib/components/App/Dashboard/sectio
 import { OverviewTotalCustomers } from '../../lib/components/App/Dashboard/sections/overview/overview-total-customers';
 import { OverviewTotalProfit } from '../../lib/components/App/Dashboard/sections/overview/overview-total-profit';
 import { OverviewTraffic } from '../../lib/components/App/Dashboard/sections/overview/overview-traffic';
+import { useEffect } from 'react';
+import { RootState, useAppDispatch } from '../../store';
+import { getOverview } from '../../store/overview/overviewActions';
+import { useSelector } from 'react-redux';
 
 const now = new Date();
 
-const Page = () => (
-  <DashboardLayout>
+const Page = () => {
+  const dispatch = useAppDispatch();
+
+  const overViewData = useSelector((state:RootState) => state.overview.overview.data)
+  
+  useEffect(() => {
+    !overViewData &&
+    dispatch(getOverview());
+  }, [dispatch,overViewData]);
+
+
+  return (<DashboardLayout>
     <Head>
       <title>
         NNPhotofilm | Dashboard
@@ -42,7 +56,7 @@ const Page = () => (
               difference={12}
               positive
               sx={{ height: '100%' }}
-              value="$24k"
+              value={`₺${(overViewData?.totalIncome || 0)/1000 || '' }k`}
             />
           </Grid>
           <Grid
@@ -54,7 +68,7 @@ const Page = () => (
               difference={16}
               positive={false}
               sx={{ height: '100%' }}
-              value="1.6k"
+              value={overViewData?.totalUsers!! || 0}
             />
           </Grid>
           <Grid
@@ -64,7 +78,7 @@ const Page = () => (
           >
             <OverviewTasksProgress
               sx={{ height: '100%' }}
-              value={75.5}
+              value={(overViewData?.done!! / overViewData?.totalUsers!!) * 100}
             />
           </Grid>
           <Grid
@@ -74,7 +88,7 @@ const Page = () => (
           >
             <OverviewTotalProfit
               sx={{ height: '100%' }}
-              value="$15k"
+              value={`₺${(overViewData?.totalIncome!! - overViewData?.totalExpense!! || 0)/1000 || '' }k`}
             />
           </Grid>
           <Grid
@@ -221,8 +235,9 @@ const Page = () => (
         </Grid>
       </Container>
     </Box>
-    </DashboardLayout>
-);
+  </DashboardLayout>
+  )
+};
 
 
 

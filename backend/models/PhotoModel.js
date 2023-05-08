@@ -19,14 +19,6 @@ const photoSchema = mongoose.Schema({
         type:String,
         default:''
     },
-    packageName:{
-        type:String,
-        default:''
-    },
-    packagePrice:{
-        type:String,
-        default:''
-    },
     colorCodes:[
       
     ]

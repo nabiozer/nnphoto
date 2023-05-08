@@ -29,7 +29,7 @@ export const OverviewTasksProgress = ( { value, sx } :any) => {
               gutterBottom
               variant="overline"
             >
-              Task Progress
+              Tamamlanan Çekim
             </Typography>
             <Typography variant="h4">
               {value}%

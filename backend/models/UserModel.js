@@ -53,6 +53,10 @@ const userSchema = mongoose.Schema(
 
         default: "",
       },
+      extras:{
+        type:String,
+        default:""
+      },
       album:{
      
         isPoster:{
@@ -124,7 +128,7 @@ const userSchema = mongoose.Schema(
     },
     status: {
       type: String,
-      default: 'Çekim Bekleniyor',
+      default: 'Çekim',
     },
     isAdmin: {
       type: Boolean,
