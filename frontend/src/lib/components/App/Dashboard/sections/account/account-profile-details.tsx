@@ -82,8 +82,6 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
 
   }
  
-
-
   useEffect(() => {
     setValue('photos', photos);
     setValue('video', video)

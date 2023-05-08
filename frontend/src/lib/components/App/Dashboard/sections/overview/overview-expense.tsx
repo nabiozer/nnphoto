@@ -4,7 +4,7 @@ import ArrowUpIcon from '@heroicons/react/24/solid/ArrowUpIcon';
 import CurrencyDollarIcon from '@heroicons/react/24/solid/CurrencyDollarIcon';
 import { Avatar, Card, CardContent, Stack, SvgIcon, Typography } from '@mui/material';
 
-export const OverviewBudget = (props:any) => {
+export const OverviewExpense = (props:any) => {
   const { difference, positive = false, sx, value } = props;
 
   return (
@@ -21,7 +21,7 @@ export const OverviewBudget = (props:any) => {
               color="text.secondary"
               variant="overline"
             >
-              Gelir
+              Harcamalar
             </Typography>
             <Typography variant="h4">
               {value}
@@ -77,7 +77,7 @@ export const OverviewBudget = (props:any) => {
   );
 };
 
-OverviewBudget.prototypes = {
+OverviewExpense.prototypes = {
   difference: PropTypes.number,
   positive: PropTypes.bool,
   sx: PropTypes.object,

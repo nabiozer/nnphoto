@@ -1,6 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getOverview } from './overviewActions';
 
+
+interface IMonths {
+    January?:number;
+     February?:number;
+     March?:number;
+     April?:number;
+     May?:number;
+     June?:number;
+     July?:number;
+     August?:number;
+     September?:number;
+     October?:number;
+     November?:number;
+     December?:number;
+}
+
 interface IOverview {
     choiceWaiting: number;
     done: number;
@@ -10,6 +26,8 @@ interface IOverview {
     totalIncome: number;
     totalUsers: number;
     waitingShooting: number;
+    monthsAllUsers:IMonths;
+    monthsDoneUsers:IMonths;
 }
 
 interface IState {

@@ -22,6 +22,31 @@ const progressingAlbum = users?.filter(item => item.status === 'İşlenme')?.len
 const inAlbumCompany = users?.filter(item => item.status === 'Albüm')?.length;
 const done = users?.filter(item => item.status === 'Tamamlandı')?.length;
 
+const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+const monthsAllUsers = users.map(item => item.reservationInfo.date).reduce((accumulator, timestamp) => {
+    const date = new Date(timestamp * 1000); // Convert Unix timestamp to Date object
+    const month = date.getMonth(); // Get month number (0-indexed)
+    const monthName = monthNames[month]; // Get month name from month number
+    if (!accumulator[monthName]) {
+      accumulator[monthName] = 0; // Initialize month key if it doesn't exist
+    }
+    accumulator[monthName]++; // Increment count for the month key
+    return accumulator;
+  }, {});
+
+  const monthsDoneUsers = users?.filter((item)=> item.status === 'Tamamlandı')?.map(item => item.reservationInfo.date).reduce((accumulator, timestamp) => {
+    const date = new Date(timestamp * 1000); // Convert Unix timestamp to Date object
+    const month = date.getMonth(); // Get month number (0-indexed)
+    const monthName = monthNames[month]; // Get month name from month number
+    if (!accumulator[monthName]) {
+      accumulator[monthName] = 0; // Initialize month key if it doesn't exist
+    }
+    accumulator[monthName]++; // Increment count for the month key
+    return accumulator;
+  }, {});
+
+
 
   res.json({
     totalIncome,
@@ -31,7 +56,9 @@ const done = users?.filter(item => item.status === 'Tamamlandı')?.length;
     choiceWaiting,
     progressingAlbum,
     inAlbumCompany,
-    done    
+    done,
+    monthsAllUsers,
+    monthsDoneUsers,   
   });
 
 

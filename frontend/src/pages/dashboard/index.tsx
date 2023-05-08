@@ -1,10 +1,8 @@
 import Head from 'next/head';
 import { subDays, subHours } from 'date-fns';
 import { Box, Container, Unstable_Grid2 as Grid } from '@mui/material';
-
 import { Layout as DashboardLayout } from '../../lib/components/App/Dashboard/layouts/dashboard/layout'
 import { OverviewBudget } from '../../lib/components/App/Dashboard/sections/overview/overview-budget';
-import { OverviewLatestOrders } from '../../lib/components/App/Dashboard/sections/overview/overview-latest-orders';
 import { OverviewLatestProducts } from '../../lib/components/App/Dashboard/sections/overview/overview-latest-products';
 import { OverviewSales } from '../../lib/components/App/Dashboard/sections/overview/overview-sales';
 import { OverviewTasksProgress } from '../../lib/components/App/Dashboard/sections/overview/overview-tasks-progress';
@@ -15,6 +13,8 @@ import { useEffect } from 'react';
 import { RootState, useAppDispatch } from '../../store';
 import { getOverview } from '../../store/overview/overviewActions';
 import { useSelector } from 'react-redux';
+import { OverviewExpense } from '../../lib/components/App/Dashboard/sections/overview/overview-expense';
+import { OverviewAlbum } from '../../lib/components/App/Dashboard/sections/overview/overview-album';
 
 const now = new Date();
 
@@ -22,7 +22,7 @@ const Page = () => {
   const dispatch = useAppDispatch();
 
   const overViewData = useSelector((state:RootState) => state.overview.overview.data)
-  
+ 
   useEffect(() => {
     !overViewData &&
     dispatch(getOverview());
@@ -50,7 +50,7 @@ const Page = () => {
           <Grid
             xs={12}
             sm={6}
-            lg={3}
+            lg={4}
           >
             <OverviewBudget
               difference={12}
@@ -62,7 +62,19 @@ const Page = () => {
           <Grid
             xs={12}
             sm={6}
-            lg={3}
+            lg={4}
+          >
+            <OverviewExpense
+              difference={12}
+              positive
+              sx={{ height: '100%' }}
+              value={`₺${(overViewData?.totalExpense || 0)/1000 || '' }k`}
+            />
+          </Grid>
+          <Grid
+            xs={12}
+            sm={6}
+            lg={4}
           >
             <OverviewTotalCustomers
               difference={16}
@@ -74,7 +86,7 @@ const Page = () => {
           <Grid
             xs={12}
             sm={6}
-            lg={3}
+            lg={4}
           >
             <OverviewTasksProgress
               sx={{ height: '100%' }}
@@ -84,11 +96,21 @@ const Page = () => {
           <Grid
             xs={12}
             sm={6}
-            lg={3}
+            lg={4}
           >
             <OverviewTotalProfit
               sx={{ height: '100%' }}
               value={`₺${(overViewData?.totalIncome!! - overViewData?.totalExpense!! || 0)/1000 || '' }k`}
+            />
+          </Grid>
+          <Grid
+            xs={12}
+            sm={6}
+            lg={4}
+          >
+            <OverviewAlbum
+              sx={{ height: '100%' }}
+              value={overViewData?.progressingAlbum}
             />
           </Grid>
           <Grid
@@ -98,12 +120,12 @@ const Page = () => {
             <OverviewSales
               chartSeries={[
                 {
-                  name: 'This year',
-                  data: [18, 16, 5, 8, 3, 14, 14, 16, 17, 19, 18, 20]
+                  name: 'Toplam',
+                  data: [ overViewData?.monthsAllUsers?.January, overViewData?.monthsAllUsers?.February,overViewData?.monthsAllUsers?.March,overViewData?.monthsAllUsers?.April,overViewData?.monthsAllUsers?.May,overViewData?.monthsAllUsers?.June,overViewData?.monthsAllUsers?.July,overViewData?.monthsAllUsers?.August,overViewData?.monthsAllUsers?.September,overViewData?.monthsAllUsers?.October,overViewData?.monthsAllUsers?.November,overViewData?.monthsAllUsers?.December]
                 },
                 {
-                  name: 'Last year',
-                  data: [12, 11, 4, 6, 2, 9, 9, 10, 11, 12, 13, 13]
+                  name: 'Tamamlanan',
+                  data: [ overViewData?.monthsDoneUsers?.January, overViewData?.monthsDoneUsers?.February,overViewData?.monthsDoneUsers?.March,overViewData?.monthsDoneUsers?.April,overViewData?.monthsDoneUsers?.May,overViewData?.monthsDoneUsers?.June,overViewData?.monthsDoneUsers?.July,overViewData?.monthsDoneUsers?.August,overViewData?.monthsDoneUsers?.September,overViewData?.monthsDoneUsers?.October,overViewData?.monthsDoneUsers?.November,overViewData?.monthsDoneUsers?.December]
                 }
               ]}
               sx={{ height: '100%' }}
@@ -156,77 +178,6 @@ const Page = () => {
                   image: '/assets/products/product-7.png',
                   name: 'Healthcare Ritual',
                   updatedAt: subDays(subHours(now, 5), 6).getTime()
-                }
-              ]}
-              sx={{ height: '100%' }}
-            />
-          </Grid>
-          <Grid
-            xs={12}
-            md={12}
-            lg={8}
-          >
-            <OverviewLatestOrders
-              orders={[
-                {
-                  id: 'f69f88012978187a6c12897f',
-                  ref: 'DEV1049',
-                  amount: 30.5,
-                  customer: {
-                    name: 'Ekaterina Tankova'
-                  },
-                  createdAt: 1555016400000,
-                  status: 'pending'
-                },
-                {
-                  id: '9eaa1c7dd4433f413c308ce2',
-                  ref: 'DEV1048',
-                  amount: 25.1,
-                  customer: {
-                    name: 'Cao Yu'
-                  },
-                  createdAt: 1555016400000,
-                  status: 'delivered'
-                },
-                {
-                  id: '01a5230c811bd04996ce7c13',
-                  ref: 'DEV1047',
-                  amount: 10.99,
-                  customer: {
-                    name: 'Alexa Richardson'
-                  },
-                  createdAt: 1554930000000,
-                  status: 'refunded'
-                },
-                {
-                  id: '1f4e1bd0a87cea23cdb83d18',
-                  ref: 'DEV1046',
-                  amount: 96.43,
-                  customer: {
-                    name: 'Anje Keizer'
-                  },
-                  createdAt: 1554757200000,
-                  status: 'pending'
-                },
-                {
-                  id: '9f974f239d29ede969367103',
-                  ref: 'DEV1045',
-                  amount: 32.54,
-                  customer: {
-                    name: 'Clarke Gillebert'
-                  },
-                  createdAt: 1554670800000,
-                  status: 'delivered'
-                },
-                {
-                  id: 'ffc83c1560ec2f66a1c05596',
-                  ref: 'DEV1044',
-                  amount: 16.76,
-                  customer: {
-                    name: 'Adam Denisov'
-                  },
-                  createdAt: 1554670800000,
-                  status: 'delivered'
                 }
               ]}
               sx={{ height: '100%' }}
