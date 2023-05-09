@@ -325,7 +325,7 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
                     sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
                   >
                     <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Tarih</Typography>
-                    <Typography component="p" >{date}</Typography>
+                    <Typography component="p" >{getDate(date,'Ppp')}</Typography>
                   </Grid>
                   <Grid
                     xs={12}

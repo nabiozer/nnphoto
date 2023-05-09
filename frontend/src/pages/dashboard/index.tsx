@@ -9,7 +9,7 @@ import { OverviewTasksProgress } from '../../lib/components/App/Dashboard/sectio
 import { OverviewTotalCustomers } from '../../lib/components/App/Dashboard/sections/overview/overview-total-customers';
 import { OverviewTotalProfit } from '../../lib/components/App/Dashboard/sections/overview/overview-total-profit';
 import { OverviewTraffic } from '../../lib/components/App/Dashboard/sections/overview/overview-traffic';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { RootState, useAppDispatch } from '../../store';
 import { getOverview } from '../../store/overview/overviewActions';
 import { useSelector } from 'react-redux';
@@ -21,6 +21,8 @@ const now = new Date();
 const Page = () => {
   const dispatch = useAppDispatch();
 
+  const [overview,setOverview] = useState<any>(null)
+
   const overViewData = useSelector((state:RootState) => state.overview.overview.data)
  
   useEffect(() => {
@@ -28,6 +30,10 @@ const Page = () => {
     dispatch(getOverview());
   }, [dispatch,overViewData]);
 
+
+  useEffect(() => {
+    setOverview(overViewData)
+  }, [overViewData]);
 
   return (<DashboardLayout>
     <Head>
@@ -56,7 +62,7 @@ const Page = () => {
               difference={12}
               positive
               sx={{ height: '100%' }}
-              value={`₺${(overViewData?.totalIncome || 0)/1000 || '' }k`}
+              value={`₺${(overview?.totalIncome || 0)/1000 || '' }k`}
             />
           </Grid>
           <Grid
@@ -68,7 +74,7 @@ const Page = () => {
               difference={12}
               positive
               sx={{ height: '100%' }}
-              value={`₺${(overViewData?.totalExpense || 0)/1000 || '' }k`}
+              value={`₺${(overview?.totalExpense || 0)/1000 || '' }k`}
             />
           </Grid>
           <Grid
@@ -80,7 +86,7 @@ const Page = () => {
               difference={16}
               positive={false}
               sx={{ height: '100%' }}
-              value={overViewData?.totalUsers!! || 0}
+              value={overview?.totalUsers!! || 0}
             />
           </Grid>
           <Grid
@@ -90,7 +96,7 @@ const Page = () => {
           >
             <OverviewTasksProgress
               sx={{ height: '100%' }}
-              value={(overViewData?.done!! / overViewData?.totalUsers!!) * 100}
+              value={(overview?.done!! / overview?.totalUsers!!) * 100}
             />
           </Grid>
           <Grid
@@ -100,7 +106,7 @@ const Page = () => {
           >
             <OverviewTotalProfit
               sx={{ height: '100%' }}
-              value={`₺${(overViewData?.totalIncome!! - overViewData?.totalExpense!! || 0)/1000 || '' }k`}
+              value={`₺${(overview?.totalIncome!! - overview?.totalExpense!! || 0)/1000 || '' }k`}
             />
           </Grid>
           <Grid
@@ -110,9 +116,10 @@ const Page = () => {
           >
             <OverviewAlbum
               sx={{ height: '100%' }}
-              value={overViewData?.progressingAlbum}
+              value={overview?.progressingAlbum || 0}
             />
           </Grid>
+          {overview?.monthsAllUsers && overview?.monthsDoneUsers &&
           <Grid
             xs={12}
             lg={8}
@@ -121,17 +128,17 @@ const Page = () => {
               chartSeries={[
                 {
                   name: 'Toplam',
-                  data: [ overViewData?.monthsAllUsers?.January, overViewData?.monthsAllUsers?.February,overViewData?.monthsAllUsers?.March,overViewData?.monthsAllUsers?.April,overViewData?.monthsAllUsers?.May,overViewData?.monthsAllUsers?.June,overViewData?.monthsAllUsers?.July,overViewData?.monthsAllUsers?.August,overViewData?.monthsAllUsers?.September,overViewData?.monthsAllUsers?.October,overViewData?.monthsAllUsers?.November,overViewData?.monthsAllUsers?.December]
+                  data: [ overview?.monthsAllUsers?.January, overview?.monthsAllUsers?.February,overview?.monthsAllUsers?.March,overview?.monthsAllUsers?.April,overview?.monthsAllUsers?.May,overview?.monthsAllUsers?.June,overview?.monthsAllUsers?.July,overview?.monthsAllUsers?.August,overview?.monthsAllUsers?.September,overview?.monthsAllUsers?.October,overview?.monthsAllUsers?.November,overview?.monthsAllUsers?.December]
                 },
                 {
                   name: 'Tamamlanan',
-                  data: [ overViewData?.monthsDoneUsers?.January, overViewData?.monthsDoneUsers?.February,overViewData?.monthsDoneUsers?.March,overViewData?.monthsDoneUsers?.April,overViewData?.monthsDoneUsers?.May,overViewData?.monthsDoneUsers?.June,overViewData?.monthsDoneUsers?.July,overViewData?.monthsDoneUsers?.August,overViewData?.monthsDoneUsers?.September,overViewData?.monthsDoneUsers?.October,overViewData?.monthsDoneUsers?.November,overViewData?.monthsDoneUsers?.December]
+                  data: [ overview?.monthsDoneUsers?.January, overview?.monthsDoneUsers?.February,overview?.monthsDoneUsers?.March,overview?.monthsDoneUsers?.April,overview?.monthsDoneUsers?.May,overview?.monthsDoneUsers?.June,overview?.monthsDoneUsers?.July,overview?.monthsDoneUsers?.August,overview?.monthsDoneUsers?.September,overview?.monthsDoneUsers?.October,overview?.monthsDoneUsers?.November,overview?.monthsDoneUsers?.December]
                 }
               ]}
               sx={{ height: '100%' }}
             />
-          </Grid>
-          <Grid
+          </Grid>}
+          {/* <Grid
             xs={12}
             md={6}
             lg={4}
@@ -141,8 +148,8 @@ const Page = () => {
               labels={['Desktop', 'Tablet', 'Phone']}
               sx={{ height: '100%' }}
             />
-          </Grid>
-          <Grid
+          </Grid> */}
+          {/* <Grid
             xs={12}
             md={6}
             lg={4}
@@ -182,7 +189,7 @@ const Page = () => {
               ]}
               sx={{ height: '100%' }}
             />
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
     </Box>

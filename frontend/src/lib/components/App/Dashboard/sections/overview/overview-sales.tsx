@@ -12,9 +12,13 @@ import {
 } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
 import { Chart } from '../../components/chart';
+import { useEffect, useRef } from 'react';
 
 const useChartOptions = () => {
   const theme = useTheme();
+
+
+
 
   return {
     chart: {
@@ -108,6 +112,8 @@ export const OverviewSales = ({ chartSeries, sx }:any) => {
 
   const chartOptions = useChartOptions();
 
+  
+
   return (
     <Card sx={sx}>
       <CardHeader
@@ -133,6 +139,7 @@ export const OverviewSales = ({ chartSeries, sx }:any) => {
           series={chartSeries}
           type="bar"
           width="100%"
+          chartRef
         />
       </CardContent>
       <Divider />

@@ -102,7 +102,7 @@ export const OverviewTraffic = (props:{chartSeries:any,labels:string[],sx:any}) 
           spacing={2}
           sx={{ mt: 2 }}
         >
-          {chartSeries.map((item:JSX.Element, index:number) => {
+          {chartSeries?.map((item:JSX.Element, index:number) => {
             const label = labels[index];
 
             return (

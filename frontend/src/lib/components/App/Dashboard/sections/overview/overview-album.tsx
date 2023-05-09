@@ -48,7 +48,7 @@ export const OverviewAlbum = ({ difference, positive = false, sx, value }:any) =
 OverviewAlbum.propTypes = {
   difference: PropTypes.number,
   positive: PropTypes.bool,
-  value: PropTypes.number,
+  value: PropTypes.number.isRequired,
   sx: PropTypes.object
 };
 

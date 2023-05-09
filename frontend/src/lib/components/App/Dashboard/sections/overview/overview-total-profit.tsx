@@ -43,6 +43,6 @@ export const OverviewTotalProfit = (props) => {
 };
 
 OverviewTotalProfit.propTypes = {
-  value: PropTypes.string,
+  value: PropTypes.string.isRequired,
   sx: PropTypes.object
 };

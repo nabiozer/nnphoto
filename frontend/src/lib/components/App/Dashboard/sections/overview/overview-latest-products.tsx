@@ -94,6 +94,6 @@ export const OverviewLatestProducts = ({ products = [], sx }:any) => {
 };
 
 OverviewLatestProducts.propTypes = {
-  products: PropTypes.array,
+  products: PropTypes.array.isRequired,
   sx: PropTypes.object
 };

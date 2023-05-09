@@ -7,6 +7,7 @@ import {
 import { useState } from 'react';
 import useS3Download from '../../../_hooks/useDownload';
 import CircularProgressWithLabel from '../../Display/Progress/WithLabel';
+import { getDate } from '../../../_helpers';
 
 export const ProfileDetails = ({ userDetails }: any) => {
 
@@ -122,7 +123,7 @@ export const ProfileDetails = ({ userDetails }: any) => {
                     sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
                   >
                     <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Tarih</Typography>
-                    <Typography component="p" >{date}</Typography>
+                    <Typography component="p" >{getDate(date,'Ppp')}</Typography>
                   </Grid>
                   <Grid
                     xs={12}
