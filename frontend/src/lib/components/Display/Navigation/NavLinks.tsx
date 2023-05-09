@@ -1,14 +1,14 @@
 
 import InstagramIcon from '@mui/icons-material/Instagram';
 import WhatsappIcon from '@mui/icons-material/Whatsapp';
-import NavLink from "./NavLink";
 import Button from "../../Form/Button";
+import NavLink from "./NavLink";
 
 import { useRouter } from "next/router";
-import { logout } from '../../../../store/user/userActions';
-import { RootState, useAppDispatch } from '../../../../store';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { DropDown } from '../../..';
+import { RootState, useAppDispatch } from '../../../../store';
+import { logout } from '../../../../store/user/userActions';
 
 
 
@@ -18,6 +18,10 @@ const NavLinks = () => {
     const userInfo = useSelector((state: RootState) => state?.user?.userLogin?.data);
     const dispatch = useAppDispatch();
 
+    const [user, setUser] = useState<any>(null)
+
+    useEffect(() => setUser(userInfo), [])
+    
     const logoutHandler = () => {
         dispatch(logout());
         router.push("/auth/login");
@@ -50,10 +54,10 @@ const NavLinks = () => {
                 <NavLink href="/about" text='Hakkımızda' />
             </li>
 
-            {userInfo ? (
+            {user ? (
                 <>
                     <li className="dropdown">
-                        {userInfo?.isAdmin ? (
+                        {user?.isAdmin ? (
                             <NavLink href="/dashboard" text='Admin' />
                         ) : (
                             <NavLink href="/Profile" text='Profile' />
@@ -73,5 +77,7 @@ const NavLinks = () => {
         </ul>
     );
 };
+
+
 
 export default NavLinks;

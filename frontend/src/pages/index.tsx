@@ -24,6 +24,7 @@ const Home = () => {
 
   return (
     <>
+   
     <section id="home" >
       {photoListHome && <Swiper imageUrls={photoListHome} />}
     </section>

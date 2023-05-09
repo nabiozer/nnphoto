@@ -13,7 +13,7 @@ export const removeLocalStorageItem = (key: string) => {
 };
 
 export const getSessionStorageItem = (key: any) => {
-    const item: any = window.sessionStorage.getItem(key);
+    const item: any = window?.sessionStorage?.getItem(key);
     return item !== 'undefined' ? JSON.parse(item) : null;
 };
 

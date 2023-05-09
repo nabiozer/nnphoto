@@ -12,7 +12,7 @@ const Wedding = () => {
     return (
         <Box component='section' id='gallery'>
             <SwiperWedding />
-            <Box component='h2' sx={{ textAlign: 'center', margin: '2rem' }}>Çekimlerimiz<hr></hr></Box>
+            <Box component='h2' sx={{ textAlign: 'center', margin: '2rem' ,fontFamily:'Courier New'}}>Çekimlerimiz<hr></hr></Box>
 
             <div className="title">
                 <p>-Fotoğraflar </p>
