@@ -130,7 +130,7 @@ export const OverviewSales = ({ chartSeries, sx }:any) => {
             Sync
           </Button>
         )}
-        title="Sales"
+        title="Çekimler"
       />
       <CardContent>
         <Chart

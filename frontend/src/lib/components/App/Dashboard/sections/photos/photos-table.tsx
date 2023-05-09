@@ -21,6 +21,7 @@ import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { useAppDispatch } from '../../../../../../store';
 import { deletePhoto, getPhotosPagination } from '../../../../../../store/photo/photoActions';
+import { jsonToQueryString } from '../../../../../_helpers/query';
 
 export const PhotosTable = (props: any) => {
   const {
@@ -43,6 +44,7 @@ export const PhotosTable = (props: any) => {
 
   const dispatch = useAppDispatch();
   const router = useRouter()
+  const params = router.query
 
   return (
     <Card sx={{ overflowX: 'auto' }}>
@@ -156,7 +158,7 @@ export const PhotosTable = (props: any) => {
                       ));
 
                       if (res.meta.requestStatus === 'fulfilled') {
-                        dispatch(getPhotosPagination(''));
+                        dispatch(getPhotosPagination(jsonToQueryString(params)))
                       }
                     }
 

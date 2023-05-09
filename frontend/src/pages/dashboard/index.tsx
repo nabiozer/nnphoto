@@ -122,7 +122,7 @@ const Page = () => {
           {overview?.monthsAllUsers && overview?.monthsDoneUsers &&
           <Grid
             xs={12}
-            lg={8}
+            lg={12}
           >
             <OverviewSales
               chartSeries={[
