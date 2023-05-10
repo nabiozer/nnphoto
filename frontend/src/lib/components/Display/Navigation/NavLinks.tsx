@@ -20,7 +20,7 @@ const NavLinks = () => {
 
     const [user, setUser] = useState<any>(null)
 
-    useEffect(() => setUser(userInfo), [])
+    useEffect(() => setUser(userInfo), [userInfo])
     
     const logoutHandler = () => {
         dispatch(logout());
@@ -48,7 +48,10 @@ const NavLinks = () => {
                 <NavLink href="/" text='Ana Sayfa' />
             </li>
             <li>
-                <NavLink href="/gallery" text='Çekimlerimiz' />
+                <NavLink href="/gallery" text='Fotoğraflar' />
+            </li>
+            <li>
+                <NavLink href="/videos" text='Videolar' />
             </li>
             <li>
                 <NavLink href="/about" text='Hakkımızda' />

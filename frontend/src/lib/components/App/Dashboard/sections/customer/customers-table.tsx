@@ -29,6 +29,7 @@ import ContractPdf from './contract-pdf';
 import { pdf } from '@react-pdf/renderer';
 import AlbumForm from '../account/album-form';
 import ArticleIcon from '@mui/icons-material/Article';
+import { jsonToQueryString } from '../../../../../_helpers/query';
 
 
 export const CustomersTable = (props: any) => {
@@ -49,23 +50,24 @@ export const CustomersTable = (props: any) => {
 
   const dispatch = useAppDispatch();
   const router = useRouter()
+  const params = router.query;
 
-  const renderPdf = async (userDetails:any) => {
+  const renderPdf = async (userDetails: any) => {
     const component = (<ContractPdf userDetails={userDetails} />)
     const blob = await pdf(component).toBlob();
 
     getDownloadFile(
-      blob, `${userDetails?.name}-${getDate(userDetails?.reservationInfo?.date,'P')}-sozlesme.pdf`
+      blob, `${userDetails?.name}-${getDate(userDetails?.reservationInfo?.date, 'P')}-sozlesme.pdf`
     )
   }
 
-  const renderAlbumPdf = async (data:IUser) => {
-   
+  const renderAlbumPdf = async (data: IUser) => {
+
     const component = (<AlbumForm customer={data} />)
     const blob = await pdf(component).toBlob();
 
     getDownloadFile(
-      blob,`EforSipariş-${data?.name}-${getDate(data?.reservationInfo?.date,'P')}.pdf`
+      blob, `EforSipariş-${data?.name}-${getDate(data?.reservationInfo?.date, 'P')}.pdf`
     )
   }
   return (
@@ -106,7 +108,7 @@ export const CustomersTable = (props: any) => {
                 Paket
               </TableCell>
               <TableCell>
-                  Ücret
+                Ücret
               </TableCell>
               <TableCell>
                 Kapora
@@ -200,7 +202,7 @@ export const CustomersTable = (props: any) => {
                         ));
 
                         if (res.meta.requestStatus === 'fulfilled') {
-                          dispatch(fetchUsers(''));
+                          dispatch(fetchUsers(jsonToQueryString(params)));
                         }
                       }
 

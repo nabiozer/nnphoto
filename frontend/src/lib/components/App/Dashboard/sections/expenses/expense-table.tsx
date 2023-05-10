@@ -21,6 +21,7 @@ import { useAppDispatch } from '../../../../../../store';
 import { deleteExpense, getExpensesPagination } from '../../../../../../store/expense/expenseActions';
 import Tooltip from '../../../../Display/Tooltip';
 import { getDate } from '../../../../../_helpers';
+import { jsonToQueryString } from '../../../../../_helpers/query';
 
 
 
@@ -43,6 +44,7 @@ export const ExpensesTable = (props: any) => {
 
   const dispatch = useAppDispatch();
   const router = useRouter()
+  const params = router.query;
 
 
   return (
@@ -132,7 +134,7 @@ export const ExpensesTable = (props: any) => {
                         ));
 
                         if (res.meta.requestStatus === 'fulfilled') {
-                          dispatch(getExpensesPagination(''));
+                          dispatch(getExpensesPagination(jsonToQueryString(params)));
                         }
                       }
 

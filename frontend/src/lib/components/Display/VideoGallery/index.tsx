@@ -12,7 +12,7 @@ import { RootState, useAppDispatch } from '../../../../store';
 import { useSelector } from 'react-redux';
 
 
-const VideoGallery = () => {
+const VideoGallery = (props:any) => {
 
 
     const dispatch = useAppDispatch()
@@ -25,7 +25,6 @@ const VideoGallery = () => {
         if(!photoListVideo) {
             dispatch(getPhotosVideo());
         }
-
         console.log(photoListVideo,'xxx')
     
       }, [dispatch,photoListVideo]);

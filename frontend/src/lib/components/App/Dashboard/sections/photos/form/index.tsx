@@ -105,8 +105,10 @@ export default function PhotoForm({ type, id }: any) {
         const newData = {
             ...data, ...(data?.colorCodes && PropertyVal === PhotoProperty.Album && { colorCodes: data?.colorCode && (data?.colorCodes?.split(',')) })
         }
+
         if (isEdit) {
-            const res = await dispatch(updatePhoto({ id, newData }));
+            const res = await dispatch(updatePhoto({ id, data:newData }));
+            console.log(res) 
             if (res.meta.requestStatus === 'fulfilled') {
                 router.push('/dashboard/photos');
             }

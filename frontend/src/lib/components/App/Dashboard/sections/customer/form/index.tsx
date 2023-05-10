@@ -40,7 +40,7 @@ function Copyright(props: any) {
 }
 
 
-export default function Form({ type, id }: any) {
+export default function Form({  id }: any) {
     const dispatch = useAppDispatch();
     const isEdit = id ? true : false;
 
@@ -127,7 +127,7 @@ export default function Form({ type, id }: any) {
     }, [PackageDetailsVal])
 
     const onSubmit = async (data: any) => {
-        console.log(data)
+     
         if (isEdit) {
             const res = await dispatch(updateUserByAdmin({ id, data }));
             if (res.meta.requestStatus === 'fulfilled') {
