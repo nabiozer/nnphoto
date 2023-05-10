@@ -20,7 +20,7 @@ const Wedding = () => {
    
     return (
         <Box component='section' id='gallery'>
-             {photoListHome && <Box component='div' sx={{height:'20vh !important'}}>
+             {photoListHome && <Box component='div' sx={{height:'30vh !important'}}>
                 <img src={photoListHome[0]?.imageURL!!} style={{width:'100%',height:'100%',objectFit:'cover'}}></img>
             </Box>}
             <Box component='h2' sx={{ textAlign: 'center', margin: '2rem' ,fontFamily:'Courier New'}}>Fotoğraflar<hr></hr></Box>
