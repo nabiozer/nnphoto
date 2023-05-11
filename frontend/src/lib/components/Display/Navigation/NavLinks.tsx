@@ -54,9 +54,8 @@ const NavLinks = () => {
                 <NavLink href="/videos" text='Videolar' />
             </li>
             <li>
-                <NavLink href="/about" text='Hakkımızda' />
+                <NavLink href="/contact" text='İletişim' />
             </li>
-
             {user ? (
                 <>
                     <li className="dropdown">

@@ -132,7 +132,7 @@ const Page = () => {
                 },
                 {
                   name: 'Tamamlanan',
-                  data: [ overview?.monthsDoneUsers?.January, overview?.monthsDoneUsers?.February,overview?.monthsDoneUsers?.March,overview?.monthsDoneUsers?.April,overview?.monthsDoneUsers?.May,overview?.monthsDoneUsers?.June,overview?.monthsDoneUsers?.July,overview?.monthsDoneUsers?.August,overview?.monthsDoneUsers?.September,overview?.monthsDoneUsers?.October,overview?.monthsDoneUsers?.November,overview?.monthsDoneUsers?.December]
+                  data: Object?.keys(overview?.monthsDoneUsers).length > 0? [ overview?.monthsDoneUsers?.January, overview?.monthsDoneUsers?.February,overview?.monthsDoneUsers?.March,overview?.monthsDoneUsers?.April,overview?.monthsDoneUsers?.May,overview?.monthsDoneUsers?.June,overview?.monthsDoneUsers?.July,overview?.monthsDoneUsers?.August,overview?.monthsDoneUsers?.September,overview?.monthsDoneUsers?.October,overview?.monthsDoneUsers?.November,overview?.monthsDoneUsers?.December] : []
                 }
               ]}
               sx={{ height: '100%' }}

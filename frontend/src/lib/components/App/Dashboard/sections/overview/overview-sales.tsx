@@ -98,7 +98,7 @@ const useChartOptions = () => {
     },
     yaxis: {
       labels: {
-        formatter: (value:any) => (value > 0 ? `${value}K` : `${value}`),
+        formatter: (value: any) => (value > 0 ? `${value}K` : `${value}`),
         offsetX: -10,
         style: {
           colors: theme.palette.text.secondary
@@ -108,11 +108,11 @@ const useChartOptions = () => {
   };
 };
 
-export const OverviewSales = ({ chartSeries, sx }:any) => {
+export const OverviewSales = ({ chartSeries, sx }: any) => {
 
   const chartOptions = useChartOptions();
 
-  
+
 
   return (
     <Card sx={sx}>
@@ -132,16 +132,18 @@ export const OverviewSales = ({ chartSeries, sx }:any) => {
         )}
         title="Çekimler"
       />
-      <CardContent>
-        <Chart
-          height={350}
-          options={chartOptions}
-          series={chartSeries}
-          type="bar"
-          width="100%"
-          chartRef
-        />
-      </CardContent>
+      {chartSeries &&
+
+        <CardContent>
+          <Chart
+            height={350}
+            options={chartOptions}
+            series={chartSeries}
+            type="bar"
+            width="100%"
+            chartRef
+          />
+        </CardContent>}
       <Divider />
       <CardActions sx={{ justifyContent: 'flex-end' }}>
         <Button

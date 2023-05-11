@@ -343,7 +343,7 @@ const updateUser = asyncHandler(async (req, res) => {
     const reservationInfo = {
       album: albumInfo,
       advancePayment:
-        req.body.advancePayment || req.body.status === 'Seçim' ?  user.reservationInfo.packagePrice : user.reservationInfo.advancePayment ,
+        req.body.advancePayment ||  user.reservationInfo.advancePayment ,
       date: req.body.date || user.reservationInfo.date,
       packageDetails:
         req.body.packageDetails ||  user.reservationInfo.packageDetails,
