@@ -8,7 +8,6 @@ export default function Document() {
         <div id="drawer-hook"></div>
         <div id="backdrop-hook"></div>
         <Main />
-
         <NextScript />
       </body>
     </Html>

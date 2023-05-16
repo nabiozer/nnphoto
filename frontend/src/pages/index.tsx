@@ -11,23 +11,23 @@ import { getPhotosHome } from "../store/photo/photoActions";
 const Home = () => {
 
   const dispatch = useAppDispatch();
- const photoListHome = useSelector((state:RootState) => state.photo.photoListHome.data?.Data)
- 
+  const photoListHome = useSelector((state: RootState) => state.photo.photoListHome.data?.Data)
+
 
   useEffect(() => {
-    if(!photoListHome) {
+    if (!photoListHome) {
       dispatch(getPhotosHome())
     }
-   
+
   }, [dispatch]);
 
 
   return (
     <>
-   
-    <section id="home" >
-      {photoListHome && <Swiper imageUrls={photoListHome} />}
-    </section>
+
+      <section id="home" >
+        {photoListHome && <Swiper imageUrls={photoListHome} />}
+      </section>
     </>
   )
 }
