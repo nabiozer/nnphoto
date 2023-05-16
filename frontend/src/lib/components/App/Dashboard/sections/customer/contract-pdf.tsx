@@ -1,7 +1,6 @@
-import React, { use } from 'react'
-import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/renderer';
-import { IUser } from '../../../../../../types/user';
+import { Document, Font, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
 import { format } from 'date-fns';
+import { IUser } from '../../../../../../types/user';
 import { getDate } from '../../../../../_helpers';
 import { Packages } from './type';
 
@@ -17,7 +16,6 @@ Font.register({
     ],
 },
 )
-
 
 const styles = StyleSheet.create({
     pageBackground: {
@@ -285,22 +283,21 @@ const ContractPdf = (props: Props) => {
 
                     </View>
                     <View>
-                    <View style={[styles.flexRow, styles.borderTop]}>
-                        <Text style={styles.colPayment}>Paket Tutarı</Text>
-                        <Text style={styles.colPayment}>Ön Ödeme Tutarı</Text>
-                        <Text style={styles.colPayment}>Kalan Ödeme</Text>
+                        <View style={[styles.flexRow, styles.borderTop]}>
+                            <Text style={styles.colPayment}>Paket Tutarı</Text>
+                            <Text style={styles.colPayment}>Ön Ödeme Tutarı</Text>
+                            <Text style={styles.colPayment}>Kalan Ödeme</Text>
 
-                    </View>
-                    <View style={[styles.flexRow]}>
-                        <Text style={styles.colPayment}>{userDetails?.reservationInfo?.packagePrice} TL</Text>
-                        <Text style={styles.colPayment}>{userDetails?.reservationInfo?.advancePayment} TL</Text>
-                        <Text style={styles.colPayment}>{userDetails?.reservationInfo?.packagePrice - userDetails?.reservationInfo?.advancePayment} TL</Text>
+                        </View>
+                        <View style={[styles.flexRow]}>
+                            <Text style={styles.colPayment}>{userDetails?.reservationInfo?.packagePrice} TL</Text>
+                            <Text style={styles.colPayment}>{userDetails?.reservationInfo?.advancePayment} TL</Text>
+                            <Text style={styles.colPayment}>{userDetails?.reservationInfo?.packagePrice - userDetails?.reservationInfo?.advancePayment} TL</Text>
 
-                    </View>
+                        </View>
                     </View>
                     <View style={styles.marginHeader}>
-
-</View>
+                    </View>
                     <View>
                         <View style={[styles.flexRow, styles.borderTop]}>
                             <Text style={styles.ColCont1}>MADDE 1 - TARAFLAR</Text>

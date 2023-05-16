@@ -13,23 +13,23 @@ import {
   Typography
 } from '@mui/material';
 
+import ArticleIcon from '@mui/icons-material/Article';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import EditIcon from '@mui/icons-material/Edit';
 import DownloadIcon from '@mui/icons-material/Download';
+import EditIcon from '@mui/icons-material/Edit';
+import InfoIcon from '@mui/icons-material/Info';
+import { pdf } from '@react-pdf/renderer';
+import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { useAppDispatch } from '../../../../../../store';
 import { deleteUser, fetchUsers } from '../../../../../../store/user/userActions';
 import { IUser } from '../../../../../../types/user';
-import { useRouter } from 'next/router';
-import InfoIcon from '@mui/icons-material/Info';
 import { getDate } from '../../../../../_helpers';
-import Tooltip from '../../../../Display/Tooltip';
-import { getDownloadFile } from '../../../../../_helpers/utility';
-import ContractPdf from './contract-pdf';
-import { pdf } from '@react-pdf/renderer';
-import AlbumForm from '../account/album-form';
-import ArticleIcon from '@mui/icons-material/Article';
 import { jsonToQueryString } from '../../../../../_helpers/query';
+import { getDownloadFile } from '../../../../../_helpers/utility';
+import Tooltip from '../../../../Display/Tooltip';
+import AlbumForm from '../account/album-form';
+import ContractPdf from './contract-pdf';
 
 
 export const CustomersTable = (props: any) => {
@@ -76,19 +76,6 @@ export const CustomersTable = (props: any) => {
         <Table sx={{ overflowX: 'auto' }}>
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox">
-                <Checkbox
-                  checked={selectedAll}
-                  indeterminate={selectedSome}
-                  onChange={(event) => {
-                    if (event.target.checked) {
-                      onSelectAll?.();
-                    } else {
-                      onDeselectAll?.();
-                    }
-                  }}
-                />
-              </TableCell>
               <TableCell>
                 Kullanıcı Adı
               </TableCell>

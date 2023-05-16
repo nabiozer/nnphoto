@@ -1,21 +1,17 @@
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
-import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
 import { Box, Button, Container, Stack, SvgIcon, Typography } from '@mui/material';
-import { subDays, subHours } from 'date-fns';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useSelection } from '../../../lib/components/App/Dashboard/hooks/use-selection';
+import { jsonToQueryString } from '../../../lib';
+import { cleanNullProperty } from '../../../lib/_utility/utiliy';
 import { Layout as DashboardLayout } from '../../../lib/components/App/Dashboard/layouts/dashboard/layout';
 import { CustomersSearch } from '../../../lib/components/App/Dashboard/sections/customer/customers-search';
 import { CustomersTable } from '../../../lib/components/App/Dashboard/sections/customer/customers-table';
-import { applyPagination } from '../../../lib/components/App/Dashboard/utils/apply-pagination';
 import { useAppDispatch } from '../../../store';
 import { fetchUsers } from '../../../store/user/userActions';
-import { jsonToQueryString, queryStringToJson } from '../../../lib';
-import { cleanNullProperty } from '../../../lib/_utility/utiliy';
 
 
 const now = new Date();

@@ -3,8 +3,6 @@ import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/render
 import { Box, Pvc, Wood } from '../customer/type';
 import { IUser } from '../../../../../../types/user';
 
-
-
 const styles = StyleSheet.create({
     pageBackground: {
         position: 'absolute',

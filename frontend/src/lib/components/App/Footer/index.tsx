@@ -54,18 +54,6 @@ export default (props: Props) => {
                             rel="noopener">
                             <WhatsApp />
                         </a>
-                        {/* <a
-                            href="https://api.whatsapp.com/send/?phone=905421132503&text&app_absent=0"
-                            target="_blank"
-                            rel="noopener">
-                            <i className="fa-brands fa-medium"></i>
-                        </a>
-                        <a
-                            href="https://api.whatsapp.com/send/?phone=905421132503&text&app_absent=0"
-                            target="_blank"
-                            rel="noopener">
-                            <i className="fa-brands fa-youtube"></i>
-                        </a> */}
                     </Box>
                 </Grid>
                 <Grid item xs={12} md={6} sm={6} sx={{ textAlign: 'center', marginTop: '1rem' }}>

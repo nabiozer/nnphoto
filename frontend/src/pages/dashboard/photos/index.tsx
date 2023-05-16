@@ -4,40 +4,31 @@ import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
 import { Box, Button, Container, Stack, SvgIcon, Typography } from '@mui/material';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { cleanNullProperty, jsonToQueryString, queryStringToJson } from '../../../lib';
+import { cleanNullProperty, jsonToQueryString } from '../../../lib';
 import { Layout as DashboardLayout } from '../../../lib/components/App/Dashboard/layouts/dashboard/layout';
 import { PhotosTable } from '../../../lib/components/App/Dashboard/sections/photos/photos-table';
 
+import { PhotosSearch } from '../../../lib/components/App/Dashboard/sections/photos/photos-search';
 import { useAppDispatch } from '../../../store';
 import { getPhotosPagination } from '../../../store/photo/photoActions';
-import { PhotosSearch } from '../../../lib/components/App/Dashboard/sections/photos/photos-search';
 
 
 const now = new Date();
 
 
-
-
 const Page = () => {
-
 
   const dispatch = useAppDispatch();
   const router = useRouter();
   const params = router.query;
-
-
   const photoList = useSelector((state: any) => state.photo.photoListPagination.data)
-
 
 
   useEffect(() => {
     dispatch(getPhotosPagination(jsonToQueryString({ ...params, PageNumber: params.PageNumber || 1, PageSize: params.PageSize || 20 })));
   }, [dispatch, params]);
-
-
-
 
 
   const handleRowsPerPageChange =
@@ -48,12 +39,10 @@ const Page = () => {
 
       })
     }
-    ;
+
 
   const onSubmit = (data: any) => {
-    console.log(jsonToQueryString(cleanNullProperty(data)))
     const newData = { ...data };
-
     const q = jsonToQueryString(cleanNullProperty(newData));
 
     if (q) {

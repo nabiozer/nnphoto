@@ -4,9 +4,8 @@ import { useEffect } from 'react';
 import { useSelector } from "react-redux";
 import * as yup from 'yup';
 import { RootState, useAppDispatch } from "../../../../store";
-import { getPhotosAlbum, getPhotosPagination } from "../../../../store/photo/photoActions";
+import { getPhotosAlbum } from "../../../../store/photo/photoActions";
 import { getProfile, updateProfile } from "../../../../store/user/userActions";
-import { PhotoProperty } from "../../../../types/photo";
 import useForm from "../../../_hooks/useForm";
 import useWatch from "../../../_hooks/useWatch";
 import Input from "../../Form/Input";
@@ -42,8 +41,6 @@ const ProfileAlbumChoice = ({ userDetails }: any) => {
 
 
   const AlbumNameVal = useWatch({ control, fieldName: 'albumName' })
-
-
   const photoListAlbum = useSelector((state:RootState) => state.photo.photoListAlbum.data?.Data)
  
 
@@ -64,9 +61,6 @@ const ProfileAlbumChoice = ({ userDetails }: any) => {
   useEffect(() => {
     setValue('albumName', albumName);
   }, [photoList, albumName])
-
-
-
 
   useEffect(() => {
     setValue('colorCode', photoListAlbum?.find((item) => item.description === AlbumNameVal)?.colorCodes[0]!)

@@ -4,7 +4,6 @@ import { jsonToQueryString } from '../../../../../_helpers/query';
 import { cleanNullProperty } from '../../../../../_helpers/utility';
 import useForm from '../../../../../_hooks/useForm';
 import Button from '../../../../Form/Button';
-import DateTimePicker from '../../../../Form/DateTimePicker';
 import DatePicker from '../../../../Form/DatePicker';
 import Input from '../../../../Form/Input';
 
@@ -25,11 +24,8 @@ export const ExpensesSearch = () => {
 
 
   const onSubmit = (data: any) => {
-
     const newData = { ...data };
-
     const q = jsonToQueryString(cleanNullProperty(newData));
-
     if (q) {
       router.push(`/dashboard/expenses?${q}`)
     } else {

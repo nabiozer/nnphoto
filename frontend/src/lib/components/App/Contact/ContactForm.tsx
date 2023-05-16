@@ -6,29 +6,14 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../../../store';
-import useForm from '../../../_hooks/useForm';
 import { createExpense, getExpenseById, updateExpense } from '../../../../store/expense/expenseActions';
-import { Layout as DashboardLayout } from '../Dashboard/layouts/dashboard/layout';
+import useForm from '../../../_hooks/useForm';
 import Input from '../../Form/Input';
-import DatePicker from '../../Form/DatePicker';
 
-function Copyright(props: any) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                NNPHOTOFILM
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
 
 export default function Contact({ type, id }: any) {
     const dispatch = useAppDispatch();
@@ -109,7 +94,6 @@ export default function Contact({ type, id }: any) {
                     <Grid item xs={12} md={12} sm={12} lg={12} sx={{ mt: 2 }} ><Input id="Name" name="Name" placeholder="İsim Soyisim" label="İsim Soyisim" control={control} errors={errors} /></Grid>
                     <Grid item xs={12} md={12} sm={12} lg={12} sx={{ mt: 2 }} ><Input id="Email" name="Email" placeholder="Mail" label="Mail" control={control} errors={errors} /></Grid>
                     <Grid item xs={12} md={12} sm={12} lg={12} sx={{ mt: 2 }} ><Input id="Telefon Numarası" name="Telefon Numarası" placeholder="Telefon" label="Telefon" control={control} errors={errors} /></Grid>
-                    <Grid item xs={12} md={12} sm={12} lg={12} sx={{ mt: 2 }}> <DatePicker id="Date" name="Date" label="Çekim Tarihiniz" disablePast control={control} errors={errors} unixTime fullWidth sx={{ width: '100% ' }} /></Grid>
                     <Grid item xs={12} md={12} sm={12} lg={12} sx={{ mt: 2 }} ><Input multiline
                         maxRows={4} id="Message" name="Message" placeholder="Mesaj" label="Mesaj" control={control} errors={errors} /></Grid>
                     <Grid item xs={12} md={12} sm={12} lg={12} sx={{ mt: 2 }} >
@@ -119,12 +103,12 @@ export default function Contact({ type, id }: any) {
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
-                            Harcama Ekle
+                            Bizimle İletişime Geç!
                         </Button>
                     </Grid>
                 </Grid>
             </Box>
-            <Copyright sx={{ mt: 8, mb: 4 }} />
+        
         </Container>
 
     );

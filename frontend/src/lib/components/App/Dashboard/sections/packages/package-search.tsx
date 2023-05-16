@@ -24,11 +24,8 @@ export const PackagesSearch = () => {
     }
   })
 
-
   const onSubmit = (data: any) => {
-
     const newData = { ...data };
-
     const q = jsonToQueryString(cleanNullProperty(newData));
 
     if (q) {
@@ -47,7 +44,6 @@ export const PackagesSearch = () => {
         <Grid item xs={12} md={4} sm={4} lg={4}  >
           <Button text="Filtrele" type='submit' fullWidth />
         </Grid>
-
       </Grid>
     </Card>
   )

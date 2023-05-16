@@ -1,10 +1,8 @@
 import { Box, Button, Card, CardActions, CardContent, CardHeader, Divider, Grid, Typography } from "@mui/material";
 import { useRouter } from "next/router";
-
 import * as yup from 'yup';
 import { useAppDispatch } from "../../../../store";
-import { getProfile, updateProfile, updateUserByAdmin } from "../../../../store/user/userActions";
-import { PhotoProperty } from "../../../../types/photo";
+import { getProfile, updateProfile } from "../../../../store/user/userActions";
 import useForm from "../../../_hooks/useForm";
 import Input from "../../Form/Input";
 
@@ -18,14 +16,14 @@ const ProfilePhotoChoice = ({ userDetails }: any) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const userId = router.query.id;
-  console.log(userId);
+  ;
 
   const { control, errors, handleSubmit, setValue } = useForm({
     defaultValues: {
       photosChosen: '',
     },
     validationSchema: {
-      photosChosen:yup.string().required('Bu alanın doldurulması zorunludur.').max(5,'5 karakterli kodu giriniz').min(5,'5 karakterli kodu giriniz')
+      photosChosen: yup.string().required('Bu alanın doldurulması zorunludur.').max(5, '5 karakterli kodu giriniz').min(5, '5 karakterli kodu giriniz')
 
     }
   })
@@ -40,11 +38,10 @@ const ProfilePhotoChoice = ({ userDetails }: any) => {
     const res = await dispatch(updateProfile({ id: _id, data }));
     if (res.meta.requestStatus === 'fulfilled') {
       dispatch(getProfile());
-      setValue('photosChosen','')
+      setValue('photosChosen', '')
     }
 
   }
-
 
   const onDeletePhoto = async (i: number) => {
     const data = {
@@ -61,23 +58,18 @@ const ProfilePhotoChoice = ({ userDetails }: any) => {
   const onChoiceEnd = async () => {
     const data = {
       isChoiced: true,
-      status:'Albüm'
+      status: 'Albüm'
     }
     const res = await dispatch(updateProfile({ id: _id, data }));
     if (res.meta.requestStatus === 'fulfilled') {
-     
+
       dispatch(getProfile());
     }
 
   }
-
-
-
-
   return (
 
     <Grid container spacing={2} padding={3} >
-      
       <Grid
         xs={12}
         md={12}
@@ -157,7 +149,6 @@ const ProfilePhotoChoice = ({ userDetails }: any) => {
             </Box>
           </CardContent>
           <Divider />
-
           <CardActions>
             {!isChoiced &&
               <>
@@ -173,10 +164,7 @@ const ProfilePhotoChoice = ({ userDetails }: any) => {
               </>}
           </CardActions>
         </Card>
-
-
       </Grid>
-
     </Grid>
   )
 }

@@ -47,7 +47,6 @@ export const CustomersSearch = () => {
         <Grid item xs={12} md={12} sm={12} lg={12} >
           <Button text="Filtrele" type='submit' fullWidth />
         </Grid>
-
       </Grid>
     </Card>
   )

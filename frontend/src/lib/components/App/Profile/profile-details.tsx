@@ -8,6 +8,7 @@ import { useState } from 'react';
 import useS3Download from '../../../_hooks/useDownload';
 import CircularProgressWithLabel from '../../Display/Progress/WithLabel';
 import { getDate } from '../../../_helpers';
+import LoadingModal from '../../Display/LoadingModal';
 
 export const ProfileDetails = ({ userDetails }: any) => {
 
@@ -294,6 +295,7 @@ export const ProfileDetails = ({ userDetails }: any) => {
 
         </Grid>
       </Grid>
+      {loading && <LoadingModal/>}
 
     </>
   );

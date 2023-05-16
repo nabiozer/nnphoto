@@ -1,33 +1,33 @@
 import {
   Box, Card, CardActions, CardContent,
   CardHeader,
-  CircularProgress,
-  Divider, Grid, IconButton, Input as MuiInput, Switch, Typography
+  Divider, Grid, IconButton,
+  Switch, Typography
 } from '@mui/material';
 import axios from 'axios';
-
+import DownloadIcon from '@mui/icons-material/Download';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import 'filepond/dist/filepond.min.css';
 import { useEffect, useState } from 'react';
 import { FilePond, registerPlugin } from 'react-filepond';
 import { useAppDispatch } from '../../../../../../store';
+import { createExpense } from '../../../../../../store/expense/expenseActions';
 import { getUserById, updateUserByAdmin } from '../../../../../../store/user/userActions';
+import { getDate } from '../../../../../_helpers';
 import useS3Download from '../../../../../_hooks/useDownload';
 import useForm from '../../../../../_hooks/useForm';
+import CircularProgressWithLabel from '../../../../Display/Progress/WithLabel';
 import Button from '../../../../Form/Button';
 import Input from '../../../../Form/Input';
 import { StatusType } from './type';
-import DownloadIcon from '@mui/icons-material/Download';
-import CircularProgressWithLabel from '../../../../Display/Progress/WithLabel';
-import { createExpense } from '../../../../../../store/expense/expenseActions';
-import { getDate } from '../../../../../_helpers';
+import LoadingModal from '../../../../Display/LoadingModal';
 
 
 registerPlugin(FilePondPluginImagePreview);
 export const AccountProfileDetails = ({ userDetails }: any) => {
 
-  const { reservationInfo: { extras,date, place, packagePrice, packageDetails, advancePayment, album:{albumDetail,familyDetail,posterDetail,canvasDetail,pvc,box,wood}, }, _id, photos, video, photosURL, videoURL,name } = userDetails;
+  const { reservationInfo: { extras,date, place, packagePrice, packageDetails, advancePayment, album:{albumDetail,familyDetail,posterDetail,canvasDetail} }, _id, photos, video, photosURL, videoURL,name } = userDetails;
 
   const [progress, setProgress] = useState<any>(null);
   const [downloadObject, loading, error] = useS3Download(setProgress);
@@ -552,6 +552,7 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
 
         </Grid>
       </Grid>
+      {loading && <LoadingModal />}
     </>
   );
 };

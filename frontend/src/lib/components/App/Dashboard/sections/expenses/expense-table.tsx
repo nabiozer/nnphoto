@@ -12,7 +12,6 @@ import {
   TableRow,
   Typography
 } from '@mui/material';
-
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import { useRouter } from 'next/router';
@@ -53,19 +52,6 @@ export const ExpensesTable = (props: any) => {
         <Table sx={{ overflowX: 'auto' }}>
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox">
-                <Checkbox
-                  checked={selectedAll}
-                  indeterminate={selectedSome}
-                  onChange={(event) => {
-                    if (event.target.checked) {
-                      onSelectAll?.();
-                    } else {
-                      onDeselectAll?.();
-                    }
-                  }}
-                />
-              </TableCell>
               <TableCell>
                 Harcama Tutarı
               </TableCell>

@@ -1,20 +1,17 @@
-import Head from 'next/head';
-import { subDays, subHours } from 'date-fns';
 import { Box, Container, Unstable_Grid2 as Grid } from '@mui/material';
-import { Layout as DashboardLayout } from '../../lib/components/App/Dashboard/layouts/dashboard/layout'
+import Head from 'next/head';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Layout as DashboardLayout } from '../../lib/components/App/Dashboard/layouts/dashboard/layout';
+import { OverviewAlbum } from '../../lib/components/App/Dashboard/sections/overview/overview-album';
 import { OverviewBudget } from '../../lib/components/App/Dashboard/sections/overview/overview-budget';
-import { OverviewLatestProducts } from '../../lib/components/App/Dashboard/sections/overview/overview-latest-products';
+import { OverviewExpense } from '../../lib/components/App/Dashboard/sections/overview/overview-expense';
 import { OverviewSales } from '../../lib/components/App/Dashboard/sections/overview/overview-sales';
 import { OverviewTasksProgress } from '../../lib/components/App/Dashboard/sections/overview/overview-tasks-progress';
 import { OverviewTotalCustomers } from '../../lib/components/App/Dashboard/sections/overview/overview-total-customers';
 import { OverviewTotalProfit } from '../../lib/components/App/Dashboard/sections/overview/overview-total-profit';
-import { OverviewTraffic } from '../../lib/components/App/Dashboard/sections/overview/overview-traffic';
-import { useEffect, useState } from 'react';
 import { RootState, useAppDispatch } from '../../store';
 import { getOverview } from '../../store/overview/overviewActions';
-import { useSelector } from 'react-redux';
-import { OverviewExpense } from '../../lib/components/App/Dashboard/sections/overview/overview-expense';
-import { OverviewAlbum } from '../../lib/components/App/Dashboard/sections/overview/overview-album';
 
 const now = new Date();
 
@@ -132,7 +129,7 @@ const Page = () => {
                 },
                 {
                   name: 'Tamamlanan',
-                  data: Object?.keys(overview?.monthsDoneUsers).length > 0? [ overview?.monthsDoneUsers?.January, overview?.monthsDoneUsers?.February,overview?.monthsDoneUsers?.March,overview?.monthsDoneUsers?.April,overview?.monthsDoneUsers?.May,overview?.monthsDoneUsers?.June,overview?.monthsDoneUsers?.July,overview?.monthsDoneUsers?.August,overview?.monthsDoneUsers?.September,overview?.monthsDoneUsers?.October,overview?.monthsDoneUsers?.November,overview?.monthsDoneUsers?.December] : []
+                  data: [ overview?.monthsDoneUsers?.January, overview?.monthsDoneUsers?.February,overview?.monthsDoneUsers?.March,overview?.monthsDoneUsers?.April,overview?.monthsDoneUsers?.May,overview?.monthsDoneUsers?.June,overview?.monthsDoneUsers?.July,overview?.monthsDoneUsers?.August,overview?.monthsDoneUsers?.September,overview?.monthsDoneUsers?.October,overview?.monthsDoneUsers?.November,overview?.monthsDoneUsers?.December] || [0]
                 }
               ]}
               sx={{ height: '100%' }}

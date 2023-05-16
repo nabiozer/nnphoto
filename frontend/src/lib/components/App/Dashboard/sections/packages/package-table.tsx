@@ -18,11 +18,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { useAppDispatch } from '../../../../../../store';
-import { IUser } from '../../../../../../types/user';
-import { getDate } from '../../../../../_helpers';
-import Tooltip from '../../../../Display/Tooltip';
 import { deletePackage, getPackagesPagination } from '../../../../../../store/package/packageActions';
-
+import Tooltip from '../../../../Display/Tooltip';
 
 
 export const PackagesTable = (props: any) => {
@@ -40,7 +37,6 @@ export const PackagesTable = (props: any) => {
 
   const selectedSome = (selected?.length > 0) && (selected?.length < items?.length);
   const selectedAll = (items?.length > 0) && (selected?.length === items?.length);
-
   const dispatch = useAppDispatch();
   const router = useRouter()
 
@@ -51,7 +47,7 @@ export const PackagesTable = (props: any) => {
         <Table sx={{ overflowX: 'auto' }}>
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox">
+              {/* <TableCell padding="checkbox">
                 <Checkbox
                   checked={selectedAll}
                   indeterminate={selectedSome}
@@ -63,7 +59,7 @@ export const PackagesTable = (props: any) => {
                     }
                   }}
                 />
-              </TableCell>
+              </TableCell> */}
               <TableCell>
                 Paket Adı
               </TableCell>
@@ -99,7 +95,6 @@ export const PackagesTable = (props: any) => {
             {items?.map((packageDetail: any) => {
               const isSelected = selected?.includes(packageDetail._id);
               // const createdAt = format(packageDetail?.createdAt, 'dd/MM/yyyy');
-
               return (
                 <TableRow
                   hover
@@ -147,7 +142,6 @@ export const PackagesTable = (props: any) => {
                   <TableCell>
                     {packageDetail.canvasDetail}
                   </TableCell>
-                 
                   <TableCell>
                     {packageDetail.videoKlip}
                   </TableCell>

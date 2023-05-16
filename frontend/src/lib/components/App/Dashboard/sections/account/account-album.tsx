@@ -50,7 +50,6 @@ const AlbumChoice = ({ userDetails }: any) => {
   })
 
   useEffect(() => {
-
     setValue('colorCode', colorCode);
     setValue('albumName', albumName);
     setValue('poster', poster);
@@ -122,7 +121,6 @@ const AlbumChoice = ({ userDetails }: any) => {
                 >
 
                   <Select disabled={isChoiced} options={{ data: photoListAlbum || [], displayField: 'description', displayValue: 'description' }} id="albumName" name="albumName" label="Albüm Adı" control={control} errors={errors} setValue={setValue} defaultValue={defaultValues.albumName} fullWidth />
-
                 </Grid>
                 {AlbumNameVal && <Grid
                   xs={12}
@@ -132,7 +130,6 @@ const AlbumChoice = ({ userDetails }: any) => {
                   item
                   sx={{ justify: 'center', alignItems: 'center', width: '100%' }}
                 >
-
                   <Select
                     disabled={isChoiced}
                     options={{ data: photoListAlbum?.find((item) => item.description === AlbumNameVal)?.colorCodes?.map(item => { return ({ ColorCode: item }) }) || [], displayField: 'ColorCode', displayValue: 'ColorCode' }} id="colorCode" name="colorCode" label="Renk Kodu" control={control} errors={errors} setValue={setValue} defaultValue={defaultValues.albumName} fullWidth />
@@ -170,9 +167,7 @@ const AlbumChoice = ({ userDetails }: any) => {
                   item
                   sx={{ justify: 'center', textAlign: 'center', alignItems: 'center', width: '100%' }}
                 >
-
                   <Input id="poster" name="poster" placeholder="Poster Fotoğraf Kodu" label="Poster Fotoğraf Kodu" control={control} errors={errors} disabled={isChoiced} />
-
                 </Grid>}
                 <Grid
                   xs={12}
@@ -199,11 +194,7 @@ const AlbumChoice = ({ userDetails }: any) => {
             </Button>
           </CardActions>}
         </Card>
-
-
       </Grid>
-
-
     </Grid>
   )
 }
