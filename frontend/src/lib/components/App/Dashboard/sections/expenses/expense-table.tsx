@@ -21,6 +21,8 @@ import { deleteExpense, getExpensesPagination } from '../../../../../../store/ex
 import Tooltip from '../../../../Display/Tooltip';
 import { getDate } from '../../../../../_helpers';
 import { jsonToQueryString } from '../../../../../_helpers/query';
+import { cleanNullProperty } from '../../../../../_helpers/utility';
+import TableSort from '../../../../Display/TableSort';
 
 
 
@@ -45,6 +47,17 @@ export const ExpensesTable = (props: any) => {
   const router = useRouter()
   const params = router.query;
 
+  const onSubmit = (data: any) => {
+    const newData = { ...data };
+
+    const q = jsonToQueryString(cleanNullProperty(newData));
+
+    if (q) {
+      router.push(`/dashboard/expenses?${q}`)
+    } else {
+      router.push(`/dashboard/expenses`)
+    }
+  }
 
   return (
     <Card sx={{ overflowX: 'auto' }}>
@@ -56,7 +69,17 @@ export const ExpensesTable = (props: any) => {
                 Harcama Tutarı
               </TableCell>
               <TableCell>
-                Tarih
+
+              <TableSort field="date" name="Tarih" sortData={params?.Sort}
+                  onClick={(val) => {
+                    console.log(params?.Sort)
+                    onSubmit({
+                      ...params,
+                      Sort: val
+                    })
+                  }}
+
+                />
               </TableCell>
               <TableCell>
                 Açıklama
@@ -75,18 +98,7 @@ export const ExpensesTable = (props: any) => {
                   key={expenseDetail._id}
                   selected={isSelected}
                 >
-                  <TableCell padding="checkbox">
-                    {/* <Checkbox
-                        checked={isSelected}
-                        onChange={(event) => {
-                          if (event.target.checked) {
-                            onSelectOne?.(expenseDetail._id);
-                          } else {
-                            onDeselectOne?.(expenseDetail._id);
-                          }
-                        }}
-                      /> */}
-                  </TableCell>
+                 
                   <TableCell>
                     <Stack
                       alignItems="center"

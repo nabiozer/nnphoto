@@ -21,7 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
     const handleComplete = () => setLoading(false);
     const handleError = () => setLoading(false);
 
-    Router.events.on('routeChangeStart', handleStart);ß
+    Router.events.on('routeChangeStart', handleStart);
     Router.events.on('routeChangeComplete', handleComplete);
     Router.events.on('routeChangeError', handleError);
 

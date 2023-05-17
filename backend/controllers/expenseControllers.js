@@ -15,6 +15,15 @@ const getExpenses = asyncHandler(async (req, res) => {
   const Description = req.query.Description || '';
 
 
+  const sortQuery = {};
+  if(req?.query?.Sort) {
+    const sortData = req.query.Sort.split('-');
+    const sortField = sortData[0]
+    const direction = sortData[1] === 'asc' ? 1 : -1;
+    sortQuery[sortField] = direction;
+  
+  }
+
   const query = {};
 
   if (Description) {
@@ -30,7 +39,7 @@ const getExpenses = asyncHandler(async (req, res) => {
     };
   }
 
-  const expenses = await Expense.find(query).skip(skipNum).limit(PageSize);
+  const expenses = await Expense.find(query).sort(sortQuery).skip(skipNum).limit(PageSize);
 
   const TotalCount = await Expense.countDocuments(query);
   const TotalPages = PageSize === -1 ? 1 : Math.ceil(TotalCount / PageSize);

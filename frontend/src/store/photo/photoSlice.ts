@@ -10,6 +10,7 @@ interface IPhoto {
     packagePrice?: string;
     imageURL?: string;
     colorCodes:[]
+    order:number;
 }
 
 interface ICommon {

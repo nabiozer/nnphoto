@@ -15,7 +15,7 @@ export default (props: ITableSort) => {
             direction={!!sortData && sortData.split('-')[0] === field && sortData.split('-')[1] === 'asc' ? 'desc' : 'asc'}
             onClick={() => {
                 if (sortData) {
-                    onClick(sortData && sortData.split('-')[1] === 'asc' ? `${field}-desc` : `${field}-desc`);
+                    onClick(sortData && sortData.split('-')[1] === 'asc' ? `${field}-desc` : `${field}-asc`);
                 } else {
                     onClick(`${field}-asc`);
                 }

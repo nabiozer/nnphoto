@@ -6,8 +6,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import axios from 'axios';
-import { Input as MuiInput } from '@mui/material';
 
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -66,7 +64,8 @@ export default function PhotoForm({ type, id }: any) {
         image: '',
         description: '',
         src: '',
-        colorCodes: ''
+        colorCodes: '',
+        order:''
     }
 
     const { control, errors, handleSubmit, setValue } = useForm({
@@ -85,12 +84,13 @@ export default function PhotoForm({ type, id }: any) {
             const getPhoto = async () => {
                 const res = await dispatch(getPhotoById(id))
                 if (res.meta.requestStatus === 'fulfilled') {
-                    const { property, image, description, src, colorCodes } = res?.payload
+                    const { property, image, description, src, colorCodes ,order} = res?.payload
                     setValue('property', property);
                     setValue('image', image)
                     setValue('description', description);
                     setValue('src', src);
                     setValue('colorCodes', colorCodes);
+                    setValue('order',order)
                 }
             }
             getPhoto()
@@ -151,6 +151,7 @@ export default function PhotoForm({ type, id }: any) {
                     <Grid container spacing={1} component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1, padding: '2rem' }}>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Select options={{ data: [{ Value: 'Ana Sayfa', Id: PhotoProperty.Home }, { Value: 'Galeri', Id: PhotoProperty.Gallery }, { Value: 'Video', Id: PhotoProperty.Video }, { Value: 'Album', Id: PhotoProperty.Album }], displayField: 'Value', displayValue: 'Id' }} id="property" name="property" label="Tip" control={control} errors={errors} setValue={setValue} defaultValue={defaulValues.property} fullWidth /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="description" name="description" placeholder="Açıklama" label="Açıklama" control={control} errors={errors} /></Grid>
+                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="order" name="order" placeholder="Sıralama" label="Sıralama" control={control} errors={errors} /></Grid>
                         {PropertyVal === PhotoProperty.Video && <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="src" name="src" placeholder="Video Link" label="Video Link" control={control} errors={errors} /></Grid>}
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="image" name="image" placeholder="Görsel" label="Görsel" control={control} errors={errors} /></Grid>
                         {PropertyVal === PhotoProperty.Album && <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="colorCodes" name="colorCodes" placeholder="Renk Kodları" label="Renk kodları" control={control} errors={errors} /></Grid>}

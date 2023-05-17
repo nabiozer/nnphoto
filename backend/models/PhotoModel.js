@@ -21,7 +21,10 @@ const photoSchema = mongoose.Schema({
     },
     colorCodes:[
       
-    ]
+    ],
+    order:{
+        type:Number
+    }
   
 
 }, {

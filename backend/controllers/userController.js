@@ -232,6 +232,30 @@ const getUsersPagination = asyncHandler(async (req, res) => {
   const EndDateFilter = req.query.EndDate || null;
   const Status = req.query.Status || '';
 
+
+
+
+  const sortQuery = {};
+  if(req?.query?.Sort) {
+    
+    const sortData = req.query.Sort.split('-');
+    const sortField = sortData[0]
+    const direction = sortData[1] === 'asc' ? 1 : -1;
+    if(sortField === 'date') {
+      sortQuery[`reservationInfo.${sortField}`] = direction;
+    } else {
+      sortQuery[sortField] = direction;
+    }
+ 
+
+
+
+  
+  }
+
+  
+
+
   const query = {
     isAdmin:{$ne: true}
   };
@@ -259,7 +283,7 @@ const getUsersPagination = asyncHandler(async (req, res) => {
   //   query?.reservationInfo?.date = StartDateFilter;
   // }
 
-  const users = await User.find(query).skip(skipNum).limit(PageSize);
+  const users = await User.find(query).sort(sortQuery).skip(skipNum).limit(PageSize);
 
   const TotalCount = await User.countDocuments(query);
   const TotalPages = PageSize === -1 ? 1 : Math.ceil(TotalCount / PageSize);

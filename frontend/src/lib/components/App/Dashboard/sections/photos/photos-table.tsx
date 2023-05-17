@@ -21,7 +21,9 @@ import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { useAppDispatch } from '../../../../../../store';
 import { deletePhoto, getPhotosPagination } from '../../../../../../store/photo/photoActions';
-import { jsonToQueryString } from '../../../../../_helpers/query';
+import { jsonToQueryString, queryStringToJson } from '../../../../../_helpers/query';
+import TableSort from '../../../../Display/TableSort';
+import { cleanNullProperty } from '../../../../../_helpers/utility';
 
 export const PhotosTable = (props: any) => {
   const {
@@ -37,6 +39,7 @@ export const PhotosTable = (props: any) => {
     rowsPerPage = 0,
     selected = [],
     reloadCustomers = () => null,
+
   } = props;
 
   const selectedSome = (selected?.length > 0) && (selected?.length < items?.length);
@@ -45,6 +48,18 @@ export const PhotosTable = (props: any) => {
   const dispatch = useAppDispatch();
   const router = useRouter()
   const params = router.query
+
+
+  const onSubmit = (data: any) => {
+    const newData = { ...data };
+    const q = jsonToQueryString(cleanNullProperty(newData));
+
+    if (q) {
+      router.push(`/dashboard/photos?${q}`)
+    } else {
+      router.push(`/dashboard/photos`)
+    }
+  }
 
   return (
     <Card sx={{ overflowX: 'auto' }}>
@@ -65,11 +80,31 @@ export const PhotosTable = (props: any) => {
                   }}
                 />
               </TableCell>
+
               <TableCell>
-                Image Source
+                <TableSort field="image" name="Image Kaynak" sortData={params?.Sort}
+                  onClick={(val) => {
+                    console.log(params?.Sort)
+                    onSubmit({
+                      ...params,
+                      Sort: val
+                    })
+                  }}
+
+                />
+
               </TableCell>
               <TableCell>
-                Property
+                <TableSort field="property" name="Özellik" sortData={params?.Sort}
+                  onClick={(val) => {
+                    console.log(params?.Sort)
+                    onSubmit({
+                      ...params,
+                      Sort: val
+                    })
+                  }}
+
+                />
               </TableCell>
               <TableCell>
                 Description
@@ -77,6 +112,18 @@ export const PhotosTable = (props: any) => {
               <TableCell>
                 Video Source
               </TableCell>
+              <TableCell>
+                <TableSort field="order" name="Sıra" sortData={params?.Sort}
+                  onClick={(val) => {
+                    console.log(params?.Sort)
+                    onSubmit({
+                      ...params,
+                      Sort: val
+                    })
+                  }}
+                />
+              </TableCell>
+              <TableCell />
               <TableCell />
               <TableCell />
             </TableRow>
@@ -141,7 +188,10 @@ export const PhotosTable = (props: any) => {
                     </a>
 
                   </TableCell>
+                  <TableCell>
 
+                    {photo.order}
+                  </TableCell>
                   <TableCell>
                     <Avatar alt={photo.description} src={`${photo.imageURL}`} />
                   </TableCell>

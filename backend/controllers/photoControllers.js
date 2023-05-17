@@ -50,8 +50,21 @@ const getPhotosPagination = asyncHandler(async (req, res) => {
   const PageNumber = Number(req.query.PageNumber) || 1;
   const skipNum = (PageNumber - 1) * PageSize;
   const propertyFilter = (req.query.Property)
+
+  const sortQuery = {};
+
+
+  if(req?.query?.Sort) {
+    const sortData = req.query.Sort.split('-');
+    const sortField = sortData[0]
+    const direction = sortData[1] === 'asc' ? 1 : -1;
+    sortQuery[sortField] = direction;
   
-  const photos = await Photo.find(propertyFilter ? {property:propertyFilter} :{}).skip(skipNum).limit(PageSize);
+  }
+
+
+  
+  const photos = await Photo.find(propertyFilter ? {property:propertyFilter} :{}).sort(sortQuery).skip(skipNum).limit(PageSize);
 
   const TotalCount = await Photo.countDocuments(propertyFilter ? {property:propertyFilter} :{});
   const TotalPages = PageSize === -1 ? 1 : Math.ceil(TotalCount / PageSize);
@@ -121,6 +134,7 @@ const createPhoto = asyncHandler(async (req, res) => {
     property: req.body.property,
     src: req.body.src,
     colorCodes: req.body.colorCodes,
+    order:req.body.order
   });
   const createdPhoto = await photo.save();
   res.status(201).json(createdPhoto);
@@ -138,6 +152,7 @@ const updatePhoto = asyncHandler(async (req, res) => {
     packageName,
     packagePrice,
     colorCodes,
+    order
   } = req.body;
   const photo = await Photo.findById(req.params.id);
   if (photo) {
@@ -148,6 +163,7 @@ const updatePhoto = asyncHandler(async (req, res) => {
     photo.packageName = packageName || photo.packageName;
     photo.packagePrice = packagePrice || photo.packagePrice;
     photo.colorCodes = colorCodes || photo.colorCodes;
+    photo.order = order || photo.order;
 
     const updatedPhoto = await photo.save();
     res.json(updatedPhoto);

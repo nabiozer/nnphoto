@@ -132,6 +132,7 @@ const Page = () => {
                 })
               }}
               onRowsPerPageChange={handleRowsPerPageChange}
+         
             // onSelectAll={customersSelection.handleSelectAll}
             // onSelectOne={customersSelection.handleSelectOne}
             // onDeselectAll={customersSelection.handleDeselectAll}

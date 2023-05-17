@@ -26,10 +26,11 @@ import { deleteUser, fetchUsers } from '../../../../../../store/user/userActions
 import { IUser } from '../../../../../../types/user';
 import { getDate } from '../../../../../_helpers';
 import { jsonToQueryString } from '../../../../../_helpers/query';
-import { getDownloadFile } from '../../../../../_helpers/utility';
+import { cleanNullProperty, getDownloadFile } from '../../../../../_helpers/utility';
 import Tooltip from '../../../../Display/Tooltip';
 import AlbumForm from '../account/album-form';
 import ContractPdf from './contract-pdf';
+import TableSort from '../../../../Display/TableSort';
 
 
 export const CustomersTable = (props: any) => {
@@ -70,6 +71,18 @@ export const CustomersTable = (props: any) => {
       blob, `EforSipariş-${data?.name}-${getDate(data?.reservationInfo?.date, 'P')}.pdf`
     )
   }
+
+  const onSubmit = (data: any) => {
+    const newData = { ...data };
+
+    const q = jsonToQueryString(cleanNullProperty(newData));
+
+    if (q) {
+      router.push(`/dashboard/customers?${q}`)
+    } else {
+      router.push(`/dashboard/customers`)
+    }
+  }
   return (
     <Card sx={{ overflowX: 'auto' }}>
       <Box sx={{ minWidth: 800 }}>
@@ -77,7 +90,15 @@ export const CustomersTable = (props: any) => {
           <TableHead>
             <TableRow>
               <TableCell>
-                Kullanıcı Adı
+              <TableSort field="name" name="Kullanıcı Adı" sortData={params?.Sort}
+                  onClick={(val) => {                   
+                    onSubmit({
+                      ...params,
+                      Sort: val
+                    })
+                  }}
+                />
+               
               </TableCell>
               <TableCell>
                 Email
@@ -86,7 +107,15 @@ export const CustomersTable = (props: any) => {
                 Telefon
               </TableCell>
               <TableCell>
-                Tarih
+              <TableSort field="date" name="Tarih" sortData={params?.Sort}
+                  onClick={(val) => {
+                    console.log(params?.Sort)
+                    onSubmit({
+                      ...params,
+                      Sort: val
+                    })
+                  }}
+                />
               </TableCell>
               <TableCell>
                 Mekan
@@ -118,18 +147,7 @@ export const CustomersTable = (props: any) => {
                   key={customer._id}
                   selected={isSelected}
                 >
-                  <TableCell padding="checkbox">
-                    {/* <Checkbox
-                        checked={isSelected}
-                        onChange={(event) => {
-                          if (event.target.checked) {
-                            onSelectOne?.(customer._id);
-                          } else {
-                            onDeselectOne?.(customer._id);
-                          }
-                        }}
-                      /> */}
-                  </TableCell>
+                  
                   <TableCell>
                     <Stack
                       alignItems="center"
