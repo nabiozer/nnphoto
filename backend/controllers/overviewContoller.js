@@ -23,7 +23,20 @@ const inAlbumCompany = users?.filter(item => item.status === 'Albüm')?.length;
 const done = users?.filter(item => item.status === 'Tamamlandı')?.length;
 
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
+const monthNamesObj = {
+  January: 0,
+  February: 0,
+  March: 0,
+  April: 0,
+  May: 0,
+  June: 0,
+  July: 0,
+  August: 0,
+  September: 0,
+  October: 0,
+  November: 0,
+  December: 0
+};
 const monthsAllUsers = users.map(item => item.reservationInfo.date).reduce((accumulator, timestamp) => {
     const date = new Date(timestamp * 1000); // Convert Unix timestamp to Date object
     const month = date.getMonth(); // Get month number (0-indexed)
@@ -57,8 +70,8 @@ const monthsAllUsers = users.map(item => item.reservationInfo.date).reduce((accu
     progressingAlbum,
     inAlbumCompany,
     done,
-    monthsAllUsers,
-    monthsDoneUsers,   
+    monthsAllUsers:{...monthNamesObj,...monthsAllUsers},
+    monthsDoneUsers:{...monthNamesObj,...monthsDoneUsers},
   });
 
 

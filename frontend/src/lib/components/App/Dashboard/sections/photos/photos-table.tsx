@@ -67,20 +67,6 @@ export const PhotosTable = (props: any) => {
         <Table sx={{ overflowX: 'auto' }}>
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox">
-                <Checkbox
-                  checked={selectedAll}
-                  indeterminate={selectedSome}
-                  onChange={(event) => {
-                    if (event.target.checked) {
-                      onSelectAll?.();
-                    } else {
-                      onDeselectAll?.();
-                    }
-                  }}
-                />
-              </TableCell>
-
               <TableCell>
                 <TableSort field="image" name="Image Kaynak" sortData={params?.Sort}
                   onClick={(val) => {
@@ -92,7 +78,6 @@ export const PhotosTable = (props: any) => {
                   }}
 
                 />
-
               </TableCell>
               <TableCell>
                 <TableSort field="property" name="Özellik" sortData={params?.Sort}
@@ -103,7 +88,6 @@ export const PhotosTable = (props: any) => {
                       Sort: val
                     })
                   }}
-
                 />
               </TableCell>
               <TableCell>
@@ -139,18 +123,6 @@ export const PhotosTable = (props: any) => {
                   key={photo._id}
                   selected={isSelected}
                 >
-                  <TableCell padding="checkbox">
-                    {/* <Checkbox
-                        checked={isSelected}
-                        onChange={(event) => {
-                          if (event.target.checked) {
-                            onSelectOne?.(customer._id);
-                          } else {
-                            onDeselectOne?.(customer._id);
-                          }
-                        }}
-                      /> */}
-                  </TableCell>
                   <TableCell>
                     <Stack
                       alignItems="center"

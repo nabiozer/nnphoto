@@ -101,8 +101,8 @@ export const PackagesTable = (props: any) => {
                   key={packageDetail._id}
                   selected={isSelected}
                 >
-                  <TableCell padding="checkbox">
-                    {/* <Checkbox
+                  {/* <TableCell padding="checkbox">
+                    <Checkbox
                         checked={isSelected}
                         onChange={(event) => {
                           if (event.target.checked) {
@@ -111,8 +111,8 @@ export const PackagesTable = (props: any) => {
                             onDeselectOne?.(packageDetail._id);
                           }
                         }}
-                      /> */}
-                  </TableCell>
+                      />
+                  </TableCell> */}
                   <TableCell>
                     <Stack
                       alignItems="center"
