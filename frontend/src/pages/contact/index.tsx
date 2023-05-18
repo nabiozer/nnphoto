@@ -7,9 +7,9 @@ const Contact = (props: Props) => {
         <Grid container  sx={{padding:'1rem'}}>
              <Grid
                 xs={12}
-                md={6}
-                lg={6}
-                xl={6}
+                md={12}
+                lg={12}
+                xl={12}
                 item
             >
                 <ContactForm />
