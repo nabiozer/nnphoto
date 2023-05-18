@@ -1,6 +1,6 @@
 import asyncHandler from "express-async-handler";
 import Photo from "../models/PhotoModel.js";
-import { getObjectSignedUrl } from "../utils/s3.js";
+import { getObjectSignedUrl } from "../utils/cdn.js";
 
 //  @desc Fetch home photos
 //  @route Get /api/photos/home
