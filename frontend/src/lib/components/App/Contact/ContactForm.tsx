@@ -10,9 +10,9 @@ import Typography from '@mui/material/Typography';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../../../store';
-import { createExpense, getExpenseById, updateExpense } from '../../../../store/expense/expenseActions';
 import useForm from '../../../_hooks/useForm';
 import Input from '../../Form/Input';
+import { createMessage } from '../../../../store/message/messageActions';
 
 
 export default function Contact({ type, id }: any) {
@@ -20,56 +20,38 @@ export default function Contact({ type, id }: any) {
     const isEdit = id ? true : false;
     const router = useRouter();
 
+
+
+  
     const defaultValues = {
-        fee: '',
-        date: null,
-        description: '',
+        email: '',
+        message: '',
+        name: '',
+        phone: '',
 
 
     }
-    const { control, errors, handleSubmit, setValue } = useForm({
+    const { control, errors, handleSubmit } = useForm({
         defaultValues: defaultValues,
         validationSchema: {}
     })
 
-    useEffect(() => {
-        if (isEdit) {
-            const getExpenseDetails = async () => {
-                const res = await dispatch(getExpenseById(id))
-                if (res.meta.requestStatus === 'fulfilled') {
-                    const { fee, date, description } = res?.payload
-                    setValue('fee', fee);
-                    setValue('date', date);
-                    setValue('description', description);
-                }
-            }
-            getExpenseDetails()
-
-        }
-    }, [isEdit])
+  
 
     const onSubmit = async (data: any) => {
-
-        if (isEdit) {
-            const res = await dispatch(updateExpense({ id, data }));
-            if (res.meta.requestStatus === 'fulfilled') {
-                router.push('/dashboard/expenses');
-            }
-        } else {
-            const res = await dispatch(createExpense(data));
-            if (res.meta.requestStatus === 'fulfilled') {
-                router.push('/dashboard/expenses');
-            }
+        const res = await dispatch(createMessage(data));
+        if (res.meta.requestStatus === 'fulfilled') {
+            router.push('/');
         }
-
-    }
+}
 
     return (
 
         <Container component="main" sx={{
             height: '100vh', width: '100%', display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center', justifyContent: 'center', maxWidth: '4000px !important'
+            alignItems: 'center', justifyContent: 'center', maxWidth: '600px !important',
+          
         }}>
             <CssBaseline />
             <Box
@@ -91,11 +73,11 @@ export default function Contact({ type, id }: any) {
                 </Typography>
 
                 <Grid container spacing={1} component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ padding: 1 }}>
-                    <Grid item xs={12} md={12} sm={12} lg={12} sx={{ mt: 2 }} ><Input id="Name" name="Name" placeholder="İsim Soyisim" label="İsim Soyisim" control={control} errors={errors} /></Grid>
-                    <Grid item xs={12} md={12} sm={12} lg={12} sx={{ mt: 2 }} ><Input id="Email" name="Email" placeholder="Mail" label="Mail" control={control} errors={errors} /></Grid>
-                    <Grid item xs={12} md={12} sm={12} lg={12} sx={{ mt: 2 }} ><Input id="Telefon Numarası" name="Telefon Numarası" placeholder="Telefon" label="Telefon" control={control} errors={errors} /></Grid>
+                    <Grid item xs={12} md={12} sm={12} lg={12} sx={{ mt: 2 }} ><Input id="name" name="name" placeholder="İsim Soyisim" label="İsim Soyisim" control={control} errors={errors} /></Grid>
+                    <Grid item xs={12} md={12} sm={12} lg={12} sx={{ mt: 2 }} ><Input id="email" name="email" placeholder="Mail" label="Mail" control={control} errors={errors} /></Grid>
+                    <Grid item xs={12} md={12} sm={12} lg={12} sx={{ mt: 2 }} ><Input id="phone" name="phone" placeholder="Telefon" label="Telefon" control={control} errors={errors} /></Grid>
                     <Grid item xs={12} md={12} sm={12} lg={12} sx={{ mt: 2 }} ><Input multiline
-                        maxRows={4} id="Message" name="Message" placeholder="Mesaj" label="Mesaj" control={control} errors={errors} /></Grid>
+                        maxRows={4} id="message" name="message" placeholder="Mesaj" label="Mesaj" control={control} errors={errors} /></Grid>
                     <Grid item xs={12} md={12} sm={12} lg={12} sx={{ mt: 2 }} >
                         <Button
                             type="submit"

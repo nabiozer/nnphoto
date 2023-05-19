@@ -41,11 +41,43 @@ const api = axios.create({
       return Promise.reject(error);
     }
   );
+
+
   //get photo list
-export const getOverview = createAsyncThunk('data/getOverview', async () => {
-    const response = await api.get(`/overview`);
+
+export const getMessagesPagination = createAsyncThunk('data/getMessagesPagination', async (params?:any) => {
+    const response = await api.get(`/messages${params ? '?' : ''}${params}`);
     return response.data;
 });
 
 
+
+export const createMessage = createAsyncThunk('data/createMessage', async (data?:any) => {
+  const response = await api.post('/messages',data);
+  return response.data;
+});
+
+// Delete photo
+export const deleteMessage = createAsyncThunk('data/deleteMessages', async (id?:any) => {
+  const response = await api.delete(`/messages/${id}`);
+  return response.data;
+});
+
+
+//Getphoto -> photo for admin
+
+export const getMessageById = createAsyncThunk('data/getMessageById', async (id?:any) => {
+
+  const response = await api.get(`/messages/${id || ''}`);
+  return response.data;
+
+});
+
+//update photo by admin
+
+export const updateMessage = createAsyncThunk('data/updateMessage', async ({id,data}:any) => {
+   
+  const response = await api.put(`/messages/${id}`,data);
+  return response.data;
+});
 

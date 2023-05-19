@@ -27,6 +27,15 @@ export const items = [
     )
   },
   {
+    title: 'Mesajlar',
+    path: '/dashboard/messages',
+    icon: (
+      <SvgIcon fontSize="small">
+        <UsersIcon />
+      </SvgIcon>
+    )
+  },
+  {
     title: 'Fotoğraflar',
     path: '/dashboard/photos',
     icon: (
