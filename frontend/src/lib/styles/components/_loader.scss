@@ -26,6 +26,12 @@
     border: 2px solid $c4;
     margin: 7rem auto;
 }
+.loader-progress {
+    position: absolute;
+    color: white;
+    font-size:2rem;
+    margin: 10rem auto;
+}
 
 .loader::after {
     content: '';

@@ -5,10 +5,12 @@ import {
   Divider, Grid, IconButton, Typography
 } from '@mui/material';
 import { useState } from 'react';
-import useS3Download from '../../../_hooks/useDownload';
-import CircularProgressWithLabel from '../../Display/Progress/WithLabel';
 import { getDate } from '../../../_helpers';
-import LoadingModal from '../../Display/LoadingModal';
+import useS3Download from '../../../_hooks/useDownload';
+import Loader from '../../Display/Loader';
+import CircularProgressWithLabel from '../../Display/Progress/WithLabel';
+import { useAppDispatch } from '../../../../store';
+import { createNotification } from '../../../../store/notification/notificationActions';
 
 export const ProfileDetails = ({ userDetails }: any) => {
 
@@ -17,6 +19,16 @@ export const ProfileDetails = ({ userDetails }: any) => {
   const [downloadObject, loading, error] = useS3Download(setProgress);
   const [downloadObj, setDownloadObj] = useState<string>('')
 
+  const dispatch = useAppDispatch()
+
+  const onAddNotification = async () => {
+    const res = await dispatch(createNotification({action:'Fotoğraflar İndirildi'}));
+    if (res.meta.requestStatus === 'fulfilled') {
+      console.log('success')
+    }
+
+  }
+  console.log(progress)
   return (
     <>
       <Grid container spacing={2} padding={3} >
@@ -270,7 +282,7 @@ export const ProfileDetails = ({ userDetails }: any) => {
                     <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Fotoğraflar</Typography>
                     {progress && downloadObj === 'photos' ?
                       <CircularProgressWithLabel value={progress} /> :
-                      <Typography component="p" >{photos && photosURL ? <IconButton disabled={progress} onClick={() => { setDownloadObj('photo'); downloadObject(photosURL, photos) }} ><DownloadIcon /></IconButton> : 'Yükleme aşamasında'}</Typography>}
+                      <Typography component="p" >{photos && photosURL ? <IconButton disabled={progress} onClick={async() => { await setDownloadObj('photo'); await downloadObject(photosURL, photos) ; onAddNotification() }} ><DownloadIcon /></IconButton> : 'Yükleme aşamasında'}</Typography>}
 
                   </Grid>
 
@@ -295,7 +307,7 @@ export const ProfileDetails = ({ userDetails }: any) => {
 
         </Grid>
       </Grid>
-      {loading && <LoadingModal/>}
+      {loading && <Loader value={progress} />}
 
     </>
   );

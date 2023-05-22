@@ -58,8 +58,11 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
   };
 
   const onChangeStatus = async (status: string) => {
+
+
     const data = {
-      status: status
+      status: status ,
+      ...(status !=='Çekim' && {advancePayment : packagePrice})
     }
     const res = await dispatch(updateUserByAdmin({ id: _id, data }));
     if (res.meta.requestStatus === 'fulfilled') {
@@ -67,7 +70,7 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
         const now = new Date()
         await dispatch(createExpense({fee:600,description:`${getDate(date,'P')}-${name}-Albüm`,date:Math.floor(now.getTime() / 1000)}))
       }
-
+     
       dispatch(getUserById(_id));
     }
 

@@ -113,7 +113,7 @@ const Page = () => {
           >
             <OverviewAlbum
               sx={{ height: '100%' }}
-              value={overview?.progressingAlbum || 0}
+              value={overview?.inAlbumCompany || 0}
             />
           </Grid>
           {overview?.monthsAllUsers && overview?.monthsDoneUsers &&

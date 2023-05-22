@@ -6,10 +6,11 @@ import packageSlice from './package/packageSlice'
 import expenseSlice from './expense/expenseSlice'
 import overviewSlice from './overview/overviewSlice'
 import messageSlice from './message/messageSlice'
+import notificationSlice from './notification/notificationSlice'
 
 
 const store = configureStore({
-  reducer: {user:userSlice.reducer,photo:photoSlice.reducer,package:packageSlice.reducer,expense:expenseSlice.reducer,overview:overviewSlice.reducer,message:messageSlice.reducer},
+  reducer: {user:userSlice.reducer,photo:photoSlice.reducer,package:packageSlice.reducer,expense:expenseSlice.reducer,overview:overviewSlice.reducer,message:messageSlice.reducer,notification:notificationSlice.reducer},
 })
 
 export type AppDispatch = typeof store.dispatch
