@@ -1,8 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createNotification, deleteNotification, getNotificationById, getNotificationsPagination, updateNotification } from './notificationActions';
 
+interface IUser {
+    name: string;
+    _id: string;
+}
 interface INotification {
-    user: string;
+    user: IUser;
     description: string;
     action: string;
    

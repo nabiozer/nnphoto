@@ -36,8 +36,8 @@ export const MessagesSearch = () => {
   return (
     <Card sx={{ p: 2 }}>
       <Grid container spacing={1} component="form" onSubmit={handleSubmit(onSubmit)} noValidate >
-        <Grid item xs={12} md={4} sm={4} lg={4} ><DatePicker id="StartDate" name="StartDate" label="Çekim Tarihi" disablePast control={control} errors={errors} unixTime fullWidth sx={{ width: '100% ' }} /></Grid>
-        <Grid item xs={12} md={4} sm={4} lg={4} ><DatePicker id="EndDate" name="EndDate" label="Çekim Tarihi" disablePast control={control} errors={errors} unixTime fullWidth sx={{ width: '100% ' }} /></Grid>
+        <Grid item xs={12} md={4} sm={4} lg={4} ><DatePicker id="StartDate" name="StartDate" label="Çekim Tarihi"  control={control} errors={errors} unixTime fullWidth sx={{ width: '100% ' }} /></Grid>
+        <Grid item xs={12} md={4} sm={4} lg={4} ><DatePicker id="EndDate" name="EndDate" label="Çekim Tarihi"  control={control} errors={errors} unixTime fullWidth sx={{ width: '100% ' }} /></Grid>
         <Grid item xs={12} md={4} sm={4} lg={4} ><Input id="Name" name="Name" placeholder="Açıklama" label="Açıklama" control={control} errors={errors} /></Grid>
         <Grid item xs={12} md={4} sm={4} lg={4} >
           <Button text="Filtrele" type='submit' fullWidth />

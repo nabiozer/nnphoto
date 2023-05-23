@@ -1,11 +1,12 @@
 
 
-const Loader = ({value}:any) => {
-    return <div className="loader-fullscreen">
+const Loader = ({ value }: any) => {
+    return (
+        <div className="loader-fullscreen">
+            <div className="loader"></div>
+            {value && <div className="loader-progress">{value} % </div>}
+        </div>);
 
-        <div className="loader"></div>
-        <div className="loader-progress">{value} % </div></div>;
-        
 };
 
 

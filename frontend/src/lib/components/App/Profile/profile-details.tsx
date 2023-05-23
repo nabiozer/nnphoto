@@ -12,6 +12,7 @@ import CircularProgressWithLabel from '../../Display/Progress/WithLabel';
 import { useAppDispatch } from '../../../../store';
 import { createNotification } from '../../../../store/notification/notificationActions';
 
+
 export const ProfileDetails = ({ userDetails }: any) => {
 
   const { reservationInfo: { extras,date, place, packagePrice, packageDetails, advancePayment, album: { albumDetail, familyDetail, posterDetail, canvasDetail, } }, photos, video, photosURL, videoURL } = userDetails;
@@ -22,7 +23,8 @@ export const ProfileDetails = ({ userDetails }: any) => {
   const dispatch = useAppDispatch()
 
   const onAddNotification = async () => {
-    const res = await dispatch(createNotification({action:'Fotoğraflar İndirildi'}));
+    const res = await dispatch(createNotification({action:'Fotoğraflar İndirildi',}));
+
     if (res.meta.requestStatus === 'fulfilled') {
       console.log('success')
     }

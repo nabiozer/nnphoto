@@ -35,13 +35,14 @@ const getNotifications = asyncHandler(async (req, res) => {
   }
 
   if (StartDateFilter) {
+    console.log(new Date(StartDateFilter * 1000))
     query.date = {
       ...(StartDateFilter && {$gte: StartDateFilter}),
       ...(EndDateFilter &&{ $lte: EndDateFilter}),
     };
   }
 
-  const notifications = await Notification.find(query).sort(sortQuery).skip(skipNum).limit(PageSize);
+  const notifications = await Notification.find(query).sort(sortQuery).skip(skipNum).limit(PageSize).populate('user','name');
 
   const TotalCount = await Notification.countDocuments(query);
   const TotalPages = PageSize === -1 ? 1 : Math.ceil(TotalCount / PageSize);

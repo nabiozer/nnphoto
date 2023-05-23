@@ -26,6 +26,7 @@ export const items = [
       </SvgIcon>
     )
   },
+  
   {
     title: 'Mesajlar',
     path: '/dashboard/messages',
@@ -59,6 +60,15 @@ export const items = [
     icon: (
       <SvgIcon fontSize="small">
         <CurrencyLiraIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Bildirimler',
+    path: '/dashboard/notification',
+    icon: (
+      <SvgIcon fontSize="small">
+        <UsersIcon />
       </SvgIcon>
     )
   },
