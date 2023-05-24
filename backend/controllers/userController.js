@@ -101,6 +101,8 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       cover: req.body.cover || user.chosen.cover,
       coverText: req.body.coverText || user.chosen.coverText,
       isChoiced: req.body.isChoiced || user.reservationInfo.isChoiced,
+      downloadedCount: req.body.downloadedCount || user.reservationInfo.downloadedCount,
+
     };
     // user.address = req.body.address || user.address;
     // user.phone = req.body.phone || user.phone;
@@ -127,6 +129,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       photos: updatedUser.photos,
       status: updatedUser.status,
       isDone: updatedUser.isDone,
+      downloadedCount:updatedUser.downloadedCount
     });
   } else {
     res.status(404);

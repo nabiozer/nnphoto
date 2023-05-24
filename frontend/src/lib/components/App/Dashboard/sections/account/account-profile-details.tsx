@@ -428,15 +428,10 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
                     <Typography component="p" >{packagePrice - advancePayment} TL</Typography>
 
                   </Grid>
-
-
-
                 </Grid>
               </Box>
             </CardContent>
             <Divider />
-
-
           </Card>
 
         </Grid>

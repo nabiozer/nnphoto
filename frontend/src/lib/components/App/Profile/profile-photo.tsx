@@ -5,6 +5,7 @@ import { useAppDispatch } from "../../../../store";
 import { getProfile, updateProfile } from "../../../../store/user/userActions";
 import useForm from "../../../_hooks/useForm";
 import Input from "../../Form/Input";
+import { onAddNotification } from "../../../_helpers/notification";
 
 
 
@@ -64,6 +65,7 @@ const ProfilePhotoChoice = ({ userDetails }: any) => {
     if (res.meta.requestStatus === 'fulfilled') {
 
       dispatch(getProfile());
+      await onAddNotification(dispatch,{action:'Seçim Tamamlandı'})
     }
 
   }

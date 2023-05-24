@@ -11,6 +11,8 @@ import Loader from '../../Display/Loader';
 import CircularProgressWithLabel from '../../Display/Progress/WithLabel';
 import { useAppDispatch } from '../../../../store';
 import { createNotification } from '../../../../store/notification/notificationActions';
+import { onAddNotification } from '../../../_helpers/notification';
+import Tooltip from '../../Display/Tooltip';
 
 
 export const ProfileDetails = ({ userDetails }: any) => {
@@ -22,14 +24,7 @@ export const ProfileDetails = ({ userDetails }: any) => {
 
   const dispatch = useAppDispatch()
 
-  const onAddNotification = async () => {
-    const res = await dispatch(createNotification({action:'Fotoğraflar İndirildi',}));
 
-    if (res.meta.requestStatus === 'fulfilled') {
-      console.log('success')
-    }
-
-  }
   console.log(progress)
   return (
     <>
@@ -284,7 +279,7 @@ export const ProfileDetails = ({ userDetails }: any) => {
                     <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Fotoğraflar</Typography>
                     {progress && downloadObj === 'photos' ?
                       <CircularProgressWithLabel value={progress} /> :
-                      <Typography component="p" >{photos && photosURL ? <IconButton disabled={progress} onClick={async() => { await setDownloadObj('photo'); await downloadObject(photosURL, photos) ; onAddNotification() }} ><DownloadIcon /></IconButton> : 'Yükleme aşamasında'}</Typography>}
+                      <Typography component="p" >{photos && photosURL ? <IconButton disabled={progress} onClick={async() => { await setDownloadObj('photo'); await downloadObject(photosURL, photos) ;await onAddNotification(dispatch,{action:'Fotoğraflar İndirildi'}) }} ><DownloadIcon /></IconButton> : 'Yükleme aşamasında'}</Typography>}
 
                   </Grid>
 
@@ -298,7 +293,7 @@ export const ProfileDetails = ({ userDetails }: any) => {
                     sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
                   >
                     <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Video</Typography>
-                    {progress && downloadObj === 'video' ? <CircularProgressWithLabel value={progress} /> : <Typography component="p" >{video && videoURL ? <IconButton disabled={progress} onClick={() => { setDownloadObj('video'); downloadObject(videoURL, video) }}><DownloadIcon /></IconButton> : 'Yükleme aşamasında'}</Typography>}
+                    {progress && downloadObj === 'video' ? <CircularProgressWithLabel value={progress} /> : <Typography component="p" >{video && videoURL ?  <Tooltip title="İndir"><IconButton disabled={progress} onClick={async() => { await setDownloadObj('video'); await downloadObject(videoURL, video);await onAddNotification(dispatch,{action:'Video Klip İndirildi'})  }}><DownloadIcon /></IconButton></Tooltip> : 'Yükleme aşamasında'}</Typography>}
 
                   </Grid>
                 </Grid>
