@@ -13,11 +13,12 @@ import { useAppDispatch } from '../../../../store';
 import { createNotification } from '../../../../store/notification/notificationActions';
 import { onAddNotification } from '../../../_helpers/notification';
 import Tooltip from '../../Display/Tooltip';
+import { getProfile, updateProfile } from '../../../../store/user/userActions';
 
 
 export const ProfileDetails = ({ userDetails }: any) => {
 
-  const { reservationInfo: { extras,date, place, packagePrice, packageDetails, advancePayment, album: { albumDetail, familyDetail, posterDetail, canvasDetail, } }, photos, video, photosURL, videoURL } = userDetails;
+  const { reservationInfo: { extras,date, place, packagePrice, packageDetails, advancePayment, album: { albumDetail, familyDetail, posterDetail, canvasDetail, } }, photos, video, photosURL, videoURL,_id,downloadedCountVideo,downloadedCountPhoto } = userDetails;
   const [progress, setProgress] = useState<any>(null);
   const [downloadObject, loading, error] = useS3Download(setProgress);
   const [downloadObj, setDownloadObj] = useState<string>('')
@@ -25,7 +26,17 @@ export const ProfileDetails = ({ userDetails }: any) => {
   const dispatch = useAppDispatch()
 
 
-  console.log(progress)
+  const downloaded = async (property:string) => {
+    const data = {
+      ...( property === 'photo' ? {downloadedCountPhoto: (downloadedCountPhoto || 0) + 1} : {downloadedCountVideo: (downloadedCountVideo || 0) + 1})
+    
+    }
+    const res = await dispatch(updateProfile({ id: _id, data }));
+    if (res.meta.requestStatus === 'fulfilled') {
+      dispatch(getProfile());
+    }
+
+  }
   return (
     <>
       <Grid container spacing={2} padding={3} >
@@ -276,10 +287,11 @@ export const ProfileDetails = ({ userDetails }: any) => {
                     item
                     sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
                   >
-                    <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Fotoğraflar</Typography>
+                    <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Fotoğraflar </Typography>
+                    {photos && photosURL && <Typography component="p" >Kalan İndirme Hakkı - { 3 - downloadedCountPhoto}</Typography>}
                     {progress && downloadObj === 'photos' ?
                       <CircularProgressWithLabel value={progress} /> :
-                      <Typography component="p" >{photos && photosURL ? <IconButton disabled={progress} onClick={async() => { await setDownloadObj('photo'); await downloadObject(photosURL, photos) ;await onAddNotification(dispatch,{action:'Fotoğraflar İndirildi'}) }} ><DownloadIcon /></IconButton> : 'Yükleme aşamasında'}</Typography>}
+                      <Typography component="p" >{downloadedCountPhoto < 3 &&  photos && photosURL ? <IconButton disabled={progress} onClick={async() => { await setDownloadObj('photo'); await downloadObject(photosURL, photos) ;await onAddNotification(dispatch,{action:'Fotoğraflar İndirildi'}) ; await downloaded('photo') }} ><DownloadIcon /></IconButton> : downloadedCountPhoto >= 3 ? 'İndirme Limitine Ulaştınız. Bizimle iletişime geçin.':  'Yükleme aşamasında'}</Typography>}
 
                   </Grid>
 
@@ -292,9 +304,10 @@ export const ProfileDetails = ({ userDetails }: any) => {
                     item
                     sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
                   >
-                    <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Video</Typography>
-                    {progress && downloadObj === 'video' ? <CircularProgressWithLabel value={progress} /> : <Typography component="p" >{video && videoURL ?  <Tooltip title="İndir"><IconButton disabled={progress} onClick={async() => { await setDownloadObj('video'); await downloadObject(videoURL, video);await onAddNotification(dispatch,{action:'Video Klip İndirildi'})  }}><DownloadIcon /></IconButton></Tooltip> : 'Yükleme aşamasında'}</Typography>}
-
+                    <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Video </Typography>
+                    {video && videoURL && <Typography component="p" >Kalan İndirme Hakkı - { 3 - downloadedCountVideo}</Typography>}
+                    {progress && downloadObj === 'video' ? <CircularProgressWithLabel value={progress} /> : <Typography component="p" >{downloadedCountVideo < 3 &&  video && videoURL ?  <Tooltip title="İndir"><IconButton disabled={progress} onClick={async() => { await setDownloadObj('video'); await downloadObject(videoURL, video);await onAddNotification(dispatch,{action:'Video Klip İndirildi'})  ;await downloaded('video')}}><DownloadIcon /></IconButton></Tooltip> : downloadedCountVideo >= 3 ? 'İndirme Limitine Ulaştınız. Bizimle iletişime geçin.':  'Yükleme aşamasında'}</Typography>}
+                    
                   </Grid>
                 </Grid>
               </Box>

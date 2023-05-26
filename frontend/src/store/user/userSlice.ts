@@ -46,6 +46,8 @@ interface IUser {
     album: string;
     isDone: boolean;
     token?:string;
+    downloadedCountPhoto?:number;
+    downloadedCountVideo?:number;
 }
 
 interface ICommon {

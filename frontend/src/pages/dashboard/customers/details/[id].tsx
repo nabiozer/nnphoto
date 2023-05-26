@@ -18,13 +18,13 @@ const Detail = () => {
   const id = router.query.id;
   const { data, error, loading } = useSelector((state: RootState) => state.user.userDetails)
 
-  
+
 
 
   useEffect(() => {
     dispatch(getUserById(id))
   }, [id])
-
+  
   const onChoiceStart = async () => {
     const data = {
       isChoiced: false

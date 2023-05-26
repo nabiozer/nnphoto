@@ -62,6 +62,9 @@ const getUserProfile = asyncHandler(async (req, res) => {
       status: user.status,
       photosURL: photosWithUrl,
       videoURL: videosWithUrl,
+     downloadedCountPhoto:user.downloadedCountPhoto,
+     downloadedCountVideo: user.downloadedCountVideo
+
     });
   } else {
     res.status(404);
@@ -101,8 +104,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       cover: req.body.cover || user.chosen.cover,
       coverText: req.body.coverText || user.chosen.coverText,
       isChoiced: req.body.isChoiced || user.reservationInfo.isChoiced,
-      downloadedCount: req.body.downloadedCount || user.reservationInfo.downloadedCount,
-
+      
     };
     // user.address = req.body.address || user.address;
     // user.phone = req.body.phone || user.phone;
@@ -112,6 +114,9 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     // user.photos = req.body.photos || user.photos;
 
     user.status = req.body.status || user.status;
+    user.downloadedCountPhoto = req.body.downloadedCountPhoto || user.downloadedCountPhoto;
+    user.downloadedCountVideo = req.body.downloadedCountVideo || user.downloadedCountVideo;
+
     // user.album = req.body.album || user.album;
     // user.isDone = req.body.isDone || user.isDone;
 
@@ -129,7 +134,8 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       photos: updatedUser.photos,
       status: updatedUser.status,
       isDone: updatedUser.isDone,
-      downloadedCount:updatedUser.downloadedCount
+      downloadedCountPhoto:updatedUser.downloadedCountPhoto,
+      downloadedCountVideo:updatedUser.downloadedCountVideo
     });
   } else {
     res.status(404);
@@ -365,8 +371,6 @@ const updateUser = asyncHandler(async (req, res) => {
       wood: req.body.wood,
     };
      
- 
-
     const reservationInfo = {
       album: albumInfo,
       advancePayment:
@@ -401,9 +405,11 @@ const updateUser = asyncHandler(async (req, res) => {
     user.video = req.body.video || user.video;
     user.photos = req.body.photos || user.photos;
     user.status = req.body.status || user.status;
+    user.downloadedCountPhoto = req.body.downloadedCountPhoto === 0 ? 0 : user.downloadedCountPhoto;
+    user.downloadedCountVideo = req.body.downloadedCountVideo === 0 ? 0 : user.downloadedCountVideo;
 
     const updatedUser = await user.save();
-
+    
     res.json(updatedUser);
   } else {
     res.status(404);

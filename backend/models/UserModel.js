@@ -135,7 +135,11 @@ const userSchema = mongoose.Schema(
 
       default: false,
     },
-    downloadedCount:{
+    downloadedCountPhoto:{
+      type: Number,
+      default: 0,
+    },
+    downloadedCountVideo:{
       type: Number,
       default: 0,
     }

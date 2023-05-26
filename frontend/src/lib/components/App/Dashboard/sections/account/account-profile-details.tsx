@@ -27,7 +27,7 @@ import LoadingModal from '../../../../Display/LoadingModal';
 registerPlugin(FilePondPluginImagePreview);
 export const AccountProfileDetails = ({ userDetails }: any) => {
 
-  const { reservationInfo: { extras,date, place, packagePrice, packageDetails, advancePayment, album:{albumDetail,familyDetail,posterDetail,canvasDetail} }, _id, photos, video, photosURL, videoURL,name } = userDetails;
+  const { reservationInfo: { extras, date, place, packagePrice, packageDetails, advancePayment, album: { albumDetail, familyDetail, posterDetail, canvasDetail } }, _id, photos, video, photosURL, videoURL, name } = userDetails;
 
   const [progress, setProgress] = useState<any>(null);
   const [downloadObject, loading, error] = useS3Download(setProgress);
@@ -50,10 +50,22 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
     }
   })
 
-  const handleProcessFile = (error:any, file:any,property:'photos' | 'video') => {
+  const setZeroDownloadCount = async (property: string) => {
+    const data = {
+      ...(property === 'photo' ? { downloadedCountPhoto: 0 } : { downloadedCountVideo: 0 })
+
+    }
+    const res = await dispatch(updateUserByAdmin({ id: _id, data }));
+    if (res.meta.requestStatus === 'fulfilled') {
+      dispatch(getUserById(_id));
+    }
+  }
+
+
+  const handleProcessFile = (error: any, file: any, property: 'photos' | 'video') => {
     if (!error && file.serverId) {
-        console.log
-        setValue(property, file?.file?.name)
+      console.log
+      setValue(property, file?.file?.name)
     }
   };
 
@@ -61,16 +73,16 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
 
 
     const data = {
-      status: status ,
-      ...(status !=='Çekim' && {advancePayment : packagePrice})
+      status: status,
+      ...(status !== 'Çekim' && { advancePayment: packagePrice })
     }
     const res = await dispatch(updateUserByAdmin({ id: _id, data }));
     if (res.meta.requestStatus === 'fulfilled') {
-      if(status === 'Tamamlandı') {
+      if (status === 'Tamamlandı') {
         const now = new Date()
-        await dispatch(createExpense({fee:600,description:`${getDate(date,'P')}-${name}-Albüm`,date:Math.floor(now.getTime() / 1000)}))
+        await dispatch(createExpense({ fee: 600, description: `${getDate(date, 'P')}-${name}-Albüm`, date: Math.floor(now.getTime() / 1000) }))
       }
-     
+
       dispatch(getUserById(_id));
     }
 
@@ -84,7 +96,7 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
     }
 
   }
- 
+
   useEffect(() => {
     setValue('photos', photos);
     setValue('video', video)
@@ -328,7 +340,7 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
                     sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
                   >
                     <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Tarih</Typography>
-                    <Typography component="p" >{getDate(date,'Ppp')}</Typography>
+                    <Typography component="p" >{getDate(date, 'Ppp')}</Typography>
                   </Grid>
                   <Grid
                     xs={12}
@@ -352,7 +364,7 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
                     <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Albüm</Typography>
                     <Typography component="p" >{albumDetail} Panoramik Albüm- {familyDetail && `${familyDetail} Aile Albüm`} - {posterDetail && `${posterDetail} poster`} {canvasDetail && `${canvasDetail} poster`}</Typography>
                   </Grid>
-                 {extras && <Grid
+                  {extras && <Grid
                     xs={12}
                     sm={6}
                     lg={6}
@@ -463,9 +475,9 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
                   >
 
                     <Typography component="p" sx={{ borderBottom: '1px solid grey' }}>Fotoğraflar</Typography>
-                    {progress && downloadObj === 'photos' ? 
-                    <CircularProgressWithLabel value={progress} /> : 
-                    <Typography component="p" >{photos && photosURL ? <IconButton disabled={progress} onClick={() => { setDownloadObj('photo'); downloadObject(photosURL, photos) }} ><DownloadIcon /></IconButton> : 'Yükleme aşamasında'}</Typography>}
+                    {progress && downloadObj === 'photos' ?
+                      <CircularProgressWithLabel value={progress} /> :
+                      <Typography component="p" >{photos && photosURL ? <IconButton disabled={progress} onClick={() => { setDownloadObj('photo'); downloadObject(photosURL, photos) }} ><DownloadIcon /></IconButton> : 'Yükleme aşamasında'}</Typography>}
 
                   </Grid>
                   <Grid
@@ -488,61 +500,73 @@ export const AccountProfileDetails = ({ userDetails }: any) => {
                     sx={{ justify: 'center', textAlign: 'center', alignItems: 'center' }}
                   >
                     <Grid container spacing={5}
-                    >                 
+                    >
                       <Grid item xs={6} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="photos" name="photos" placeholder="Photo" label="Photo" control={control} errors={errors} /></Grid>
                       <Grid item xs={6} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="video" name="video" placeholder="Video" label="Video" control={control} errors={errors} /></Grid>
                     </Grid>
                   </Grid>
                 </Grid>
               </Box>
+
             </CardContent>
             <CardActions>
-           
+
               <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }}>   <Box component='div'>
 
-                    
-                    <FilePond
-                        files={file}
-                        onupdatefiles={() => setFile}
-                        maxFiles={3}
-                        instantUpload={false}
-                        allowProcess
-                        onprocessfile={(error,file) => handleProcessFile(error,file,'photos')}
-                        server={"http://localhost:5000/api/photoupdate/user/" + _id}
-                        onremovefile={(file) => {
-                       
-                            // set the value you want to set here
-                            photos ? setValue('photos', photos)  : setValue('photos', '')
-                          }}
-                        name="file" /* sets the file input name, it's filepond by default */
-                        labelIdle='Drag & Drop your Photos or <span class="filepond--label-action">Browse</span>'
-                    />
-                </Box></Grid>
-                <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }}>   <Box component='div'>
-                    <FilePond
-                        files={file}
-                        onupdatefiles={() => setFile}
-                        maxFiles={3}
-                        instantUpload={false}
-                        allowProcess
-                        onprocessfile={(error,file) => handleProcessFile(error,file,'video')}
-                        server={"http://localhost:5000/api/photoupdate/user/" + _id}
-                        onremovefile={(file) => {
-                       
-                            // set the value you want to set here
-                            video ? setValue('video', video)  : setValue('video', '')
-                          }}
-                        name="file" /* sets the file input name, it's filepond by default */
-                        labelIdle='Drag & Drop your Video or <span class="filepond--label-action">Browse</span>'
-                    />
-                </Box></Grid>
-              
+
+                <FilePond
+                  files={file}
+                  onupdatefiles={() => setFile}
+                  maxFiles={3}
+                  instantUpload={false}
+                  allowProcess
+                  onprocessfile={(error, file) => handleProcessFile(error, file, 'photos')}
+                  server={"http://localhost:5000/api/photoupdate/user/" + _id}
+                  onremovefile={(file) => {
+
+                    // set the value you want to set here
+                    photos ? setValue('photos', photos) : setValue('photos', '')
+                  }}
+                  name="file" /* sets the file input name, it's filepond by default */
+                  labelIdle='Drag & Drop your Photos or <span class="filepond--label-action">Browse</span>'
+                />
+              </Box></Grid>
+              <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }}>   <Box component='div'>
+                <FilePond
+                  files={file}
+                  onupdatefiles={() => setFile}
+                  maxFiles={3}
+                  instantUpload={false}
+                  allowProcess
+                  onprocessfile={(error, file) => handleProcessFile(error, file, 'video')}
+                  server={"http://localhost:5000/api/photoupdate/user/" + _id}
+                  onremovefile={(file) => {
+
+                    // set the value you want to set here
+                    video ? setValue('video', video) : setValue('video', '')
+                  }}
+                  name="file" /* sets the file input name, it's filepond by default */
+                  labelIdle='Drag & Drop your Video or <span class="filepond--label-action">Browse</span>'
+                />
+              </Box></Grid>
+
+
+
             </CardActions>
             <CardActions>
 
               <Box component="form" onSubmit={handleSubmit(onSubmit)}>
                 <Button type="submit" text="Fotoğraf ve Videoları Kaydet" />
               </Box>
+
+            </CardActions>
+            <CardActions>
+
+              <Grid container spacing={5}
+              >
+                <Grid item xs={6} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Button text="Fotoğraf indirmelerini sıfırla" onClick={() => setZeroDownloadCount('photo')} /></Grid>
+                <Grid item xs={6} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Button text="Video indirmelerini sıfırla" onClick={() => setZeroDownloadCount('video')} /></Grid>
+              </Grid>
             </CardActions>
             <Divider />
 
