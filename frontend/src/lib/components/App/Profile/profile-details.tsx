@@ -10,7 +10,6 @@ import useS3Download from '../../../_hooks/useDownload';
 import Loader from '../../Display/Loader';
 import CircularProgressWithLabel from '../../Display/Progress/WithLabel';
 import { useAppDispatch } from '../../../../store';
-import { createNotification } from '../../../../store/notification/notificationActions';
 import { onAddNotification } from '../../../_helpers/notification';
 import Tooltip from '../../Display/Tooltip';
 import { getProfile, updateProfile } from '../../../../store/user/userActions';

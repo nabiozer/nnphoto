@@ -244,7 +244,7 @@ const ContractPdf = (props: Props) => {
                         </View>
                         <View style={styles.flexRow}>
                             <Text style={styles.ColDetail1}>Paket Detayı</Text>
-                            <Text style={[styles.ColDetail2, styles.borderRight]}>Paket {userDetails?.reservationInfo?.packageDetails}</Text>
+                            <Text style={[styles.ColDetail2, styles.borderRight]}> {userDetails?.reservationInfo?.packageDetails}</Text>
                             <Text style={styles.ColDetail1}>Ortalama Çekim Süresi</Text>
                             <Text style={styles.ColDetail2}>{userDetails?.reservationInfo?.packageDetails === Packages.three ? '1.5 Saat' : '1 Saat'}</Text>
                         </View>

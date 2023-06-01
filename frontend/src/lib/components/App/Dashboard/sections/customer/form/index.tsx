@@ -115,7 +115,7 @@ export default function Form({  id }: any) {
     console.log(PackageDetailsVal)
 
     useEffect(() => {
-        if (PackageDetailsVal) {
+        if (PackageDetailsVal && !isEdit) {
             const filteredPackage =  packageList?.find(item => item.packageName === PackageDetailsVal)
                 setValue('albumDetail',filteredPackage?.albumDetail || '')
                 setValue('packagePrice', filteredPackage?.packagePrice || '')
@@ -173,7 +173,7 @@ export default function Form({  id }: any) {
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="name" name="name" placeholder="Kullanıcı Adı" label="Kullanıcı Adı" control={control} errors={errors} /></Grid>
                         {!isEdit && <><Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="password" name="password" placeholder="Şifre" label="Şifre" control={control} errors={errors} autoComplete="current-password" type='password' /></Grid>
                             <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="confirmpassword" name="confirmpassword" placeholder="Şifre Tekrar" label="Şifre Tekrar" control={control} errors={errors} autoComplete="current-password" type='password' /></Grid></>}
-                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><DateTimePicker id="date" name="date" label="Çekim Tarihi" disablePast control={control} errors={errors} unixTime fullWidth sx={{ width: '100% ' }} /></Grid>
+                        <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><DateTimePicker id="date" name="date" label="Çekim Tarihi" control={control} errors={errors} unixTime fullWidth sx={{ width: '100% ' }} /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="place" name="place" placeholder="Çekim Yeri" label="Çekim Yeri" control={control} errors={errors} /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Select displayEmpty options={{ data: packageList || [], displayField: 'packageName', displayValue: 'packageName' }} id="packageDetails" name="packageDetails" label="Paket Seçimi" control={control} errors={errors} setValue={setValue} defaultValue={defaultValues.packageDetails} fullWidth /></Grid>
                         <Grid item xs={12} md={6} sm={6} lg={6} sx={{ mt: 2 }} ><Input id="packagePrice" name="packagePrice" placeholder="Paket Fiyatı" label="Paket Fiyatı" control={control} errors={errors} /></Grid>

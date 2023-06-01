@@ -15,8 +15,8 @@ export enum Wood {
 }
 
 export enum Packages {
-    one = '1',
-    two = '2',
-    three = '3'
+    one = 'Paket 1',
+    two = 'Paket 2',
+    three = 'Paket 3'
 
 }
