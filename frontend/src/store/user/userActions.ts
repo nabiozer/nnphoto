@@ -107,6 +107,14 @@ export const fetchUsers = createAsyncThunk('data/getUsers', async (params?:any) 
     return response.data;
 });
 
+//get user listexcel
+
+export const fetchUsersExcel = createAsyncThunk('data/getUsersExcel', async (params?:any) => {
+  console.log('x')
+  const response = await api.get(`/users${params ? '?' : ''}${params}`);
+    return response.data;
+});
+
 
 
 

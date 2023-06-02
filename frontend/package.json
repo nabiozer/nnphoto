@@ -55,6 +55,7 @@
     "react-apexcharts": "^1.4.0",
     "react-custom-scrollbars-2": "^4.5.0",
     "react-dom": "18.2.0",
+    "react-export-excel-fixed-xlsx": "^0.5.3",
     "react-filepond": "^7.1.2",
     "react-froala-wysiwyg": "^4.0.18",
     "react-grid-gallery": "^1.0.0",

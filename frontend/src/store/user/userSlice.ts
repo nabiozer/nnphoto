@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { authUser, deleteUser, fetchUsers, getProfile, getUserById, registerUser, updateUserByAdmin } from './userActions';
+import { authUser, deleteUser, fetchUsers, fetchUsersExcel, getProfile, getUserById, registerUser, updateUserByAdmin } from './userActions';
 
 interface IUser {
     name: string;
@@ -79,6 +79,7 @@ interface IState {
     userDetails:IState,
     userRegister:IState,
     userUpdate:IState,
+    userListExcel:IStates,
   }
 
   const initialState:IUserInitial = {
@@ -104,6 +105,11 @@ interface IState {
     userDetails: { data: null, loading: false, error: '' },
     userUpdate: { data: null, loading: false, error: '' },
     userRegister: { data: null, loading: false, error: '' },
+    userListExcel: {
+        data: null,
+        loading: false,
+        error: '',
+    },
 }
 
 const userSlice = createSlice({
@@ -152,6 +158,19 @@ const userSlice = createSlice({
                 state.userList.error = '';
             })
             .addCase(fetchUsers.rejected, (state, action) => {
+                state.userList.loading = false;
+                state.userList.error = action.error.message || '';
+            })
+            .addCase(fetchUsersExcel.pending, (state) => {
+                state.userList.loading = true;
+                state.userList.error = '';
+            })
+            .addCase(fetchUsersExcel.fulfilled, (state, action) => {
+                state.userList.data = action.payload;
+                state.userList.loading = false;
+                state.userList.error = '';
+            })
+            .addCase(fetchUsersExcel.rejected, (state, action) => {
                 state.userList.loading = false;
                 state.userList.error = action.error.message || '';
             })
