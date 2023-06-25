@@ -128,10 +128,10 @@ const Page = () => {
                   name: 'Toplam',
                   data: [ overview?.monthsAllUsers?.January, overview?.monthsAllUsers?.February,overview?.monthsAllUsers?.March,overview?.monthsAllUsers?.April,overview?.monthsAllUsers?.May,overview?.monthsAllUsers?.June,overview?.monthsAllUsers?.July,overview?.monthsAllUsers?.August,overview?.monthsAllUsers?.September,overview?.monthsAllUsers?.October,overview?.monthsAllUsers?.November,overview?.monthsAllUsers?.December]
                 },
-                // {
-                //   name: 'Tamamlanan',
-                //   data: [ overview?.monthsDoneUsers?.January, overview?.monthsDoneUsers?.February,overview?.monthsDoneUsers?.March,overview?.monthsDoneUsers?.April,overview?.monthsDoneUsers?.May,overview?.monthsDoneUsers?.June,overview?.monthsDoneUsers?.July,overview?.monthsDoneUsers?.August,overview?.monthsDoneUsers?.September,overview?.monthsDoneUsers?.October,overview?.monthsDoneUsers?.November,overview?.monthsDoneUsers?.December] || [0]
-                // }
+                {
+                  name: 'Tamamlanan',
+                  data: [ overview?.monthsDoneUsers?.January, overview?.monthsDoneUsers?.February,overview?.monthsDoneUsers?.March,overview?.monthsDoneUsers?.April,overview?.monthsDoneUsers?.May,overview?.monthsDoneUsers?.June,overview?.monthsDoneUsers?.July,overview?.monthsDoneUsers?.August,overview?.monthsDoneUsers?.September,overview?.monthsDoneUsers?.October,overview?.monthsDoneUsers?.November,overview?.monthsDoneUsers?.December] || [0]
+                }
               ] }
               sx={{ height: '100%' }}
             />

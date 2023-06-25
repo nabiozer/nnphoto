@@ -162,17 +162,17 @@ const userSlice = createSlice({
                 state.userList.error = action.error.message || '';
             })
             .addCase(fetchUsersExcel.pending, (state) => {
-                state.userList.loading = true;
-                state.userList.error = '';
+                state.userListExcel.loading = true;
+                state.userListExcel.error = '';
             })
             .addCase(fetchUsersExcel.fulfilled, (state, action) => {
-                state.userList.data = action.payload;
-                state.userList.loading = false;
-                state.userList.error = '';
+                state.userListExcel.data = action.payload;
+                state.userListExcel.loading = false;
+                state.userListExcel.error = '';
             })
             .addCase(fetchUsersExcel.rejected, (state, action) => {
-                state.userList.loading = false;
-                state.userList.error = action.error.message || '';
+                state.userListExcel.loading = false;
+                state.userListExcel.error = action.error.message || '';
             })
             .addCase(deleteUser.pending, (state) => {
                 state.userDelete.loading = true;

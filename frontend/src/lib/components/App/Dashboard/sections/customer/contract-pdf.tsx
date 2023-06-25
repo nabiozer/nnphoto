@@ -301,7 +301,7 @@ const ContractPdf = (props: Props) => {
                     <View>
                         <View style={[styles.flexRow, styles.borderTop]}>
                             <Text style={styles.ColCont1}>MADDE 1 - TARAFLAR</Text>
-                            <Text style={styles.ColCont2}>TARAF 1 : RASİMPAŞA MAHALLESİ SÖĞÜTLÜÇEŞME CADDESİ NO:103 DAİRE:3 ADRESİNDE BULUNAN İPEKYOLU MODA İLE TARAF :Eren Can ÇALIŞKAN (MÜŞTERİ) YUKARIDA BELİRTİLEN HİZMET , BASKI ÜRÜNLERİ VE
+                            <Text style={styles.ColCont2}>TARAF 1 : RASİMPAŞA MAHALLESİ SÖĞÜTLÜÇEŞME CADDESİ NO:103 DAİRE:3 ADRESİNDE BULUNAN İPEKYOLU MODA İLE TARAF :{userDetails?.name} (MÜŞTERİ) YUKARIDA BELİRTİLEN HİZMET , BASKI ÜRÜNLERİ VE
                                 AŞAĞIDA BELİRTİLEN ŞARTLARDA TAM BİR ANLAŞMAYA VARMIŞTIR</Text>
                         </View>
                         <View style={[styles.flexRow]}>
