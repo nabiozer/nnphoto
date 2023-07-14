@@ -10,9 +10,10 @@ import PlayerYoutube from '../PlayerYoutube';
 import { getPhotosVideo } from '../../../../store/photo/photoActions';
 import { RootState, useAppDispatch } from '../../../../store';
 import { useSelector } from 'react-redux';
+import { Grid } from '@mui/material';
 
 
-const VideoGallery = (props:any) => {
+const VideoGallery = (props: any) => {
 
 
     const dispatch = useAppDispatch()
@@ -20,14 +21,14 @@ const VideoGallery = (props:any) => {
 
     const photoListVideo = useSelector((state: RootState) => state?.photo?.photoListVideo?.data?.Data)
 
-   
+
     useEffect(() => {
-        if(!photoListVideo) {
+        if (!photoListVideo) {
             dispatch(getPhotosVideo());
         }
-        console.log(photoListVideo,'xxx')
-    
-      }, [dispatch,photoListVideo]);
+        console.log(photoListVideo, 'xxx')
+
+    }, [dispatch, photoListVideo]);
 
     const [slideNumber, setSlideNumber] = useState(0)
     const [openModal, setOpenModal] = useState(false)
@@ -57,14 +58,14 @@ const VideoGallery = (props:any) => {
     }
 
     return (
-        <div> 
+        <div>
             {openModal && photoListVideo &&
                 <div className='sliderWrap'>
                     <FontAwesomeIcon icon={faCircleXmark} className='btnClose' onClick={handleCloseModal} />
                     <FontAwesomeIcon icon={faCircleChevronLeft} className='btnPrev' onClick={prevSlide} />
                     <FontAwesomeIcon icon={faCircleChevronRight} className='btnNext' onClick={nextSlide} />
                     <div className='fullScreenImage'>
-                        <PlayerYoutube selectedVideo={photoListVideo[slideNumber]?.src}/>
+                        <PlayerYoutube selectedVideo={photoListVideo[slideNumber]?.src} />
                     </div>
                 </div>
             }
@@ -75,29 +76,32 @@ const VideoGallery = (props:any) => {
       Total Slides: {photoListVideo.length}
       <br /><br /> */}
 
-            <div className='img-grid'>
+            <Grid container spacing={1} component="div" sx={{ p: 2 }}>
                 {
                     photoListVideo && photoListVideo.map((slide: any, index: any) => {
-                        if(slide.imageURL) { return (
-                            <motion.div className="img-wrap" key={index}
-                                layout
-                                whileHover={{ opacity: 1 }}
-                                onClick={() => handleOpenModal(index)}
-                            >
-                                <motion.img src={slide.imageURL} alt="uploaded pic"
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ delay: 1 }}
-                                />
-                            </motion.div>
-
-                        )} else {
+                        if (slide.imageURL) {
+                            return (
+                                <Grid item xs={12} md={6} sm={6} lg={3}  >
+                                    <motion.div className="img-wrap" key={index}
+                                        layout
+                                        whileHover={{ opacity: 1 }}
+                                        onClick={() => handleOpenModal(index)}
+                                    >
+                                        <motion.img src={slide.imageURL} alt="uploaded pic"
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            transition={{ delay: 1 }}
+                                        />
+                                    </motion.div>
+                                </Grid>
+                            )
+                        } else {
                             return null
                         }
-                       
+
                     })
                 }
-            </div>
+            </Grid>
 
         </div>
     )

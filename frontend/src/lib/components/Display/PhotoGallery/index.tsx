@@ -9,6 +9,7 @@ import {
 import { RootState, useAppDispatch } from '../../../../store';
 import { useSelector } from 'react-redux';
 import { getPhotosGallery } from '../../../../store/photo/photoActions';
+import { Grid } from '@mui/material';
 
 
 const PhotoGallery = () => {
@@ -23,13 +24,13 @@ const PhotoGallery = () => {
 
     const photoListGallery = useSelector((state: RootState) => state?.photo?.photoListGallery?.data?.Data)
 
-   
+
     useEffect(() => {
-        if(!photoListGallery) {
+        if (!photoListGallery) {
             dispatch(getPhotosGallery());
         }
-    
-      }, [dispatch,photoListGallery]);
+
+    }, [dispatch, photoListGallery]);
 
 
     const handleOpenModal = (index: any) => {
@@ -43,8 +44,8 @@ const PhotoGallery = () => {
 
     // Previous Image
     const prevSlide = () => {
-        photoListGallery && 
-        slideNumber === 0
+        photoListGallery &&
+            slideNumber === 0
             ? setSlideNumber(photoListGallery?.length - 1)
             : setSlideNumber(slideNumber - 1)
     }
@@ -75,26 +76,28 @@ const PhotoGallery = () => {
       Total Slides: {photoListGallery.length}
       <br /><br /> */}
 
-            <div className='img-grid'>
+            <Grid container spacing={1} component="div" sx={{ p: 2 }}>
                 {
                     photoListGallery && photoListGallery.map((slide: any, index: any) => {
                         return (
-                            <motion.div className="img-wrap" key={index}
-                                layout
-                                whileHover={{ opacity: 1 }}
-                                onClick={() => handleOpenModal(index)}
-                            >
-                                <motion.img src={slide.imageURL} alt="uploaded pic"
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ delay: 1 }}
-                                />
-                            </motion.div>
+                            <Grid item xs={12} md={6} sm={6} lg={3}  >
+                                <motion.div className="img-wrap" key={index}
+                                    layout
+                                    whileHover={{ opacity: 1 }}
+                                    onClick={() => handleOpenModal(index)}
+                                >
+                                    <motion.img src={slide.imageURL} alt="uploaded pic"
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ delay: 1 }}
+                                    />
+                                </motion.div>
+                            </Grid>
 
                         )
                     })
                 }
-            </div>
+            </Grid>
 
         </div>
     )

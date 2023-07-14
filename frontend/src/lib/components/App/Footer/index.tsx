@@ -28,7 +28,11 @@ export default (props: Props) => {
         );
     }
     return (
-        <Box component="div" sx={{ p: 3 ,display: 'block' }}>
+        <Box component="div" sx={{
+            p: 3, display: 'block', '@media (min-width:375px)': {
+                fontSize: '0.75rem',
+            },
+        }} className='footer'>
             <hr></hr>
             <Grid container className="custom-grid" sx={{ maxWidth: '1000px' }}>
                 <Grid item xs={12} md={6} sm={6}>
@@ -43,7 +47,7 @@ export default (props: Props) => {
                     </Box>
                     <Box component="div" className="footer-socials">
                         <a
-                              href="https://www.instagram.com/nnphotofilm/"
+                            href="https://www.instagram.com/nnphotofilm/"
                             target="_blank"
                             rel="noopener">
                             <InstagramIcon />
@@ -59,7 +63,7 @@ export default (props: Props) => {
                 <Grid item xs={12} md={6} sm={6} sx={{ textAlign: 'center', marginTop: '1rem' }}>
                     <Box component="div" sx={{ display: 'flex', flexDirection: 'column' }}>
                         <a href="tel:+90-542-113-25-03" className='footer-flex'>
-                            <LocalPhoneIcon /> 
+                            <LocalPhoneIcon />
                             <p>0542 113 2503</p> </a>
                         <a href="mailto:nnphotofilm@gmail.com" className='footer-flex'><EmailIcon /> <p>nnphotofilm@gmail.com</p></a>
                         <p>KVKK Aydınlatma Metni</p>

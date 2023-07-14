@@ -16,7 +16,7 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-   
+
     a {
         color: $c2 !important;
         i {
@@ -28,7 +28,7 @@
         padding: 0.5rem !important;
         border: 1px solid $c2;
         border-radius: 100rem;
-         color: $c2 !important;
+        color: $c2 !important;
     }
 }
 
@@ -40,7 +40,7 @@
 .footer-list {
     list-style: none !important;
     a {
-        color:$c1 !important;
+        color: $c1 !important;
     }
     li {
         display: block;
@@ -54,7 +54,7 @@
     display: flex;
     flex-direction: row;
 
-    justify-content:center;
+    justify-content: center;
     p {
         margin-left: 1rem;
     }
